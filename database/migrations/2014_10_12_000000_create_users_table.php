@@ -13,10 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('full_name');
+            $table->string('username')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('photo')->nullable();
+            $table->string('phone')->nullable();
+            // The text type is used for storing large amounts of text data (up to 65,535 characters).
+            $table->text('address')->nullable();
+            // enum is used to set a group of items to choose from
+            $table->enum('role',['admin','vendor','customer'])->default('customer');
+            $table->enum('status',['active','inactive'])->default('active');
+
+
             $table->rememberToken();
             $table->timestamps();
         });
