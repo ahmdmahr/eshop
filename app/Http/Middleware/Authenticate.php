@@ -14,4 +14,13 @@ class Authenticate extends Middleware
     {
         return $request->expectsJson() ? null : route('login');
     }
+
+    protected function authenticated($request, $user)
+    {
+        if($user->role === 'admin') {
+            return redirect()->intended('admin.dashboard');
+        }
+
+        return redirect()->intended('/path_for_normal_user');
+    }
 }
