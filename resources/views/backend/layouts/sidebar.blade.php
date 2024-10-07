@@ -59,8 +59,8 @@
 
                         <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-table"></i><span>Category Management</span> </a>
                             <ul>
-                                <li><a href="departments.html">All Banners</a></li>
-                                <li><a href="add-departments.html">Add Banner</a></li>
+                                <li><a href="{{route('admin.categories.index')}}">All Categories</a></li>
+                                <li><a href="{{route('admin.categories.create')}}">Add Category</a></li>
                             </ul>
                         </li>
 

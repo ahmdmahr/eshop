@@ -35,6 +35,7 @@
                         <form action="{{route('admin.banners.update',$banner->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+                            <div class="row clearfix">
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
                                     <lable for=""> Title <span class="text-danger">*</span></lable>
@@ -58,17 +59,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-sm-12">                                
+                            <div class="col-lg-12 col-sm-12"> 
+                                <label for="status">Condition</label>                            
                                 <select name="condition" class="form-control show-tick">
                                     <option value="">--Condition--</option>
                                     <option value="banner" {{$banner->condition=='banner'?'selected':''}}>Banner</option>
                                     <option value="promotion" {{$banner->condition =='promotion'?'selected':''}}>Promotion</option>
                                 </select>
                             </div> 
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-primary">Update</button>
-                                <button type="submit" class="btn btn-outline-secondary">Cancel</button>
-                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-outline-secondary">Cancel</button>
                         </form>
                     </div>
                 </div>

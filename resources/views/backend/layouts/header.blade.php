@@ -5,7 +5,7 @@
 <meta name="description" content="Lucid Bootstrap 4.1.1 Admin Template">
 <meta name="author" content="WrapTheme, design by: ThemeMakker.com">
 
-<link rel="icon" href="{{asset('backend/assets/images/logo.jpg')}}" type="image/x-icon">
+<link rel="icon" href="{{asset('backend/assets/images/icon.jpg')}}" type="image/x-icon">
 <!-- VENDOR CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
 <link rel="stylesheet" href="{{asset('backend/assets/vendor/bootstrap/css/bootstrap.min.css')}}">
