@@ -52,8 +52,8 @@
 
                         <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-images"></i><span>Banners Management</span> </a>
                             <ul>
-                                <li><a href="departments.html">All Banners</a></li>
-                                <li><a href="add-departments.html">Add Banner</a></li>
+                                <li><a href="{{route('admin.banners.index')}}">All Banners</a></li>
+                                <li><a href="{{route('admin.banners.create')}}">Add Banner</a></li>
                             </ul>
                         </li>
 
