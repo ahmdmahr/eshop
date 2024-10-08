@@ -3,6 +3,7 @@ namespace App;
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -42,5 +43,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
     Route::resource('categories',CategoryController::class);
     Route::post('categorystatus',[CategoryController::class,'changeStatus'])->name('categories.status');
 
-
+    // Brand Section
+    Route::resource('brands',BrandController::class);
+    Route::post('brandstatus',[BrandController::class,'changeStatus'])->name('brands.status');
 });

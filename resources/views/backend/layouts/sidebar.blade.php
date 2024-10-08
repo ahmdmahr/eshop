@@ -64,6 +64,13 @@
                             </ul>
                         </li>
 
+                        <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-handbag"></i><span>Brand Management</span> </a>
+                            <ul>
+                                <li><a href="{{route('admin.brands.index')}}">All Brands</a></li>
+                                <li><a href="{{route('admin.brands.create')}}">Add Brand</a></li>
+                            </ul>
+                        </li>
+
                         <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-drawer"></i><span>Products Management</span> </a>
                             <ul>
                                 <li><a href="departments.html">All Banners</a></li>
