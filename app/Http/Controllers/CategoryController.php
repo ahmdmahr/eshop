@@ -143,6 +143,9 @@ class CategoryController extends Controller
         if($category){
             $status = $category->delete();
             if($status){
+                if($category->photo && Storage::disk('public')->exists($category->photo))
+                  Storage::disk('public')->delete($category->photo);
+                  
                 if(count($child_category_id)){
                     Category::shiftChild($child_category_id);
                 }
