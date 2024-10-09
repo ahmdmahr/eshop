@@ -23,7 +23,6 @@ class BrandController extends Controller
 
     public function changeStatus(Request $request){
         $brand = DB::table('brands')->where('id',$request->input('id'))->first();
-        // dd($brand->select('status')->get());
         if($brand->status == 'inactive'){
             DB::table('brands')->where('id', $request->input('id'))->update(['status' => 'active']);
         }

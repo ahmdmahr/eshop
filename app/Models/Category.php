@@ -20,4 +20,9 @@ class Category extends Model
     public static function shiftChild($category_id){
         Category::where('id',$category_id)->update(['is_parent'=>1]);
     }
+
+    public static function getChildByParentID($id){
+        // make an array of id as key and title as value [id1=>title1,id2=>title2]
+        return Category::where('parent_id',$id)->pluck('title','id');
+    }
 }

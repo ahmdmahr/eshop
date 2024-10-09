@@ -24,7 +24,6 @@ class CategoryController extends Controller
 
     public function changeStatus(Request $request){
         $category = DB::table('categories')->where('id',$request->input('id'))->first();
-        // dd($banner->select('status')->get());
         if($category->status == 'inactive'){
             DB::table('categories')->where('id', $request->input('id'))->update(['status' => 'active']);
         }
@@ -155,6 +154,26 @@ class CategoryController extends Controller
         }
         else{
             return back()->with('error','Data not found');
+        }
+    }
+
+    public function getChildByParentID(Request $request,$id){
+        // dd($request->all());
+        // dd($id);
+
+        $category = Category::find($request->id);
+        if($category){
+            $child_id = Category::getChildByParentID($id);
+            // dd($child_id);
+            if(count($child_id)>0){
+                return response()->json(['status'=>true,'data'=>$child_id,'msg'=>'']);
+            }
+            else{
+                return response()->json(['status'=>false,'data'=>'null','msg'=>'']);
+            }
+        }
+        else{
+            return response()->json(['status'=>false,'data'=>'null','msg'=>'Category not found']);
         }
     }
 }

@@ -1,14 +1,15 @@
 <?php
 namespace App;
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use Illuminate\Support\Facades\Bus;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +43,13 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
     // Category Section
     Route::resource('categories',CategoryController::class);
     Route::post('categorystatus',[CategoryController::class,'changeStatus'])->name('categories.status');
+    Route::get('categories/{id}/child',[CategoryController::class,'getChildByParentID'])->name('categories.getchild');
 
     // Brand Section
     Route::resource('brands',BrandController::class);
     Route::post('brandstatus',[BrandController::class,'changeStatus'])->name('brands.status');
+
+    // Product Section
+    Route::resource('products',ProductController::class);
+    Route::post('productstatus',[ProductController::class,'changeStatus'])->name('products.status');
 });

@@ -52,7 +52,7 @@
                                             max-width:150px">
                                         </td>
                                         <td>
-                                            @if($item->condition)
+                                            @if($item->condition == 'banner')
                                             <span class="badge badge-success">{{$item->condition}}</span>
                                             @else
                                             <span class="badge badge-primary">{{$item->condition}}</span>
