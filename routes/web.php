@@ -10,6 +10,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -23,13 +24,19 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+// Frontend section
+
+Route::get('/',[FrontendHomeController::class,'home'])->name('home');
+
+// End of Frontend section
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Admin Dashboard
 Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],function(){
