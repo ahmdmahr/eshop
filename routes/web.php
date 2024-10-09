@@ -10,6 +10,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,4 +53,8 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
     // Product Section
     Route::resource('products',ProductController::class);
     Route::post('productstatus',[ProductController::class,'changeStatus'])->name('products.status');
+
+     // User Section
+     Route::resource('users',UserController::class);
+     Route::post('userstatus',[UserController::class,'changeStatus'])->name('users.status');
 });
