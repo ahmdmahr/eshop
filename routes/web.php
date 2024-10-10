@@ -32,7 +32,9 @@ Route::get('/',[FrontendHomeController::class,'home'])->name('home');
 
 // category products
 
-Route::get('/categories/{category}/products', [FrontendHomeController::class, 'categoryproducts'])->name('category.products');
+Route::get('/categories/{category}/products', [FrontendHomeController::class, 'categoryProducts'])->name('category.products');
+
+Route::get('/products/{product}', [FrontendHomeController::class, 'productDetails'])->name('products.details');
 
 
 // End of Frontend section

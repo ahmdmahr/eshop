@@ -81,8 +81,8 @@
             <div class="col-12">
                 <h5>Shop Grid</h5>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item active">Shop Grid</li>
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                    <li class="breadcrumb-item active">{{$category->title}}</li>
                 </ol>
             </div>
         </div>
@@ -153,7 +153,7 @@
                                     </div>
 
                                     <p class="brand_name">{{$item->brand->title}}</p>
-                                    <a href="#">{{$item->title}}</a>
+                                    <a href="{{route('products.details',$item->slug)}}">{{$item->title}}</a>
                                     <h6 class="product-price">{{$item->offer_price}}$ <small><del class="text-danger">{{$item->price}}$</del></small></h6>
                                 </div>
                             </div>

@@ -75,7 +75,7 @@
                                             <a href="#" data-toggle="modal" data-target="#productID{{$item->id}}"  data-toggle="tooltip" class="btn btn-sm btn-outline-secondary mr-2" title="edit" data-placement="bottom"><i class="fas fa-eye"></i></a>
 
                                             <form  action="{{route('admin.products.destroy',$item->id)}}" method="POST" class="d-inline">
-                                                @csrfemail
+                                                @csrf
                                                 @method('DELETE')
                                                 <a href="" data-toggle="tooltip" class="  dltBtn btn btn-sm btn-outline-danger" title="delete" data-id="{{$item->id}}" data-placement="bottom"><i class="fas fa-trash-alt "></i></a>
                                             </form>
