@@ -54,10 +54,9 @@ class BrandController extends Controller
         }
         $data['slug'] = $slug;
 
-        if($request->hasFile('photo')){
-            $imagePath = $request->file('photo')->store('brands','public');
-
-            $data['photo'] = $imagePath;
+        if ($request->hasFile('photo')) {
+            $imagePath = $request->file('photo')->store('brands', 'public');
+            $data['photo'] = Storage::url($imagePath);
         }
 
         $status = Brand::create($data);
@@ -107,7 +106,7 @@ class BrandController extends Controller
                 if($brand->photo && Storage::disk('public')->exists($brand->photo))
                    Storage::disk('public')->delete($brand->photo);
                 
-                $data['photo'] = $imagePath;
+                $data['photo'] = Storage::url($imagePath);
             }
 
             $status = $brand->update($data);

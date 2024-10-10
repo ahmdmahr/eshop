@@ -47,7 +47,7 @@
                                         <td>{{$item->slug}}</td>
                                         {{-- {{ $item->photo }}  --}}
                                         <td>
-                                            <img src="{{Storage::url($item->photo)}}" alt="banner photo" style="max-height:150px;
+                                            <img src="{{$item->photo}}" alt="banner photo" style="max-height:150px;
                                             max-width:150px">
                                         </td>
                                         <td>

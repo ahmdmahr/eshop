@@ -45,7 +45,7 @@ class ProductFactory extends Factory
     {
         return $this->afterCreating(function (Product $product) {
             // Create associated ProductImages
-            ProductImage::factory()->count(3)->create([
+            ProductImage::factory()->count(4)->create([
                 'product_id' => $product->id,
             ]);
         });

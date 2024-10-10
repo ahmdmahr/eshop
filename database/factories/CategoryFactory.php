@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
             //if set to true, the method returns a single string where the sentences are concatenated and separated by spaces. If set to false (the default), it returns an array of sentences.
             'summary'=>$this->faker->sentences(3,true),
             //generate a random one color photo with specific width & height
-            'photo'=>$this->faker->imageUrl('100','100'),
+            'photo'=>$this->faker->imageUrl('510','510'),
             'is_parent'=>$this->faker->randomElement([true,false]),
             /*
             pluck function return without toArray:

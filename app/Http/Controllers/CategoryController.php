@@ -56,10 +56,9 @@ class CategoryController extends Controller
         }
         $data['slug'] = $slug;
 
-        if($request->hasFile('photo')){
-            $imagePath = $request->file('photo')->store('categories','public');
-
-            $data['photo'] = $imagePath;
+        if($request->hasFile('photo')) {
+            $imagePath = $request->file('photo')->store('categories', 'public');
+            $data['photo'] = Storage::url($imagePath);
         }
         
         $data['is_parent'] = $request->has('is_parent') ? 1 : 0;
@@ -112,9 +111,9 @@ class CategoryController extends Controller
                 $imagePath = $request->file('photo')->store('categories','public');
 
                 if($category->photo && Storage::disk('public')->exists($category->photo))
-                Storage::disk('public')->delete($category->photo);
+                   Storage::disk('public')->delete($category->photo);
              
-                $data['photo'] = $imagePath;
+                $data['photo'] = Storage::url($imagePath);
             }
     
             $data['is_parent'] = $request->has('is_parent') ? 1 : 0;

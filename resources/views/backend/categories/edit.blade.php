@@ -54,7 +54,7 @@
                                        <br>
                                        <input type="file" name="photo">
                                        <br><br>
-                                       <img src="{{Storage::url($category->photo)}}" alt="category photo" style="max-height:150px;
+                                       <img src="{{$category->photo}}" alt="category photo" style="max-height:150px;
                                         max-width:150px">
                                     </div>
                                 </div>

@@ -8,7 +8,7 @@
     <div class="welcome_slides owl-carousel">
     @foreach ($banners as $banner)
         <!-- Single Slide -->
-        <div class="single_slide bg-img" style="background-image: url('{{Storage::url($banner->photo)}}');">
+        <div class="single_slide bg-img" style="background-image: url('{{$banner->photo}}');">
             <div class="container h-100">
                 <div class="row h-100 align-items-center">
                     <div class="col-7 col-md-8">
@@ -50,7 +50,7 @@
                 <div class="single_catagory_area mt-50">
                     <a href="{{route('category.products',$category->slug)}}">
                         {{-- {{$category->id}} --}}
-                        <img src="{{Storage::url($category->photo)}}" alt="category photo">
+                        <img src="{{$category->photo}}" alt="category photo">
                     </a>
                 </div>
             </div>
@@ -159,7 +159,7 @@
                         <div class="product_image">
                             <!-- Product Image -->
                             <img class="normal_img" src="{{$item->images->first()->url}}" alt="product image">
-                            <img class="hover_img"  src="{{Storage::url($item->category->photo)}}" alt="category photo">
+                            <img class="hover_img"  src="{{$item->category->photo}}" alt="category photo">
 
                             <!-- Product Badge -->
                             <div class="product_badge">

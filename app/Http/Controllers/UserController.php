@@ -51,10 +51,9 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
 
-        if($request->hasFile('photo')){
-            $imagePath = $request->file('photo')->store('users','public');
-
-            $data['photo'] = $imagePath;
+        if($request->hasFile('photo')) {
+            $imagePath = $request->file('photo')->store('users', 'public');
+            $data['photo'] = Storage::url($imagePath);
         }
         
 
@@ -105,7 +104,7 @@ class UserController extends Controller
                 if($user->photo && Storage::disk('public')->exists($user->photo))
                     Storage::disk('public')->delete($user->photo);
              
-                $data['photo'] = $imagePath;
+                $data['photo'] = Storage::url($imagePath);
             }
     
             $status = $user->update($data);

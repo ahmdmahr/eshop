@@ -48,7 +48,7 @@
                                    <br>
                                    <input type="file" name="photo"/>
                                    <br><br>
-                                   <img src="{{Storage::url($brand->photo)}}" alt="brand photo" style="max-height:150px;
+                                   <img src="{{$brand->photo}}" alt="brand photo" style="max-height:150px;
                                    max-width:150px">
                                 </div>
                             </div>

@@ -56,10 +56,9 @@ class BannerController extends Controller
         }
         $data['slug'] = $slug;
 
-        if($request->hasFile('photo')){
-            $imagePath = $request->file('photo')->store('banners','public');
-
-            $data['photo'] = $imagePath;
+        if($request->hasFile('photo')) {
+                $imagePath = $request->file('photo')->store('banners', 'public');
+                $data['photo'] = Storage::url($imagePath);
         }
 
         $status = Banner::create($data);
@@ -110,7 +109,7 @@ class BannerController extends Controller
                 if($banner->photo && Storage::disk('public')->exists($banner->photo))
                    Storage::disk('public')->delete($banner->photo);
                 
-                $data['photo'] = $imagePath;
+                $data['photo'] = Storage::url($imagePath);
             }
 
             $status = $banner->update($data);

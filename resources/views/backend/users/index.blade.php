@@ -45,7 +45,7 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>
-                                            <img src="{{Storage::url($item->photo)}}" alt="user photo" style="border-radius:50%;max-height:150px;
+                                            <img src="{{$item->photo}}" alt="user photo" style="border-radius:50%;max-height:150px;
                                             max-width:150px">
                                         </td>
                                         <td>{{$item->full_name}}</td>
@@ -74,7 +74,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header text-center">
                                                         <div class="w-100 d-flex flex-column align-items-center">
-                                                            <img src="{{ Storage::url($item->photo) }}" alt="User Photo" style="border-radius: 50%; margin: 2% 0; max-height: 150px; max-width: 150px;">
+                                                            <img src="{{$item->photo}}" alt="User Photo" style="border-radius: 50%; margin: 2% 0; max-height: 150px; max-width: 150px;">
                                                             <h5 class="modal-title" id="exampleModalLongTitle">{{ $item->full_name }}</h5>
                                                         </div>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
