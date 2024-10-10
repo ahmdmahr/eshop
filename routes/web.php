@@ -24,19 +24,21 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 
 // Frontend section
 
 Route::get('/',[FrontendHomeController::class,'home'])->name('home');
 
+// category products
+
+Route::get('/categories/{category}/products', [FrontendHomeController::class, 'categoryproducts'])->name('category.products');
+
+
 // End of Frontend section
 
 Auth::routes();
 
-// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Admin Dashboard
 Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],function(){

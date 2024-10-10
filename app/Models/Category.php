@@ -25,4 +25,8 @@ class Category extends Model
         // make an array of id as key and title as value [id1=>title1,id2=>title2]
         return Category::where('parent_id',$id)->pluck('title','id');
     }
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

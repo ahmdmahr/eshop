@@ -27,4 +27,8 @@ class Product extends Model
        'condition',
        'status',
     ];
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
 }
