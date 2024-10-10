@@ -22,7 +22,6 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('vendor_id')->nullable();
             $table->unsignedBigInteger('category_child_id')->nullable();
-            $table->string('photo');
             $table->float('price')->default(0);
             $table->float('offer_price')->default(0);
             $table->float('discount')->default(0);

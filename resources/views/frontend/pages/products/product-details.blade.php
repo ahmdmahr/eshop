@@ -103,10 +103,10 @@
 
                         <!-- Carousel Inner -->
                         <div class="carousel-inner">
-                            @foreach ([$product->photo] as $key=>$photo)
-                            <div class="carousel-item {{$key==0?'active':''}}">
-                                <a class="gallery_img" href="{{$photo}}" title="{{$product->title}}">
-                                    <img class="d-block w-100" src="{{Storage::url($photo)}}" alt="product photo">
+                            @foreach ($product->images as $image)
+                            <div class="carousel-item {{$loop->iteration-1==0?'active':''}}">
+                                <a class="gallery_img" href="{{$image->url}}" title="{{$product->title}}">
+                                    <img class="d-block w-100" src="{{$image->url}}" alt="product photo">
                                 </a>
                                 <!-- Product Badge -->
                                 <div class="product_badge">
@@ -120,9 +120,8 @@
 
                         <!-- Carosel Indicators -->
                         <ol class="carousel-indicators">
-                            @foreach ([$product->photo] as $key=>$photo)
-                            
-                            <li class="{{$key==0?'active':''}}" data-target="#product_details_slider" data-slide-to="{{$key}}" style="background-image: url('{{Storage::url($photo)}}');">
+                            @foreach ($product->images as $image)
+                            <li class="{{$loop->iteration-1==0?'active':''}}" data-target="#product_details_slider" data-slide-to="{{$loop->iteration-1}}" style="background-image: url('{{$image->url}}');">
                             </li>
                             @endforeach
                         </ol>

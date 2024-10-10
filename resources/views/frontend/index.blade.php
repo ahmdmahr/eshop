@@ -158,7 +158,7 @@
                     <div class="single-product-area">
                         <div class="product_image">
                             <!-- Product Image -->
-                            <img class="normal_img" src="{{Storage::url($item->photo)}}" alt="product photo">
+                            <img class="normal_img" src="{{$item->images->first()->url}}" alt="product image">
                             <img class="hover_img"  src="{{Storage::url($item->category->photo)}}" alt="category photo">
 
                             <!-- Product Badge -->

@@ -12,6 +12,7 @@ class Product extends Model
     protected $fillable = [
        'title',
        'slug',
+       'image',
        'summary',
        'description',
        'stock',
@@ -19,7 +20,6 @@ class Product extends Model
        'category_id',
        'vendor_id',
        'category_child_id',
-       'photo',
        'price',
        'offer_price',
        'discount',
@@ -35,4 +35,11 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
 }

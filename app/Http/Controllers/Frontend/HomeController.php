@@ -14,13 +14,15 @@ class HomeController extends Controller
         $banners = Banner::where(['status'=>'active','condition'=>'banner'])->orderBy('id','DESC')->limit(4)->get();
         $categories = Category::where(['status'=>'active','is_parent'=>1])->orderBy('id','DESC')->limit(3)->get();
         $new_products = Product::where(['status'=>'active','condition'=>'new'])->orderBy('id','DESC')->limit(10)->get();
+        // dd($new_products);
         return view('frontend.index',compact(['banners','categories','new_products']));
     }
 
     public function categoryProducts($slug){
-        // Category::with('products') this would retrieve all categories along with their associated products in a single query using relationship in category model
-        $category = Category::with('products')->where('slug',$slug)->first();
-        return view('frontend.pages.products.category-products',compact(['category']));
+        // Product::with('images') this would retrieve all images along with their associated products in a single query using relationship in product model
+        $category= Category::where('slug',$slug)->first();
+        $products = Product::with('images')->where('category_id',$category->id)->get();
+        return view('frontend.pages.products.category-products',compact(['category','products']));
     }
 
     public function productDetails($slug){

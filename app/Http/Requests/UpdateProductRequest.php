@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
             'stock'=>'nullable|integer',
             'price'=>'nullable|numeric',
             'discount'=>'nullable|numeric',
-            'photo'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id'=>'required|exists:categories,id',
             'brand_id'=>'required|exists:brands,id',
             'vendor_id'=>'required|exists:users,id',

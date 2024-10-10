@@ -115,14 +115,13 @@
                 <div class="shop_grid_product_area">
                     <div class="row justify-content-center">
                         <!-- Single Product -->
-                        @if(count($category->products)>0)
-                        @foreach ($category->products as $item)
+                        @if(count($products)>0)
+                        @foreach ($products as $item)
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="single-product-area mb-30">
                                 <div class="product_image">
                                     <!-- Product Image -->
                                     <img class="normal_img" src="{{Storage::url($item->photo)}}" alt="product photo">
-                                    <img class="hover_img"  src="{{Storage::url($category->photo)}}" alt="category photo">
 
                                     <!-- Product Badge -->
                                     <div class="product_badge">

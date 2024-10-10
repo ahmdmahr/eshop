@@ -77,9 +77,10 @@
                                 <div class="form-group">
                                    <lable for="">Photo <span class="text-danger">*</span></lable>
                                    <br>
-                                   <input type="file" name="photo"/>
+                                   <input type="file" name="images[]" multiple>
                                    <br><br>
-                                   <img src="{{Storage::url($product->photo)}}" alt="Product photo">
+                                   <img src="{{$product->images->first()->url}}" alt="product image" style="max-height:150px;
+                                   max-width:150px">
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-12">     

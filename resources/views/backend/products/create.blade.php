@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                    <lable for="">Photo <span class="text-danger">*</span></lable>
                                    <br>
-                                   <input type="file" name="photo"/>
+                                   <input type="file" name="images[]" multiple>
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-12">     

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\ProductImage; 
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -64,15 +65,21 @@ class ProductController extends Controller
 
         $data['offer_price'] = $offer_price;
 
-        if($request->hasFile('photo')){
-            $imagePath = $request->file('photo')->store('products','public');
+         // Create the product first
+         $product = Product::create($data);
 
-            $data['photo'] = $imagePath;
-        }
+         // Handle multiple images
+         if ($request->hasFile('images')) {
+             foreach ($request->file('images') as $image) {
+                 $imagePath = $image->store('products', 'public');
+                 ProductImage::create([
+                     'product_id' => $product->id,
+                     'url' => Storage::url($imagePath), // Save the public URL
+                 ]);
+             }
+         }
 
-        $status = Product::create($data);
-
-        if($status){
+        if($product){
             return redirect()->route('admin.products.index')->with('success','Product created successfully.');
         }
         else{
@@ -115,13 +122,23 @@ class ProductController extends Controller
         if($product){
             $data = $request->validated();
     
-            if($request->hasFile('photo')){
-                $imagePath = $request->file('photo')->store('products','public');
-
-                if($product->photo && Storage::disk('public')->exists($product->photo))
-                Storage::disk('public')->delete($product->photo);
-             
-                $data['photo'] = $imagePath;
+            if ($request->hasFile('images')) {
+                // Delete old images from storage
+                foreach ($product->images as $image) {
+                    if ($image->url && Storage::disk('public')->exists($image->url)) {
+                        Storage::disk('public')->delete($image->url);
+                    }
+                }
+                // Clear old images from the database
+                ProductImage::where('product_id', $product->id)->delete(); // Clear old images
+                // Store new images
+                foreach($request->file('images') as $image) {
+                    $imagePath = $image->store('products', 'public');
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'url' => Storage::url($imagePath), // Save the public URL
+                    ]);
+                }
             }
 
             $offer_price = $data['price']-($data['price']*($data['discount']/100));
@@ -149,10 +166,16 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if($product){
-            if($product->photo && Storage::disk('public')->exists($product->photo))
-               Storage::disk('public')->delete($product->photo);
+            foreach ($product->images as $image) {
+                if ($image->url && Storage::disk('public')->exists($image->url)) {
+                    Storage::disk('public')->delete($image->url);
+                }
+            }
                
+            ProductImage::where('product_id', $product->id)->delete();
+
             $status = $product->delete();
+            
             if($status){
                 return redirect()->route('admin.products.index')->with('success','Product deleted successfully');
             }

@@ -4,7 +4,9 @@ namespace Database\Factories;
 
 use App\Models\User;
 use App\Models\Brand;
+use App\Models\Product;
 use App\Models\Category;
+use App\Models\ProductImage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -29,7 +31,6 @@ class ProductFactory extends Factory
             'category_id'=>$this->faker->randomElement(Category::pluck('id')->toArray()),
             'category_child_id'=>$this->faker->randomElement(Category::pluck('id')->toArray()),
             'vendor_id'=>$this->faker->randomElement(User::pluck('id')->toArray()),
-            'photo'=>$this->faker->imageUrl('400','200'),
             // generate a random float between 0 and 100 with 2 decimal places
             'price'=>$this->faker->randomFloat(2,0,10000),
             'offer_price'=>$this->faker->randomFloat(2,0,1000),
@@ -38,5 +39,15 @@ class ProductFactory extends Factory
             'condition'=>$this->faker->randomElement(['new','popular','winter']),
             'status'=>$this->faker->randomElement(['Active','Inactive'])
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Product $product) {
+            // Create associated ProductImages
+            ProductImage::factory()->count(3)->create([
+                'product_id' => $product->id,
+            ]);
+        });
     }
 }
