@@ -44,6 +44,9 @@ class LoginController extends Controller
         if(Auth::user()->role == 'admin' && Auth::user()->status == 'active'){
             return redirect()->route('admin.dashboard');
         }
+        else if(Auth::user()->role == 'vendor' && Auth::user()->status == 'active'){
+            return redirect()->route('vendor.dashboard');
+        }
         else{
             return redirect()->route('home');
         }

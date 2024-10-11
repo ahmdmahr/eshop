@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,4 +69,11 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
      // User Section
      Route::resource('users',UserController::class);
      Route::post('userstatus',[UserController::class,'changeStatus'])->name('users.status');
+});
+
+
+Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'],function(){
+
+    Route::get('',[VendorController::class,'index'])->name('dashboard');
+
 });
