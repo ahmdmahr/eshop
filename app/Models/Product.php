@@ -42,4 +42,9 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function related_products(){
+        // this go and see the products that has the current product categroy_id and get all of them then exclude the current product record.
+        return $this->hasMany(Product::class,'category_id')->where('id', '!=', $this->id)->where('status','active')->limit(10);
+    }
+
 }

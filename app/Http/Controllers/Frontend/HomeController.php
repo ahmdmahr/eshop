@@ -26,7 +26,7 @@ class HomeController extends Controller
     }
 
     public function productDetails($slug){
-        $product = Product::where('slug',$slug)->first();
+        $product = Product::with('related_products')->where('slug',$slug)->first();
         if($product){
             return view('frontend.pages.products.product-details',compact(['product']));
         }
