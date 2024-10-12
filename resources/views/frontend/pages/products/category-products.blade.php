@@ -104,11 +104,14 @@
                             <a href="shop-list-left-sidebar.html" data-toggle="tooltip" data-placement="top" title="List View"><i class="icofont-listine-dots"></i></a>
                         </div>
                     </div>
-                    <select class="small right">
-                        <option selected>Short by Popularity</option>
-                        <option value="1">Short by Newest</option>
-                        <option value="2">Short by Sales</option>
-                        <option value="3">Short by Ratings</option>
+                    <select id="sortBy" name="sortBy" class="small right">
+                        <option selected>Default</option>
+                        <option value="priceAsc" {{old('sortBy') == "priceAsc"?'selected':''}}>Price - Lower to Higher</option>
+                        <option value="priceDesc" {{ old('sortBy') == 'priceDesc' ? 'selected' : '' }}>Price - Higher to Lower</option>
+                        <option value="titleAsc" {{ old('sortBy') == 'titleAsc' ? 'selected' : '' }}>Alphabetical Ascending</option>
+                        <option value="titleDesc" {{ old('sortBy') == 'titleDesc' ? 'selected' : '' }}>Alphabetical Descending</option>
+                        <option value="discAsc" {{ old('sortBy') == 'discAsc' ? 'selected' : '' }}>Discount - Lower to Higher</option>
+                        <option value="discDesc" {{ old('sortBy') == 'discDesc' ? 'selected' : '' }}>Discount - Higher to Lower</option>
                     </select>
                 </div>
 
@@ -165,31 +168,29 @@
                     </div>
                 </div>
 
-                <!-- Shop Pagination Area -->
                 <div class="shop_pagination_area mt-30">
                     <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm justify-content-center">
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item"><a class="page-link" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">8</a></li>
-                            <li class="page-item"><a class="page-link" href="#">9</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                            </li>
-                        </ul>
+                        {{ $products->links() }} 
                     </nav>
                 </div>
+                
 
             </div>
         </div>
     </div>
 </section>
 
+@endsection
+
+
+@section('scripts')
+<script>
+    $('#sortBy').change(function(){
+        var sort = $('#sortBy').val();
+        // alert(sort);
+        var current_url = "{{ url()->current() }}";
+        var new_url = sort === 'Default'?current_url:`${current_url}?sortBy=${sort}`;
+        window.location.href = new_url; // Redirect to the new URL
+    });
+</script>
 @endsection

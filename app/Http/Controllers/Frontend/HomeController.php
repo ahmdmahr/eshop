@@ -18,10 +18,54 @@ class HomeController extends Controller
         return view('frontend.index',compact(['banners','categories','new_products']));
     }
 
-    public function categoryProducts($slug){
-        // Product::with('images') this would retrieve all images along with their associated products in a single query using relationship in product model
+    public function categoryProducts(Request $request,$slug){
+        // Product::with('images') this would retrieve all images along with their associated products in a single query using relationship in product model        
+
         $category= Category::where('slug',$slug)->first();
-        $products = Product::with('images')->where('category_id',$category->id)->get();
+
+        $sort = '';
+
+
+        // dd($request->sortBy);
+        
+        if($request->sortBy!=null){
+            $sort = $request->sortBy;
+        }
+        
+        // dd($request->sortBy);
+
+        if($category == null){
+            return view('errors.404');
+        }
+        else{
+            $products = Product::with('images')->where('category_id',$category->id);
+            if($sort == 'priceAsc'){
+                $products->orderBy('offer_price','ASC');
+            }
+            elseif($sort == 'priceDesc'){
+                $products->orderBy('offer_price','DESC');
+            }
+            elseif($sort == 'discAsc'){
+                $products->select('products.*') // Add other columns you need
+                ->selectRaw('price - offer_price AS price_difference')
+                ->orderBy('price_difference', 'ASC');
+            }
+            elseif($sort == 'discDesc'){
+                $products->select('products.*') 
+                ->selectRaw('price - offer_price AS price_difference')
+                ->orderBy('price_difference', 'DESC');
+            }
+            elseif($sort == 'titleAsc'){
+                $products->orderBy('title','ASC');
+            }
+            elseif($sort == 'titleDesc'){
+                $products->orderBy('title','DESC');
+            }
+        }
+
+        $products = $products->paginate();
+
+
         return view('frontend.pages.products.category-products',compact(['category','products']));
     }
 
