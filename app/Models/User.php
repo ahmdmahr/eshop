@@ -25,6 +25,15 @@ class User extends Authenticatable
         'photo',
         'phone',
         'address',
+        'shipping_address',
+        'country',
+        'shipping_country',
+        'state',
+        'shipping_state',
+        'city',
+        'shipping_city',
+        'postcode',
+        'shipping_postcode',
         'role',
         'status'
     ];

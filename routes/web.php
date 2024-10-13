@@ -11,6 +11,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
+use App\Http\Controllers\Frontend\UserController as FrontendUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 
@@ -72,8 +73,19 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
 });
 
 
+// Vendor Dashboard
 Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'],function(){
 
     Route::get('',[VendorController::class,'index'])->name('dashboard');
 
+});
+
+
+// User Dashboard
+
+Route::group(['prefix'=>'user','as'=>'users.'],function(){
+    Route::get('dashboard',[FrontendUserController::class,'dashboard'])->name('dashboard');
+    Route::get('orders',[FrontendUserController::class,'orderList'])->name('orderlist');
+    Route::get('address',[FrontendUserController::class,'getAddress'])->name('addresses');
+    Route::get('account-details',[FrontendUserController::class,'accountDetails'])->name('account-details');
 });

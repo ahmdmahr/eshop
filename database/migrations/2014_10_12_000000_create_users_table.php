@@ -21,7 +21,23 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('phone')->nullable();
             // The text type is used for storing large amounts of text data (up to 65,535 characters).
+
+            // Default Address
+            $table->string('country')->nullable();
+            $table->string('state')->nullable();
+            $table->string('city')->nullable();
+            $table->integer('postcode')->nullable();
             $table->text('address')->nullable();
+
+            // Shipping Address 
+            $table->string('shipping_country')->nullable();
+            $table->string('shipping_state')->nullable();
+            $table->string('shipping_city')->nullable();
+            $table->integer('shipping_postcode')->nullable();
+            $table->text('shipping_address')->nullable();
+
+            
+
             // enum is used to set a group of items to choose from
             $table->enum('role',['admin','vendor','customer'])->default('customer');
             $table->enum('status',['active','inactive'])->default('active');

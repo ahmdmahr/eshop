@@ -195,8 +195,8 @@
                             <ul class="user-meta-dropdown">
                                 @if(Auth::check())      
                                 <li class="user-title"><span>Hello,</span> {{Auth::user()->full_name}}</li>
-                                <li><a href="my-account.html">My Account</a></li>
-                                <li><a href="order-list.html">Orders List</a></li>
+                                <li><a href="{{route('users.dashboard')}}">My Account</a></li>
+                                <li><a href="{{route('users.orderlist')}}">Orders List</a></li>
                                 <li><a href="wishlist.html">Wishlist</a></li>
                                 <li>
                                     <a href="{{route('home')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
