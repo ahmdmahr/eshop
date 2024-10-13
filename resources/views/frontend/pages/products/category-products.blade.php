@@ -116,56 +116,13 @@
                 </div>
 
                 <div class="shop_grid_product_area">
-                    <div class="row justify-content-center">
-                        <!-- Single Product -->
-                        @if(count($products)>0)
-                        @foreach ($products as $item)
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="single-product-area mb-30">
-                                <div class="product_image">
-                                    <!-- Product Image -->
-                                    <img class="normal_img" src="{{$item->images->first()->url}}" alt="product photo">
-                                    <img class="hover_img"  src="{{$category->photo}}" alt="category photo">
-
-                                    <!-- Product Badge -->
-                                    <div class="product_badge">
-                                        <span>{{$item->condition}}</span>
-                                    </div>
-
-                                    <!-- Wishlist -->
-                                    <div class="product_wishlist">
-                                        <a href="wishlist.html"><i class="icofont-heart"></i></a>
-                                    </div>
-
-                                    <!-- Compare -->
-                                    <div class="product_compare">
-                                        <a href="compare.html"><i class="icofont-exchange"></i></a>
-                                    </div>
-                                </div>
-
-                                <!-- Product Description -->
-                                <div class="product_description">
-                                    <!-- Add to cart -->
-                                    <div class="product_add_to_cart">
-                                        <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
-                                    </div>
-
-                                    <!-- Quick View -->
-                                    <div class="product_quick_view">
-                                        <a href="#" data-toggle="modal" data-target="#quickview"><i class="icofont-eye-alt"></i> Quick View</a>
-                                    </div>
-
-                                    <p class="brand_name">{{$item->brand->title}}</p>
-                                    <a href="{{route('products.details',$item->slug)}}">{{$item->title}}</a>
-                                    <h6 class="product-price">{{$item->offer_price}}$ <small><del class="text-danger">{{$item->price}}$</del></small></h6>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                        @else
-                        <p>No product found</p>
-                        @endif
+                    <div class="row justify-content-center" id="products-data">
+                        @include('frontend.pages.products.products-list')
                     </div>
+                </div>
+
+                <div class="ajax-loader text-center" style="display: none">
+                    <img src="{{asset('frontend/img/loader.gif')}}" alt="loader image" style="width: 6%;">
                 </div>
 
                 <div class="shop_pagination_area mt-30">
@@ -173,8 +130,8 @@
                         {{ $products->links() }} 
                     </nav>
                 </div>
-                
 
+                
             </div>
         </div>
     </div>
@@ -183,14 +140,50 @@
 @endsection
 
 
+
 @section('scripts')
 <script>
-    $('#sortBy').change(function(){
+    // Handle sorting
+    $('#sortBy').change(function() {
         var sort = $('#sortBy').val();
-        // alert(sort);
         var current_url = "{{ url()->current() }}";
-        var new_url = sort === 'Default'?current_url:`${current_url}?sortBy=${sort}`;
+        var new_url = sort === 'Default' ? current_url : `${current_url}?sortBy=${sort}`;
         window.location.href = new_url; // Redirect to the new URL
     });
 </script>
+{{-- <script>
+    var current_url = "{{ url()->current() }}";
+    var canLoadMore = true;
+    function loadmoreData(page) {
+        console.log(current_url + '?page=' + page);
+        $.ajax({
+            url: current_url + '?page=' + page,
+            type: 'GET',
+            beforeSend: function() {
+                $('.ajax-loader').show();
+            }
+        })
+        .done(function(data) {
+            if (data.html == '') {
+                $('.ajax-loader').html('No more products available');
+                canLoadMore = false;
+                return; 
+            }
+            $('.ajax-loader').hide(); 
+            $('#products-data').append(data.html); 
+        })
+        .fail(function() {
+            alert('Something went wrong! Please try again.'); 
+        });
+    }
+
+    var page = 1; 
+    $(window).scroll(function() {
+        // Check if user has scrolled to the bottom of the page
+        if (canLoadMore && $(window).scrollTop() + $(window).height() + 120 >= $(document).height()) {
+            page++; 
+            loadmoreData(page); 
+        }
+    });
+</script> --}}
 @endsection

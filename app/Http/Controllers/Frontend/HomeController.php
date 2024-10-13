@@ -63,8 +63,13 @@ class HomeController extends Controller
             }
         }
 
-        $products = $products->paginate();
+        $products = $products->paginate(4);
 
+
+        if($request->ajax()){
+            $view = view('frontend.pages.products.products-list',compact('products'))->render();
+            return response()->json(['html'=>$view]);
+        }
 
         return view('frontend.pages.products.category-products',compact(['category','products']));
     }
