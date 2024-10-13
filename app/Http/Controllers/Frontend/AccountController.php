@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateAccountRequest;
+use App\Http\Requests\UpdateBillingAddressRequest;
+use App\Http\Requests\UpdateShippingAddressRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,9 +33,9 @@ class AccountController extends Controller
         return view('frontend.user.account-details',compact('user'));
     }
 
-    public function updateBillingAddress(Request $request,$id){
-
-        $user = User::where('id',$id)->update(['country'=>$request->country,'state'=>$request->state,'city'=>$request->city,'postcode'=>$request->postcode,'address'=>$request->address]);
+    public function updateBillingAddress(UpdateBillingAddressRequest $request,$id){
+        $data =  $request->validated();
+        $user = User::where('id',$id)->update($data);
         if($user){
             return back()->with('success','Billing Address updated successfully ');
         }
@@ -41,8 +44,9 @@ class AccountController extends Controller
         }
     }
 
-    public function updateShippingAddress(Request $request,$id){
-        $user = User::where('id',$id)->update(['shipping_country'=>$request->shipping_country,'state'=>$request->state,'shipping_city'=>$request->shipping_city,'shipping_postcode'=>$request->shipping_postcode,'shipping_address'=>$request->shipping_address]);
+    public function updateShippingAddress(UpdateShippingAddressRequest $request,$id){
+        $data = $request->validated();
+        $user = User::where('id',$id)->update($data);
         if($user){
             return back()->with('success','Shipping Address updated successfully ');
         }
@@ -51,15 +55,7 @@ class AccountController extends Controller
         }
     }
 
-    public function updateAccount(Request $request,$id){
-        $this->validate($request,[
-            'full_name' => 'required|string',
-            'username' => 'nullable|string',
-            'phone' => 'required|string',
-            'oldpassword' =>'nullable|string',
-            'newpassword' =>'string|min:4'
-        ]);
-
+    public function updateAccount(UpdateAccountRequest $request,$id){
         if($request->oldpassword == null && $request->newpassword == null){
             User::where('id',$id)->update(['full_name'=>$request->full_name,'username'=>$request->username,'phone'=>$request->phone]);
             return back()->with('success','Account updated successfully');
