@@ -86,6 +86,11 @@ Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'
 Route::group(['prefix'=>'user','as'=>'users.'],function(){
     Route::get('dashboard',[FrontendUserController::class,'dashboard'])->name('dashboard');
     Route::get('orders',[FrontendUserController::class,'orderList'])->name('orderlist');
-    Route::get('address',[FrontendUserController::class,'getAddress'])->name('addresses');
+    Route::get('addresses',[FrontendUserController::class,'getAddress'])->name('addresses');
     Route::get('account-details',[FrontendUserController::class,'accountDetails'])->name('account-details');
+
+    Route::post('address/{user}/edit',[FrontendUserController::class,'editAddress'])->name('address.edit');
+    Route::post('shoppinng-address/{user}/edit',[FrontendUserController::class,'editShippingAddress'])->name('shipping-address.edit');
+    
+    Route::put('account/{user}',[FrontendUserController::class,'updateAccount'])->name('account.update');
 });

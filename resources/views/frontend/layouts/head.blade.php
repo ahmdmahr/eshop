@@ -26,3 +26,5 @@
     <link rel="stylesheet" href="{{asset('frontend/assets/css/style.css')}}">
 
     @yield('styles')
+
+   

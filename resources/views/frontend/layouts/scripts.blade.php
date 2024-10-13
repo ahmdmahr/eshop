@@ -17,5 +17,9 @@
     <script src="{{asset('frontend/assets/js/jquery.nice-select.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/wow.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/active.js')}}"></script>
-
+    <script>
+        setTimeout(function(){
+            $('#alert').slideUp();
+        },4000);
+    </script>
     @yield('scripts')

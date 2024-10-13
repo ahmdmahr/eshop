@@ -188,13 +188,21 @@
                         </div>
 
                         <!-- Account -->
+
+                        @php
+                          use App\Utilities\Helper;
+                        @endphp
                         <div class="account-area">
                             <div class="user-thumbnail">
-                                <img src="frontend/img/bg-img/user.jpg" alt="">
+                                @if(auth()->user()->photo)
+                                  <img src="{{auth()->user()->photo}}" alt="">   
+                                @else
+                                  <img src="{{Helper::userDefaultImage()}}" alt="">   
+                                @endif
                             </div>
                             <ul class="user-meta-dropdown">
                                 @if(Auth::check())      
-                                <li class="user-title"><span>Hello,</span> {{Auth::user()->full_name}}</li>
+                                <li class="user-title"><span>Hello,</span> {{Auth::user()->full_name}}!</li>
                                 <li><a href="{{route('users.dashboard')}}">My Account</a></li>
                                 <li><a href="{{route('users.orderlist')}}">Orders List</a></li>
                                 <li><a href="wishlist.html">Wishlist</a></li>
@@ -218,3 +226,5 @@
         </div>
     </div>
 </header>
+
+@include('backend.layouts.notification')
