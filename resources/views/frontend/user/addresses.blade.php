@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-12 col-lg-3">
                 <div class="my-account-navigation mb-50">
-                    @include('frontend.users.sidebar')
+                    @include('frontend.user.sidebar')
                 </div>
             </div>
             <div class="col-12 col-lg-9">
@@ -52,7 +52,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('users.address.edit', $user->id) }}" method="POST">
+                                            <form action="{{ route('user.billing-address.edit', $user->id) }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
@@ -94,7 +94,7 @@
                                 {{$user->shipping_country}} <br>
                                 {{$user->shipping_postcode}}
                             </address>
-                            <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editShippingAddress">Edit Address</a>
+                            <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editShippingAddress">Edit  Shipping Address</a>
                             
                             <!-- Shipping Address Modal -->
                             <div class="modal fade" id="editShippingAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false" style="background:rgba(0,0,0,0.5);">
@@ -107,7 +107,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('users.shipping-address.edit', $user->id) }}" method="POST">
+                                            <form action="{{ route('user.shipping-address.edit', $user->id) }}" method="POST">
                                                 @csrf
                                                 <div class="form-group">
                                                     <label for="">Address</label>

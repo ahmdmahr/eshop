@@ -8,29 +8,29 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class AccountController extends Controller
 {
     public function dashboard(){
         $user = Auth::user();
-        return view('frontend.users.dashboard',compact('user'));
+        return view('frontend.user.dashboard',compact('user'));
     }
 
-    public function orderList(){
+    public function ordersList(){
         $user = Auth::user();
-        return view('frontend.users.orderlist',compact('user'));
+        return view('frontend.user.orders-list',compact('user'));
     }
 
     public function getAddress(){
         $user = Auth::user();
-        return view('frontend.users.address',compact('user'));
+        return view('frontend.user.addresses',compact('user'));
     }
 
     public function accountDetails(){
         $user = Auth::user();
-        return view('frontend.users.account-details',compact('user'));
+        return view('frontend.user.account-details',compact('user'));
     }
 
-    public function editAddress(Request $request,$id){
+    public function updateBillingAddress(Request $request,$id){
 
         $user = User::where('id',$id)->update(['country'=>$request->country,'state'=>$request->state,'city'=>$request->city,'postcode'=>$request->postcode,'address'=>$request->address]);
         if($user){
@@ -41,7 +41,7 @@ class UserController extends Controller
         }
     }
 
-    public function editShippingAddress(Request $request,$id){
+    public function updateShippingAddress(Request $request,$id){
         $user = User::where('id',$id)->update(['shipping_country'=>$request->shipping_country,'state'=>$request->state,'shipping_city'=>$request->shipping_city,'shipping_postcode'=>$request->shipping_postcode,'shipping_address'=>$request->shipping_address]);
         if($user){
             return back()->with('success','Shipping Address updated successfully ');

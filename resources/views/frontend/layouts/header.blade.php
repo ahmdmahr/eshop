@@ -201,10 +201,13 @@
                                 @endif
                             </div>
                             <ul class="user-meta-dropdown">
-                                @if(Auth::check())      
-                                <li class="user-title"><span>Hello,</span> {{Auth::user()->full_name}}!</li>
-                                <li><a href="{{route('users.dashboard')}}">My Account</a></li>
-                                <li><a href="{{route('users.orderlist')}}">Orders List</a></li>
+                                @if(Auth::check())   
+                                @php
+                                    $name = explode(' ',Auth::user()->full_name);
+                                @endphp   
+                                <li class="user-title"><span>Hello,</span> {{$name[0]}}!</li>
+                                <li><a href="{{route('user.dashboard')}}">My Account</a></li>
+                                <li><a href="{{route('user.orders.show')}}">Orders List</a></li>
                                 <li><a href="wishlist.html">Wishlist</a></li>
                                 <li>
                                     <a href="{{route('home')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

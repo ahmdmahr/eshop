@@ -11,7 +11,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
-use App\Http\Controllers\Frontend\UserController as FrontendUserController;
+use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 
@@ -83,14 +83,16 @@ Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'
 
 // User Dashboard
 
-Route::group(['prefix'=>'user','as'=>'users.'],function(){
-    Route::get('dashboard',[FrontendUserController::class,'dashboard'])->name('dashboard');
-    Route::get('orders',[FrontendUserController::class,'orderList'])->name('orderlist');
-    Route::get('addresses',[FrontendUserController::class,'getAddress'])->name('addresses');
-    Route::get('account-details',[FrontendUserController::class,'accountDetails'])->name('account-details');
+Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
+    Route::get('dashboard',[AccountController::class,'dashboard'])->name('dashboard');
 
-    Route::post('address/{user}/edit',[FrontendUserController::class,'editAddress'])->name('address.edit');
-    Route::post('shoppinng-address/{user}/edit',[FrontendUserController::class,'editShippingAddress'])->name('shipping-address.edit');
-    
-    Route::put('account/{user}',[FrontendUserController::class,'updateAccount'])->name('account.update');
+    Route::get('orders',[AccountController::class,'ordersList'])->name('orders.show');
+
+    Route::get('addresses',[AccountController::class,'getAddress'])->name('addresses.show');
+
+    Route::post('billing-address/{user}/edit',[AccountController::class,'updateBillingAddress'])->name('billing-address.update');
+    Route::post('shoppinng-address/{user}/edit',[AccountController::class,'updateShippingAddress'])->name('shipping-address.update');
+
+    Route::get('account-details',[AccountController::class,'accountDetails'])->name('account.show');
+    Route::put('account/{user}',[AccountController::class,'updateAccount'])->name('account.update');
 });

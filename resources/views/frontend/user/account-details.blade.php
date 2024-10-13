@@ -24,14 +24,14 @@
             <div class="row">
                 <div class="col-12 col-lg-3">
                     <div class="my-account-navigation mb-50">
-                        @include('frontend.users.sidebar')
+                        @include('frontend.user.sidebar')
                     </div>
                 </div>
                 <div class="col-12 col-lg-9">
                     <div class="my-account-content mb-50">
                         <h5 class="mb-3">Account Details</h5>
 
-                        <form action="{{route('users.account.update',$user->id)}}" method="POST">
+                        <form action="{{route('user.account.update',$user->id)}}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="row">
