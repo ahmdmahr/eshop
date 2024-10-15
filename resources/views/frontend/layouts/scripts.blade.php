@@ -3,6 +3,9 @@
     <script src="{{asset('frontend/assets/js/jquery.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/popper.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/bootstrap.min.js')}}"></script>
+    {{-- Sweet alert --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {{-- other scripts --}}
     <script src="{{asset('frontend/assets/js/jquery.easing.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/classy-nav.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/owl.carousel.min.js')}}"></script>

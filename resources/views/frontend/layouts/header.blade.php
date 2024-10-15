@@ -1,4 +1,3 @@
-<header class="header_area">
     <!-- Top Header Area -->
     <div class="top-header-area">
         <div class="container h-100">
@@ -131,53 +130,47 @@
                         <div class="wishlist-area">
                             <a href="wishlist.html" class="wishlist-btn"><i class="icofont-heart"></i></a>
                         </div>
-
                         <!-- Cart -->
+                        @php
+                            use App\Models\Product;
+                            use Gloudemans\Shoppingcart\Facades\Cart;
+                            $cart_items = Cart::instance('shopping')->content();
+                        @endphp
                         <div class="cart-area">
-                            <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity">2</span>
+                            <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity">{{$cart_items->count()}}</span>
                             </div>
 
                             <!-- Cart Dropdown Content -->
                             <div class="cart-dropdown-content">
                                 <ul class="cart-list">
-                                    <li>
-                                        <div class="cart-item-desc">
-                                            <a href="#" class="image">
-                                                <img src="frontend/img/product-img/top-1.png" class="cart-thumb" alt="">
-                                            </a>
-                                            <div>
-                                                <a href="#">Kid's Fashion</a>
-                                                <p>1 x - <span class="price">$32.99</span></p>
+                                    @foreach ($cart_items as $item)
+                                        <li>
+                                            <div class="cart-item-desc">
+                                                <a href="#" class="image">
+                                                    <img src="{{$item->model->images->first()->url}}" class="cart-thumb" alt="">
+                                                </a>
+                                                <div>
+                                                    <a href="{{route('products.details',$item->model->slug)}}">{{$item->name}}</a>
+                                                    <p>{{$item->qty}} x - <span class="price">${{$item->price}}</span></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <span class="dropdown-product-remove"><i class="icofont-bin"></i></span>
-                                    </li>
-                                    <li>
-                                        <div class="cart-item-desc">
-                                            <a href="#" class="image">
-                                                <img src="frontend/img/product-img/best-4.png" class="cart-thumb" alt="">
-                                            </a>
-                                            <div>
-                                                <a href="#">Headphone</a>
-                                                <p>2x - <span class="price">$49.99</span></p>
-                                            </div>
-                                        </div>
-                                        <span class="dropdown-product-remove"><i class="icofont-bin"></i></span>
-                                    </li>
+                                            <span class="dropdown-product-remove delete-from-cart" data-id="{{$item->rowId}}"><i class="icofont-bin"></i></span>
+                                        </li>
+                                    @endforeach  
                                 </ul>
                                 <div class="cart-pricing my-4">
                                     <ul>
                                         <li>
                                             <span>Sub Total:</span>
-                                            <span>$822.96</span>
+                                            <span>${{Cart::subtotal()}}</span>
                                         </li>
                                         <li>
                                             <span>Shipping:</span>
-                                            <span>$30.00</span>
+                                            <span>$30</span>
                                         </li>
                                         <li>
                                             <span>Total:</span>
-                                            <span>$856.63</span>
+                                            <span>${{(int)Cart::subtotal()+30}}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -192,13 +185,19 @@
                         @php
                           use App\Utilities\Helper;
                         @endphp
+                        
                         <div class="account-area">
                             <div class="user-thumbnail">
+                            @auth
                                 @if(auth()->user()->photo)
                                   <img src="{{auth()->user()->photo}}" alt="">   
                                 @else
                                   <img src="{{Helper::userDefaultImage()}}" alt="">   
                                 @endif
+                            @endauth
+                            @guest
+                              <img src="{{asset('frontend/img/guest.png')}}" alt="">
+                            @endguest
                             </div>
                             <ul class="user-meta-dropdown">
                                 @if(Auth::check())   
@@ -228,6 +227,5 @@
             </div>
         </div>
     </div>
-</header>
 
 @include('backend.layouts.notification')

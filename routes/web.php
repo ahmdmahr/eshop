@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\AccountController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 
@@ -28,11 +29,10 @@ use App\Http\Controllers\VendorController;
 
 
 
-// Frontend section
+// Main frontend Section
 
 Route::get('/',[FrontendHomeController::class,'home'])->name('home');
 
-// category products
 
 Route::get('/categories/{category}/products', [FrontendHomeController::class, 'categoryProducts'])->name('category.products');
 
@@ -44,7 +44,7 @@ Route::get('/products/{product}', [FrontendHomeController::class, 'productDetail
 Auth::routes();
 
 
-// Admin Dashboard
+// Admin Section
 Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],function(){
 
     Route::get('',[AdminController::class,'index'])->name('dashboard');
@@ -73,7 +73,7 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
 });
 
 
-// Vendor Dashboard
+// Vendor Section
 Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'],function(){
 
     Route::get('',[VendorController::class,'index'])->name('dashboard');
@@ -81,9 +81,10 @@ Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'
 });
 
 
-// User Dashboard
+// User Section
 
 Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
+    // Main Info Section
     Route::get('dashboard',[AccountController::class,'dashboard'])->name('dashboard');
 
     Route::get('orders',[AccountController::class,'ordersList'])->name('orders.show');
@@ -95,4 +96,9 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
 
     Route::get('account-details',[AccountController::class,'accountDetails'])->name('account.show');
     Route::put('account/{user}',[AccountController::class,'updateAccount'])->name('account.update');
+
+    // Cart Section
+
+    Route::resource('cart',CartController::class);
 });
+

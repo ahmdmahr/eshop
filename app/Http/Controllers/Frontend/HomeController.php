@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class HomeController extends Controller
 {
@@ -71,6 +72,7 @@ class HomeController extends Controller
             return response()->json(['html'=>$view]);
         }
 
+        
         return view('frontend.pages.products.category-products',compact(['category','products']));
     }
 

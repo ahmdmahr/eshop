@@ -142,6 +142,7 @@
 
 
 @section('scripts')
+
 <script>
     // Handle sorting
     $('#sortBy').change(function() {
@@ -186,4 +187,48 @@
         }
     });
 </script> --}}
+
+<script>
+    $(document).on('click','.add-to-cart',function(e){
+        e.preventDefault();
+        var product_id = $(this).data('product-id');
+        var product_qty = $(this).data('quantity');
+
+        // alert(product_qty);
+
+        var token = "{{csrf_token()}}";
+        var path = "{{route('user.cart.store')}}";
+
+        $.ajax({
+            url:path,
+            type:"POST",
+            data:{
+                '_token':token,
+                'product_id':product_id,
+                'product_qty':product_qty
+            },
+            beforeSend:function(){
+                $('#add-to-cart'+product_id).html('<i class="fa fa-spinner fa-spin"></i> loading...');
+            },
+            complete:function(){
+                $('#add-to-cart'+product_id).html('<i class="fa fa-cart-plus"></i> Add to cart');
+            },
+            success:function(data){
+                console.log(data);
+                if(data['status']){
+                    $('body #header-ajax').html(data['header']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
+</script>
 @endsection
