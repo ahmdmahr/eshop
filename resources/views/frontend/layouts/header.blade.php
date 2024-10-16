@@ -174,8 +174,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="cart-box">
-                                    <a href="checkout-1.html" class="btn btn-primary d-block">Checkout</a>
+                                <div class="cart-box d-flex">
+
+                                    <a href="{{route('user.cart.index')}}" class="btn btn-success btn-sm">Cart</a>
+                                    <a href="checkout-1.html" class="btn btn-primary btn-sm " style="margin-left: auto;">Checkout</a>
+
                                 </div>
                             </div>
                         </div>

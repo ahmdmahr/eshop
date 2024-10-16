@@ -10,6 +10,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
@@ -70,6 +71,10 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
      // User Section
      Route::resource('users',UserController::class);
      Route::post('userstatus',[UserController::class,'changeStatus'])->name('users.status');
+
+      // Coupon Section
+      Route::resource('coupons',CouponController::class);
+      Route::post('couponstatus',[CouponController::class,'changeStatus'])->name('coupons.status');
 });
 
 

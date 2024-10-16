@@ -118,8 +118,8 @@
 
                         <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-magic-wand"></i><span>Coupon Management</span> </a>
                             <ul>
-                                <li><a href="departments.html">All Banners</a></li>
-                                <li><a href="add-departments.html">Add Banner</a></li>
+                                <li><a href="{{route('admin.coupons.index')}}">All Coupons</a></li>
+                                <li><a href="{{route('admin.coupons.create')}}">Add Coupon</a></li>
                             </ul>
                         </li>
 
