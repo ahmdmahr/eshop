@@ -105,5 +105,8 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
     // Cart Section
 
     Route::resource('cart',CartController::class);
+
+    // Coupon Section
+    Route::post('coupons/apply',[CouponController::class,'apply'])->name('coupons.apply');
 });
 

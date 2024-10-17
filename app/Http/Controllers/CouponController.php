@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCouponRequest;
-use App\Http\Requests\UpdateCouponRequest;
 use App\Models\Coupon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ApplyCouponRequest;
+use App\Http\Requests\StoreCouponRequest;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Http\Requests\UpdateCouponRequest;
 
 class CouponController extends Controller
 {
@@ -117,6 +119,24 @@ class CouponController extends Controller
         }
         else{
             return back()->with('error','Data not found');
+        }
+    }
+
+    public function apply(ApplyCouponRequest $request){
+        $data = $request->validated();
+        $coupon = Coupon::where('code',$data['code'])->first();
+        if(!$coupon){
+            return back()->with('error','Invalid coupon');
+        }
+        else{
+            $total_price = Cart::instance('shopping')->subtotal();
+            //  session()->put('coupon',[]) is using Laravel's session management to store coupon information
+            session()->put('coupon',[
+                'id'=>$coupon->id,
+                'code'=>$coupon->code,
+                'value'=>$coupon->discount($total_price)
+            ]);
+            return back()->with('success','Coupon applied successfully!');
         }
     }
 }

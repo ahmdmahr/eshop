@@ -36,9 +36,10 @@
                     <p>Enter your coupon code here &amp; get awesome discounts!</p>
                     <!-- Form -->
                     <div class="coupon-form">
-                        <form action="#">
-                            <input type="text" class="form-control" placeholder="Enter Your Coupon Code">
-                            <button type="submit" class="btn btn-primary">Apply Coupon</button>
+                        <form action="{{route('user.coupons.apply')}}" id="coupon-form" method="POST">
+                            @csrf
+                            <input type="text" class="form-control" name="code" placeholder="Enter Your Coupon Code">
+                            <button type="submit" class="coupon-btn btn btn-primary">Apply Coupon</button>
                         </form>
                     </div>
                 </div>
@@ -81,6 +82,16 @@
 
 
 @section('scripts')
+
+<script>
+    $(document).on('click','.coupon-btn',function(e){
+        e.preventDefault();
+        var code=$('input[name=code]').val();
+        // alert(code);
+        $('.coupon-btn').html('<i class="fas fa-spinner fa-spin"></i> Applying...');
+        $('#coupon-form').submit();
+    });
+</script>
 
 <script>
     $(document).on('click','.delete-from-cart',function(e){

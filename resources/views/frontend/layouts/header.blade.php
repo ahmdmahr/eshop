@@ -135,6 +135,12 @@
                             use App\Models\Product;
                             use Gloudemans\Shoppingcart\Facades\Cart;
                             $cart_items = Cart::instance('shopping')->content();
+                            $subtotal = Cart::instance('shopping')->subtotal();
+                            // Convert to float from string
+                            $subtotal = trim($subtotal); 
+                            $subtotal = preg_replace('/[^\d.]/', '', $subtotal); 
+                            $total = is_numeric($subtotal) ? (float)$subtotal : 0.0;
+                            //End of Convert to float from string
                         @endphp
                         <div class="cart-area">
                             <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity">{{$cart_items->count()}}</span>
@@ -162,15 +168,24 @@
                                     <ul>
                                         <li>
                                             <span>Sub Total:</span>
-                                            <span>${{Cart::subtotal()}}</span>
+                                            <span>${{$total}}</span>
                                         </li>
                                         <li>
                                             <span>Shipping:</span>
                                             <span>$30</span>
                                         </li>
                                         <li>
+                                            <span>Discount:</span>
+                                            <span>${{session('coupon')['value']}}</span>
+                                        </li>
+                                        <li>
                                             <span>Total:</span>
-                                            <span>${{(int)Cart::subtotal()+30}}</span>
+                                            @if(session()->has('coupon'))
+                                              {{-- {{gettype($total)}} --}}
+                                              <span>${{$total-session('coupon')['value']+30}}</span>
+                                            @else
+                                              <span>${{$total+30}}</span>
+                                            @endif
                                         </li>
                                     </ul>
                                 </div>

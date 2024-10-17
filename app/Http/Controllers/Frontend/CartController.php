@@ -46,7 +46,7 @@ class CartController extends Controller
         if($added){
             $response['status'] = true;
             $response['product_id'] = $product->id;
-            $response['total'] = Cart::subtotal();
+            $response['total'] = Cart::instance('shopping')->subtotal();
             $response['cart_count'] = Cart::instance('shopping')->count();
             $response['message'] = "Item was added to your cart!";
         }
@@ -100,7 +100,7 @@ class CartController extends Controller
             Cart::instance('shopping')->update($product_id,$product_qty);
             $message = "Quantity was updated successfully!";
             $response['status'] = true;
-            $response['total'] = Cart::subtotal();
+            $response['total'] = Cart::instance('shopping')->subtotal();
             $response['cart_count'] = Cart::instance('shopping')->count();
         }
 
@@ -111,8 +111,6 @@ class CartController extends Controller
             $response['cart_list'] = $cart_list;
             $response['message'] = $message;
         }
-
-
 
         return response()->json($response);
     }
@@ -129,7 +127,7 @@ class CartController extends Controller
 
         $response['status'] = true;
         $response['product_id'] = $id;
-        $response['total'] = Cart::subtotal();
+        $response['total'] = Cart::instance('shopping')->subtotal();
         $response['cart_count'] = Cart::instance('shopping')->count();
         $response['message'] = "item successfully removed!";
 
@@ -140,4 +138,5 @@ class CartController extends Controller
 
         return response()->json($response);
     }
+
 }
