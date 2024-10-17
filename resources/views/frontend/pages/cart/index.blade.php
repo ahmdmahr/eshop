@@ -24,48 +24,8 @@
         <div class="row justify-content-between">
             <div class="col-12">
                 <div class="cart-table">
-                    <div class="table-responsive">
-                        <table class="table table-bordered mb-30">
-                            <thead>
-                                <tr>
-                                    <th scope="col"><i class="icofont-ui-delete"></i></th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Unit Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    use App\Models\Product;
-                                    use Gloudemans\Shoppingcart\Facades\Cart;
-                                    $cart_items = Cart::instance('shopping')->content();
-                                @endphp
-                                @foreach ($cart_items as $item)
-                                    
-                                <tr>
-                                    <th scope="row">
-                                        <i class="icofont-close delete-from-cart" data-id="{{$item->rowId}}"></i>
-                                    </th>
-                                    <td>
-                                        <img src="{{$item->model->images->first()->url}}" alt="Product">
-                                    </td>
-                                    <td>
-                                        <a href="{{route('products.details',$item->model->slug)}}">{{$item->name}}</a>
-                                    </td>
-                                    <td>${{$item->price}}</td>
-                                    <td>
-                                        <div class="quantity">
-                                            <input type="number" class="qty-text" id="qty2" step="1" min="1" max="99" name="quantity" value="{{$item->qty}}">
-                                        </div>
-                                    </td>
-                                    <td>${{$item->subtotal()}}</td>
-                                </tr>
-
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="table-responsive" id="cart_list">
+                       @include('frontend.pages.cart.cart-list')
                     </div>
                 </div>
             </div>
@@ -154,6 +114,65 @@
             }
         });
     });
+</script>
+
+<script>
+    $(document).on('click','.qty-text',function(){
+        var id=$(this).data('id');
+
+        // alert(id);
+
+        // value of quantity
+        var spinner=$(this),input=spinner.closest("div.quantity").find('input[type="number"]'); 
+
+        // alert(input.val());
+
+        if(input.val() == 1){
+            return false;
+        }
+        else{
+            var newVal = parseInt(input.val());
+            $('#qty-input-'+id).val(newVal);
+        }
+
+        console.log($("#update-cart-" + id));
+
+        var productStock = $("#update-cart-" + id).data('product-stock');
+
+        // alert(productStock);
+
+        update_cart(id,productStock);
+    });
+    function update_cart(id,productStock){
+        var product_id = id;
+        var product_qty = $("#qty-input-"+product_id).val();
+        var token = "{{csrf_token()}}";
+        var path = "{{route('user.cart.update', ':product_id') }}".replace(':product_id', product_id);
+        $.ajax({
+            url:path,
+            type:"PUT",
+            data:{
+                _token:token,
+                product_id:product_id,
+                product_qty:product_qty,
+                product_stock:productStock
+            },
+            success:function(data){
+                // console.log(data);
+                // alert(data['status']);
+                if(data['status']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #cart_list').html(data['cart_list']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                }
+            }
+        });
+    }
 </script>
 
 @endsection

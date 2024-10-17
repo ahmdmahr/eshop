@@ -53,10 +53,8 @@ class CartController extends Controller
 
         if($request->ajax()){
             $header = view('frontend.layouts.header')->render();
+            $response['header'] = $header;
         }
-
-        $response['header'] = $header;
-
 
         return response()->json($response);
     }
@@ -82,7 +80,41 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($request->all());
+        $this->validate($request,[
+            'product_qty' => 'required|numeric'
+        ]);
+        $product_id = $request->input('product_id');
+        $product_qty = $request->input('product_qty');
+        $product_stock = $request->input('product_stock');
+
+        if($product_qty > $product_stock){
+            $message = "We currently do not have enough items in stock!";
+            $response['status'] = false;
+        }
+        elseif($product_qty<1){
+            $message = "You can't add < 1 quantity!";
+            $response['status'] = false;
+        }
+        else{
+            Cart::instance('shopping')->update($product_id,$product_qty);
+            $message = "Quantity was updated successfully!";
+            $response['status'] = true;
+            $response['total'] = Cart::subtotal();
+            $response['cart_count'] = Cart::instance('shopping')->count();
+        }
+
+        if($request->ajax()){
+            $header = view('frontend.layouts.header')->render();
+            $cart_list = view('frontend.pages.cart.cart-list')->render();
+            $response['header'] = $header;
+            $response['cart_list'] = $cart_list;
+            $response['message'] = $message;
+        }
+
+
+
+        return response()->json($response);
     }
 
     /**
@@ -103,10 +135,8 @@ class CartController extends Controller
 
         if($request->ajax()){
             $header = view('frontend.layouts.header')->render();
+            $response['header'] = $header;
         }
-
-        $response['header'] = $header;
-
 
         return response()->json($response);
     }
