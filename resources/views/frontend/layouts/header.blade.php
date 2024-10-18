@@ -125,15 +125,17 @@
                                 <input type="submit" class="d-none" value="Send">
                             </div>
                         </div>
-
-                        <!-- Wishlist -->
-                        <div class="wishlist-area">
-                            <a href="wishlist.html" class="wishlist-btn"><i class="icofont-heart"></i></a>
-                        </div>
-                        <!-- Cart -->
                         @php
                             use App\Models\Product;
                             use Gloudemans\Shoppingcart\Facades\Cart;
+                            $wishlist_items = Cart::instance('wishlist')->content();
+                        @endphp
+                        <!-- Wishlist -->
+                        <div class="wishlist-area">
+                            <a href="{{route('user.wishlist.index')}}" class="wishlist-btn" id="wishlist_counter"><i class="icofont-heart"> </i></a>
+                        </div>
+                        <!-- Cart -->
+                        @php
                             $cart_items = Cart::instance('shopping')->content();
                             $subtotal = Cart::instance('shopping')->subtotal();
                             // Convert to float from string
@@ -141,9 +143,10 @@
                             $subtotal = preg_replace('/[^\d.]/', '', $subtotal); 
                             $total = is_numeric($subtotal) ? (float)$subtotal : 0.0;
                             //End of Convert to float from string
+                            $couponValue = session('coupon')['value'] ?? 0;
                         @endphp
                         <div class="cart-area">
-                            <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity">{{$cart_items->count()}}</span>
+                            <div class="cart--btn"><i class="icofont-cart"></i> <span class="cart_quantity" id="cart_counter">{{$cart_items->count()}}</span>
                             </div>
 
                             <!-- Cart Dropdown Content -->
@@ -176,13 +179,13 @@
                                         </li>
                                         <li>
                                             <span>Discount:</span>
-                                            <span>${{session('coupon')['value']}}</span>
+                                            <span>${{$couponValue}}</span>
                                         </li>
                                         <li>
                                             <span>Total:</span>
                                             @if(session()->has('coupon'))
                                               {{-- {{gettype($total)}} --}}
-                                              <span>${{$total-session('coupon')['value']+30}}</span>
+                                              <span>${{$total-$couponValue+30}}</span>
                                             @else
                                               <span>${{$total+30}}</span>
                                             @endif

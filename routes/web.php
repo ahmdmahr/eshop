@@ -14,6 +14,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 
@@ -108,5 +109,10 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
 
     // Coupon Section
     Route::post('coupons/apply',[CouponController::class,'apply'])->name('coupons.apply');
+
+    // Wishlist Section
+
+    Route::resource('wishlist',WishlistController::class);
+    Route::post('wishlist/move-to-cart',[WishlistController::class,'moveToCart'])->name('wishlist.move');
 });
 
