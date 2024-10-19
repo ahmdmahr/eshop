@@ -78,10 +78,10 @@
                             </ul>
                         </li>
 
-                        <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-cart-plus"></i><span>Carts Management</span> </a>
+                        <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-truck"></i><span>Shippings Management</span> </a>
                             <ul>
-                                <li><a href="departments.html">All Banners</a></li>
-                                <li><a href="add-departments.html">Add Banner</a></li>
+                                <li><a href="{{route('admin.shippings.index')}}">All Shippings</a></li>
+                                <li><a href="{{route('admin.shippings.create')}}">Add Shipping</a></li>
                             </ul>
                         </li>
 

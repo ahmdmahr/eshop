@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 
@@ -77,6 +78,10 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
       // Coupon Section
       Route::resource('coupons',CouponController::class);
       Route::post('couponstatus',[CouponController::class,'changeStatus'])->name('coupons.status');
+
+      // Shipping Section
+      Route::resource('shippings',ShippingController::class);
+      Route::post('shippingstatus',[ShippingController::class,'changeStatus'])->name('shipping.status');
 });
 
 
