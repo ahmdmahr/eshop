@@ -14,6 +14,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
@@ -97,8 +98,8 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
 
     Route::get('addresses',[AccountController::class,'getAddress'])->name('addresses.show');
 
-    Route::post('billing-address/{user}/edit',[AccountController::class,'updateBillingAddress'])->name('billing-address.update');
-    Route::post('shoppinng-address/{user}/edit',[AccountController::class,'updateShippingAddress'])->name('shipping-address.update');
+    Route::put('billing-address/{user}',[AccountController::class,'updateBillingAddress'])->name('billing-address.update');
+    Route::put('shoppinng-address/{user}',[AccountController::class,'updateShippingAddress'])->name('shipping-address.update');
 
     Route::get('account-details',[AccountController::class,'accountDetails'])->name('account.show');
     Route::put('account/{user}',[AccountController::class,'updateAccount'])->name('account.update');
@@ -114,5 +115,9 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
 
     Route::resource('wishlist',WishlistController::class);
     Route::post('wishlist/move-to-cart',[WishlistController::class,'moveToCart'])->name('wishlist.move');
+
+    // Checkout Section
+    Route::get('checkout1',[CheckoutController::class,'checkout1'])->name('checkout1');
+
 });
 

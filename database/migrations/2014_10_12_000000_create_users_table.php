@@ -26,14 +26,14 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->string('city')->nullable();
-            $table->integer('postcode')->nullable();
+            $table->string('postcode')->nullable();
             $table->text('address')->nullable();
 
             // Shipping Address 
             $table->string('shipping_country')->nullable();
             $table->string('shipping_state')->nullable();
             $table->string('shipping_city')->nullable();
-            $table->integer('shipping_postcode')->nullable();
+            $table->string('shipping_postcode')->nullable();
             $table->text('shipping_address')->nullable();
 
             

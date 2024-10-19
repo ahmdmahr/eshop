@@ -25,7 +25,7 @@ class UpdateShippingAddressRequest extends FormRequest
             'shipping_country' => 'required|string|max:255',
             'shipping_state' => 'required|string|max:255',
             'shipping_city' => 'required|string|max:255',
-            'shipping_postcode' => 'required|integer|max:10', 
+            'shipping_postcode' => 'required|string|max:10', 
             'shipping_address' => 'required|string|max:500',
         ];
     }

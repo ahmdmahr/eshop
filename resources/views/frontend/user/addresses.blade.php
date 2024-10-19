@@ -33,13 +33,14 @@
                         <div class="col-12 col-lg-6 mb-5 mb-lg-0">
                             <h6 class="mb-3">Billing Address</h6>
                             <address>
+                                {{$user->phone}} <br>
                                 {{$user->address}} <br>
                                 {{$user->city}} <br>
                                 {{$user->state}} <br>
                                 {{$user->country}} <br>
                                 {{$user->postcode}}
                             </address>
-                            <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editAddress">Edit Billing Address</a>
+                            <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editAddress">Edit Billing Address</a>
                         
                             <!-- Address Modal -->
                             <div class="modal fade" id="editAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false" style="background:rgba(0,0,0,0.5);">
@@ -52,8 +53,13 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('user.billing-address.edit', $user->id) }}" method="POST">
+                                            <form  action="{{route('user.billing-address.update', $user->id)}}" method="POST">
                                                 @csrf
+                                                @method('PUT')
+                                                <div class="form-group">
+                                                    <label for="phone">Phone</label>
+                                                    <textarea name="phone" id="phone" class="form-control" placeholder="+201227555769">{{ $user->phone }}</textarea>
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
                                                     <textarea name="address" id="address" class="form-control" placeholder="Write your address..">{{ $user->address }}</textarea>
@@ -74,12 +80,12 @@
                                                     <label for="postcode">Postcode</label>
                                                     <input name="postcode" id="postcode" class="form-control" placeholder="44600" value="{{ $user->postcode }}">
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +100,7 @@
                                 {{$user->shipping_country}} <br>
                                 {{$user->shipping_postcode}}
                             </address>
-                            <a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editShippingAddress">Edit  Shipping Address</a>
+                            <a href="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editShippingAddress">Edit  Shipping Address</a>
                             
                             <!-- Shipping Address Modal -->
                             <div class="modal fade" id="editShippingAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="false" style="background:rgba(0,0,0,0.5);">
@@ -107,8 +113,9 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="{{ route('user.shipping-address.edit', $user->id) }}" method="POST">
+                                            <form action="{{route('user.shipping-address.update', $user->id)}}" method="POST">
                                                 @csrf
+                                                @method('PUT')
                                                 <div class="form-group">
                                                     <label for="">Address</label>
                                                     <textarea name="shipping_address" class="form-control" placeholder="Write your address..">{{ $user->shipping_address }}</textarea>

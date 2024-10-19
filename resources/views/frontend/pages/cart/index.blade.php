@@ -45,6 +45,16 @@
                 </div>
             </div>
 
+            @php
+                $subtotal = Cart::instance('shopping')->subtotal();
+                // Convert to float from string
+                $subtotal = trim($subtotal); 
+                $subtotal = preg_replace('/[^\d.]/', '', $subtotal); 
+                $total = is_numeric($subtotal) ? (float)$subtotal : 0.0;
+                //End of Convert to float from string
+                $couponValue = session('coupon')['value'] ?? 0;
+            @endphp
+
             <div class="col-12 col-lg-5">
                 <div class="cart-total-area mb-30">
                     <h5 class="mb-3">Cart Totals</h5>
@@ -53,24 +63,24 @@
                             <tbody>
                                 <tr>
                                     <td>Sub Total</td>
-                                    <td>$56.00</td>
+                                    <td>${{$total}}</td>
                                 </tr>
                                 <tr>
                                     <td>Shipping</td>
-                                    <td>$10.00</td>
+                                    <td>$30</td>
                                 </tr>
                                 <tr>
-                                    <td>VAT (10%)</td>
-                                    <td>$5.60</td>
+                                    <td>Save Amount</td>
+                                    <td>{{$couponValue}}</td>
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td>$71.60</td>
+                                    <td>${{$total+30-$couponValue}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <a href="checkout-1.html" class="btn btn-primary d-block">Proceed To Checkout</a>
+                    <a href="{{route('user.checkout1')}}" class="btn btn-primary d-block">Proceed To Checkout</a>
                 </div>
             </div>
         </div>

@@ -22,10 +22,11 @@ class UpdateBillingAddressRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'phone'=>'required|string',
             'country' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'city' => 'required|string|max:255',
-            'postcode' => 'required|integer|max:10', 
+            'postcode' => 'required|string|max:10', 
             'address' => 'required|string|max:500',
         ];
     }
