@@ -17,6 +17,9 @@ class Order extends Model
         'total',
         'coupon',
         'quantity',
+        'payment_method',
+        'payment_status',
+        'condition',
         'delivery_charge',
         'notes'
     ];

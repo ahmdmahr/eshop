@@ -123,6 +123,17 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
 
     // Checkout Section
     Route::get('checkout1',[CheckoutController::class,'checkout1'])->name('checkout1');
+    Route::post('checkout1',[CheckoutController::class,'checkout1Store'])->name('checkout1.store');
+
+    Route::get('checkout2',[CheckoutController::class,'checkout2'])->name('checkout2');
+    Route::post('checkout2',[CheckoutController::class,'checkout2Store'])->name('checkout2.store');
+
+    Route::get('checkout3',[CheckoutController::class,'checkout3'])->name('checkout3');
+    Route::post('checkout3',[CheckoutController::class,'checkout3Store'])->name('checkout3.store');
+
+    Route::post('checkout',[CheckoutController::class,'checkoutStore'])->name('checkout.store');
+
+    Route::get('complete-checkout/{order}',[CheckoutController::class,'complete'])->name('checkout.complete');
 
 });
 

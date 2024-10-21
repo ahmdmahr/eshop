@@ -15,13 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('order_number',10)->unique();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('product_id');
+            // $table->unsignedBigInteger('product_id');
             $table->float('subtotal')->default(0);
             $table->float('total')->default(0);
             $table->float('coupon')->default(0)->nullable();
-            $table->integer('quantity')->default(0);
+            // $table->integer('quantity')->default(0);
+            $table->string('payment_method')->default('COD');
+            $table->enum('payment_status',['paid','unpaid'])->default('unpaid');
+            $table->enum('condition',['pending','processing','delivered','cancelled'])->default('pending');
             $table->float('delivery_charge')->default(0)->nullable();
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

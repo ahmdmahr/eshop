@@ -7,7 +7,7 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Shipping <a href="{{route('admin.shippings.create')}}" class="btn btn-sm btn-outline-secondary"><i class="icon-plus"></i> Create Shipping</a></h2>
+                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Shipping Methods <a href="{{route('admin.shippings.create')}}" class="btn btn-sm btn-outline-secondary"><i class="icon-plus"></i> Create Shipping</a></h2>
                     <ul class="breadcrumb float-left">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="icon-home"></i></a></li>                            
                         <li class="breadcrumb-item active">Shippings</li>
