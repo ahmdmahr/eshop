@@ -142,7 +142,7 @@
                         $total = is_numeric($subtotal) ? (float)$subtotal : 0.0;
                         //End of Convert to float from string
                         @endphp
-                        <input type="hidden" name="sub_total" value="{{$subtotal}}">
+                        <input type="hidden" name="subtotal" value="{{$subtotal}}">
                         <input type="hidden" name="total" value="{{$subtotal}}">
                         <div class="checkout_pagination d-flex justify-content-end mt-50">
                             <a href="{{route('user.cart.index')}}" class="btn btn-primary mt-2 ml-2">Go Back</a>

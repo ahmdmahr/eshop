@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Requests\StoreCheckout1Request;
+use App\Mail\OrderConfirmation;
 
 class CheckoutController extends Controller
 {
@@ -62,7 +64,7 @@ class CheckoutController extends Controller
 
     public function checkoutStore(){
 
-        // retu rn Session::get('checkout');
+        // return Session::get('checkout');
 
         $checkout = Session::get('checkout');
 
@@ -79,8 +81,8 @@ class CheckoutController extends Controller
             'payment_status' => $checkout[1]['payment_status'],
             'condition' => 'pending',
             'delivery_charge' => $checkout[0]['delivery_charge'],
-            'sub_total' => $checkout['sub_total'],
-            'total' => $checkout['sub_total']-$coupon+$checkout[0]['delivery_charge'],
+            'subtotal' => $checkout['subtotal'],
+            'total' => $checkout['subtotal']-$coupon+$checkout[0]['delivery_charge'],
             'notes' => $checkout['notes'],
         ];
 
@@ -102,9 +104,11 @@ class CheckoutController extends Controller
         
         $user = User::where('id',$user_id)->update($user_data);
 
-        $status = Order::create($order_data);
+        $order = Order::create($order_data);
 
-        if($status){
+        Mail::to(Auth::user()->email)->cc('ahmadmaher@eshop.io')->send(new OrderConfirmation($order));
+
+        if($order){
             // Remove Coupon
             Session::forget('coupon');
             // Clear checkout info

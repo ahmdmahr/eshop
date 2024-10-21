@@ -35,7 +35,7 @@ class StoreCheckout1Request extends FormRequest
             'shipping_postcode' => 'nullable|string|max:10', 
             'shipping_address' => 'nullable|string|max:500',
             'notes'=>'nullable|string',
-            'sub_total'=>'nullable|numeric',
+            'subtotal'=>'nullable|numeric',
             'total'=>'nullable|numeric',
         ];
     }
