@@ -71,7 +71,7 @@
                                 </tr>
                                 <tr>
                                     <td>Save Amount</td>
-                                    <td>{{$couponValue}}</td>
+                                    <td>${{$couponValue}}</td>
                                 </tr>
                                 <tr>
                                     <td>Total</td>

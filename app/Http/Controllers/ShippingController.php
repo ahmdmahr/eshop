@@ -6,8 +6,8 @@ use App\Models\Shipping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreShippingRequest;
-use App\Http\Requests\UpdateShippingRequest;
+use App\Http\Requests\StoreShippingMethodRequest;
+use App\Http\Requests\UpdateShippingMethodRequest;
 
 class ShippingController extends Controller
 {
@@ -43,7 +43,7 @@ class ShippingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreShippingRequest $request)
+    public function store(StoreShippingMethodRequest $request)
     {
         $data = $request->validated();
 
@@ -82,7 +82,7 @@ class ShippingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateShippingRequest $request, string $id)
+    public function update(UpdateShippingMethodRequest $request, string $id)
     {
         $shipping = Shipping::find($id);
         if($shipping){

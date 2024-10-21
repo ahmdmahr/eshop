@@ -54,7 +54,7 @@
                                     <tbody>
                                         @foreach($shippings as $key=>$item)
                                         <tr>
-                                            <th scope="row">{{$item->shipping_address}}</th>
+                                            <th scope="row">{{$item->shipping_method}}</th>
                                             <td>{{$item->delivery_time}}</td>
                                             <td>${{$item->delivery_charge}}</td>
                                             <td>

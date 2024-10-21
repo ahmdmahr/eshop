@@ -108,7 +108,7 @@
                         </table>
                     </div>
                     <div class="checkout_pagination d-flex justify-content-end mt-3">
-                        <a href="checkout-4.html" class="btn btn-primary mt-2 ml-2 d-none d-sm-inline-block">Go Back</a>
+                        <a href="{{route('user.checkout3')}}" class="btn btn-primary mt-2 ml-2 d-none d-sm-inline-block">Go Back</a>
                         <button type="submit" class="btn btn-primary mt-2 ml-2">Confirm</a>
                     </div>
                     </form>

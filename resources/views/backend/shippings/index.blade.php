@@ -7,10 +7,10 @@
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Shipping Methods <a href="{{route('admin.shippings.create')}}" class="btn btn-sm btn-outline-secondary"><i class="icon-plus"></i> Create Shipping</a></h2>
+                    <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Shipping Methods <a href="{{route('admin.shippings.create')}}" class="btn btn-sm btn-outline-secondary"><i class="icon-plus"></i> Create Shipping Method</a></h2>
                     <ul class="breadcrumb float-left">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}"><i class="icon-home"></i></a></li>                            
-                        <li class="breadcrumb-item active">Shippings</li>
+                        <li class="breadcrumb-item active">Shippings Methods</li>
                     </ul>
                     <p class="float-right">Total Shippings:{{$shippings->count()}}</p>
                 </div>            
@@ -24,7 +24,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Shipping</strong> List</h2>
+                        <h2><strong>Shipping Methods</strong> List</h2>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
@@ -32,7 +32,7 @@
                                 <thead>
                                     <tr>
                                         <th>S.N</th>
-                                        <th>Shipping Address</th>
+                                        <th>Shipping Method</th>
                                         <th>Delivery Time</th>
                                         <th>Delivery Charge</th>
                                         <th>Status</th>
@@ -43,7 +43,7 @@
                                     @foreach ($shippings as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$item->shipping_address}}</td>
+                                        <td>{{$item->shipping_method}}</td>
                                         <td>{{$item->delivery_time}}</td>
                                         <td>${{$item->delivery_charge}}</td>
                                         <td>

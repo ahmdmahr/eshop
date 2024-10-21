@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreShippingRequest extends FormRequest
+class UpdateShippingMethodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,9 @@ class StoreShippingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'shipping_address'=>'string|required',
+            'shipping_method'=>'string|required',
             'delivery_time'=>'string|required',
             'delivery_charge'=>'numeric|nullable',
-            'status'=>'required|in:active,inactive'
         ];
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Requests\StoreCheckout1Request;
 
 class CheckoutController extends Controller
@@ -22,7 +23,7 @@ class CheckoutController extends Controller
     public function checkout1Store(StoreCheckout1Request $request){
         $data = $request->validated();
         Session::put('checkout',$data);
-        $shippings = Shipping::where('status','active')->orderBy('shipping_address','ASC')->get();
+        $shippings = Shipping::where('status','active')->orderBy('shipping_method','ASC')->get();
         return view('frontend.pages.checkout.checkout2',compact('shippings'));
     }
 
@@ -61,15 +62,17 @@ class CheckoutController extends Controller
 
     public function checkoutStore(){
 
-        // return Session::get('checkout');
+        // retu rn Session::get('checkout');
 
         $checkout = Session::get('checkout');
 
         $coupon = Session::get('coupon')[0] ?? 0;
 
+        $user_id = Auth::user()->id;
+
         // order related data
         $order_data = [
-            'user_id' => Auth::user()->id,
+            'user_id' => $user_id,
             'order_number' => Str::upper('ord-'.Str::random(6)),
             'coupon' => $coupon,
             'payment_method' => $checkout[1]['payment_method'],
@@ -97,15 +100,18 @@ class CheckoutController extends Controller
             'shipping_address' => $checkout['shipping_address']
         ];
         
-        // $user = User::find(Auth::user()->id);
-
-        // $user->update($user_data);
+        $user = User::where('id',$user_id)->update($user_data);
 
         $status = Order::create($order_data);
 
         if($status){
+            // Remove Coupon
             Session::forget('coupon');
+            // Clear checkout info
             Session::forget('checkout');
+            // Clear the cart
+            Cart::instance('shopping')->destroy();
+
             $order_id = $order_data['order_number'];
             return redirect()->route('user.checkout.complete',$order_id);
         }

@@ -30,6 +30,19 @@
     <!-- Checkout Area -->
     <div class="checkout_area section_padding_100">
         <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                </div>
+            </div>
             <form action="{{route('user.checkout1.store')}}" method="post">
                 @csrf
             <div class="row">
@@ -155,8 +168,7 @@ $('#customCheck1').on('change',function(e){
         $('#shipping_address').val($('#shipping_address').val());
         $('#shipping_city').val($('#shipping_city').val());
         $('#shipping_state').val($('#shipping_state').val());
-        $('#shipping_postcode').val($('#postcode').val());
-        $('#notes').val($('#notes').val());
+        $('#shipping_postcode').val($('#shipping_postcode').val());
     }
     else{
         $('#shipping_email').val("");
@@ -166,7 +178,6 @@ $('#customCheck1').on('change',function(e){
         $('#shipping_city').val("");
         $('#shipping_state').val("");
         $('#shipping_postcode').val("");
-        $('#notes').val("");
     }
 });
 </script>

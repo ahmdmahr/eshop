@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->string('shipping_address');
+            $table->string('shipping_method')->default('Standard');
             $table->string('delivery_time');
             $table->float('delivery_charge')->default(0);
             $table->enum('status',['active','inactive'])->default('active');
