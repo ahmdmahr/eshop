@@ -44,6 +44,7 @@ Route::get('/products/{product}', [FrontendHomeController::class, 'productDetail
 
 // Shop Section
 Route::get('shop',[FrontendHomeController::class,'shop'])->name('shop.index');
+Route::post('shop-filter',[FrontendHomeController::class,'shopFilter'])->name('shop.filter');
 
 
 // End of Frontend section

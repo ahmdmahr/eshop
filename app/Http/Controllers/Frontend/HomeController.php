@@ -88,7 +88,40 @@ class HomeController extends Controller
     }
 
     public function shop(Request $request){
-        $products = Product::where('status','active')->paginate(8);
-        return view('frontend.pages.products.shop',compact('products'));
+        $products = Product::query();
+
+        if(!empty($_GET['category'])){
+            $slugs = explode(',',$_GET['category']);
+            $categories_ids =  Category::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
+            $products = $products->whereIn('category_id',$categories_ids)->paginate(9);
+            // return $products;
+        }
+        else{
+           $products = Product::where('status','active')->paginate(9);
+        }
+
+        $categories = Category::where(['status' => 'active','is_parent' => 1])->orderBy('title','ASC')->get();
+        return view('frontend.pages.products.shop',compact('products','categories'));
+    }
+
+    public function shopFilter(Request $request){
+
+        // return dd($request->all());
+
+        $data = $request->all();
+
+        $categoryUrl = '';
+
+        if(!empty($data['category'])){
+            foreach($data['category'] as $category){
+                if(empty($categoryUrl)){
+                    $categoryUrl .= '&category=' . $category;
+                }
+                else{
+                    $categoryUrl .= ',' . $category;
+                }
+            }
+        }   
+        return redirect()->route('shop.index',$categoryUrl);
     }
 }
