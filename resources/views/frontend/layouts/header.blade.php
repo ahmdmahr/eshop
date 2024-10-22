@@ -69,7 +69,7 @@
                             <ul>
                                 <li><a href="{{route('home')}}">Home</a>
                                 </li>
-                                <li><a href="#">Shop</a>
+                                <li><a href="{{route('shop.index')}}">Shop</a>
                                 </li>
                                 <li><a href="#">Pages</a>
                                     <div class="megamenu">

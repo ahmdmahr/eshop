@@ -19,6 +19,7 @@ class HomeController extends Controller
         return view('frontend.index',compact(['banners','categories','new_products']));
     }
 
+
     public function categoryProducts(Request $request,$slug){
         // Product::with('images') this would retrieve all images along with their associated products in a single query using relationship in product model        
 
@@ -84,5 +85,10 @@ class HomeController extends Controller
         else{
             return 'Product not found';
         }
+    }
+
+    public function shop(Request $request){
+        $products = Product::where('status','active')->paginate(8);
+        return view('frontend.pages.products.shop',compact('products'));
     }
 }

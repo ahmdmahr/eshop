@@ -42,6 +42,9 @@ Route::get('/categories/{category}/products', [FrontendHomeController::class, 'c
 
 Route::get('/products/{product}', [FrontendHomeController::class, 'productDetails'])->name('products.details');
 
+// Shop Section
+Route::get('shop',[FrontendHomeController::class,'shop'])->name('shop.index');
+
 
 // End of Frontend section
 
@@ -136,4 +139,3 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
     Route::get('complete-checkout/{order}',[CheckoutController::class,'complete'])->name('checkout.complete');
 
 });
-

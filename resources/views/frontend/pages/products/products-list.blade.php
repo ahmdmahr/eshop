@@ -4,8 +4,15 @@
     <div class="single-product-area mb-30">
         <div class="product_image">
             <!-- Product Image -->
-            <img class="normal_img" src="{{$item->images->first()->url}}" alt="product photo">
-            <img class="hover_img"  src="{{$category->photo}}" alt="category photo">
+            @php
+                $images = [];
+                $i = 0;
+                foreach($item->images as $image){
+                    $images[$i++] = $image->url;
+                }
+            @endphp
+            <img class="normal_img" src="{{$images[0]}}" alt="product photo">
+            <img class="hover_img"  src="{{$images[1]}}" alt="category photo">
 
             <!-- Product Badge -->
             <div class="product_badge">
@@ -14,7 +21,7 @@
 
             <!-- Wishlist -->
             <div class="product_wishlist">
-                <a href="javascript:void(0);" class="add-to-wishlist" data-quantity="1" data-id="{{$item->id}}" id="add-to-wishlist-{{$item->id}}"><i class="icofont-heart"></i></a>
+                <a href="" class="add-to-wishlist" data-quantity="1" data-id="{{$item->id}}" id="add-to-wishlist-{{$item->id}}"><i class="icofont-heart"></i></a>
             </div>
 
             <!-- Compare -->
@@ -27,7 +34,7 @@
         <div class="product_description">
             <!-- Add to cart -->
             <div class="product_add_to_cart">
-                <a href="#" data-quantity="1" data-product-id="{{$item->id}}" class="add-to-cart" id="add-to-cart{{$item->id}}"><i class="icofont-shopping-cart"></i> Add to Cart</a>
+                <a href="" data-quantity="1" data-product-id="{{$item->id}}" class="add-to-cart" id="add-to-cart{{$item->id}}"><i class="icofont-shopping-cart"></i> Add to Cart</a>
             </div>
 
             <!-- Quick View -->
