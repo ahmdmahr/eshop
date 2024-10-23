@@ -92,7 +92,7 @@
 
 <section class="shop_grid_area section_padding_100">
     <div class="container">
-        <form action="{{route('shop.filter')}}" method="POST">
+        <form id="filterForm" action="{{route('shop.filter')}}" method="POST">
             @csrf
             <div class="row">
                     <div class="col-12 col-sm-5 col-md-4 col-lg-3">
@@ -222,38 +222,27 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
+                                @if(count($brands) > 0)
                                 <!-- Single Widget -->
                                 <div class="widget brands mb-30">
                                     <h6 class="widget-title">Filter by brands</h6>
                                     <div class="widget-desc">
-                                        <!-- Single Checkbox -->
-                                        <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck11">
-                                            <label class="custom-control-label" for="customCheck11">Zara <span class="text-muted">(213)</span></label>
-                                        </div>
-                                        <!-- Single Checkbox -->
-                                        <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck12">
-                                            <label class="custom-control-label" for="customCheck12">Gucci <span class="text-muted">(65)</span></label>
-                                        </div>
-                                        <!-- Single Checkbox -->
-                                        <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck13">
-                                            <label class="custom-control-label" for="customCheck13">Addidas <span class="text-muted">(70)</span></label>
-                                        </div>
-                                        <!-- Single Checkbox -->
-                                        <div class="custom-control custom-checkbox d-flex align-items-center mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck14">
-                                            <label class="custom-control-label" for="customCheck14">Nike <span class="text-muted">(104)</span></label>
-                                        </div>
+                                        @if(!empty($_GET['brand']))
+                                            @php
+                                                $filter_brands = explode(',',$_GET['brand']);
+                                            @endphp
+                                        @endif
+                                        @foreach($brands as $item)
                                         <!-- Single Checkbox -->
                                         <div class="custom-control custom-checkbox d-flex align-items-center">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck15">
-                                            <label class="custom-control-label" for="customCheck15">Denim <span class="text-muted">(71)</span></label>
+                                            <input type="checkbox" {{!empty($filter_brands) && in_array($item->slug,$filter_brands)?'checked':''}} class="custom-control-input" id="{{$item->slug}}" name="brand[]" value="{{$item->slug}}" onchange="this.form.submit();">
+                                            <label class="custom-control-label" for="{{$item->slug}}">{{$item->title}} <span class="text-muted">({{count($item->products)}})</span></label>
                                         </div>
+                                        @endforeach
                                     </div>
                                 </div>
+                                @endif
             
                                 <!-- Single Widget -->
                                 <div class="widget rating mb-30">
@@ -277,13 +266,21 @@
                                 <div class="widget size mb-30">
                                     <h6 class="widget-title">Filter by Size</h6>
                                     <div class="widget-desc">
-                                        <ul>
-                                            <li><a href="#">XS</a></li>
-                                            <li><a href="#">S</a></li>
-                                            <li><a href="#">M</a></li>
-                                            <li><a href="#">L</a></li>
-                                            <li><a href="#">XL</a></li>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a href="" onclick="setSizeAndSubmit('S'); return false;">S</a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="" onclick="setSizeAndSubmit('M'); return false;">M</a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="" onclick="setSizeAndSubmit('L'); return false;">L</a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="" onclick="setSizeAndSubmit('XL'); return false;">XL</a>
+                                            </li>
                                         </ul>
+                                        <input type="hidden" name="size" id="selectedSize" value="">
                                     </div>
                                 </div>
                             </div>
@@ -391,6 +388,13 @@
 
 
 @section('scripts')
+
+<script>
+    function setSizeAndSubmit(size) {
+        document.getElementById('selectedSize').value = size;
+        document.getElementById('filterForm').submit();
+    }
+</script>
 
 {{-- Price Slider --}}
 

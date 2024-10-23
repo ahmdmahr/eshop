@@ -14,4 +14,8 @@ class Brand extends Model
         'photo',
         'status'
     ];
+
+    public function products(){
+        return $this->hasMany(Product::class);
+    }
 }

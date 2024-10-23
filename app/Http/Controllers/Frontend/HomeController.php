@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Brand;
 use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
@@ -92,13 +93,22 @@ class HomeController extends Controller
         
         if(!empty($_GET['category'])){
             $slugs = explode(',',$_GET['category']);
-            $categories_ids =  Category::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
-            $products = $products->whereIn('category_id',$categories_ids);
-            // return $products;
+            $categories =  Category::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
+            $products = $products->whereIn('category_id',$categories);
+        }
+
+        if(!empty($_GET['brand'])){
+            $slugs = explode(',',$_GET['brand']);
+            $brands =  Brand::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
+            $products = $products->whereIn('brand_id',$brands);
+        }
+
+        $size = $_GET['size']??null;
+        if(!empty($size)){
+            $products = $products->where('size',$size);
         }
 
         $sortBy = $_GET['sortBy'] ?? null;
-
         if(!empty($sortBy)){
             if($sortBy == 'priceAsc'){
                 $products = $products->orderBy('offer_price','ASC');
@@ -133,7 +143,8 @@ class HomeController extends Controller
         $products = $products->paginate(9);
 
         $categories = Category::where(['status' => 'active','is_parent' => 1])->orderBy('title','ASC')->get();
-        return view('frontend.pages.products.shop',compact('products','categories'));
+        $brands = Brand::where('status','active')->orderBy('title','ASC')->get();
+        return view('frontend.pages.products.shop',compact('products','categories','brands'));
     }
 
     public function shopFilter(Request $request){
@@ -170,8 +181,25 @@ class HomeController extends Controller
             // dd($priceRangeUrl);
          }
 
-        //  dd($priceRangeUrl);
+        // Brand Filter 
+        $brandUrl = '';
+        if(!empty($data['brand'])){
+            foreach($data['brand'] as $brand){
+                if(empty($brandUrl)){
+                    $brandUrl .= '&brand=' . $brand;
+                }
+                else{
+                    $brandUrl .= ',' . $brand;
+                }
+            }
+        }
 
-        return redirect()->route('shop.index',$sortByUrl.$categoryUrl.$priceRangeUrl);
+        // Size Filter 
+        $sizeUrl = '';
+        if(!empty($data['size'])){
+            $sizeUrl .= '&size=' . $data['size'];
+        }
+
+        return redirect()->route('shop.index',$sortByUrl.$categoryUrl.$brandUrl.$priceRangeUrl.$sizeUrl);
     }
 }
