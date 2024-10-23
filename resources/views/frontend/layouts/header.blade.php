@@ -120,10 +120,43 @@
                         <div class="search-area">
                             <div class="search-btn"><i class="icofont-search"></i></div>
                             <!-- Form -->
-                            <div class="search-form">
-                                <input type="search" class="form-control" placeholder="Search">
-                                <input type="submit" class="d-none" value="Send">
-                            </div>
+                             <form action="{{route('products.search')}}" method="GET">
+                                <div class="search-form">
+                                    <input type="search" id="search_text" name="query" class="form-control" placeholder="Search">
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 5px;">
+                                        Search
+                                    </button>
+    
+                                    <style>
+                                        .search-area {
+                                            width: 100%;
+                                        }
+                                    
+                                        .search-form {
+                                            display: flex;
+                                            align-items: center;
+                                        }
+                                    
+                                        .form-control {
+                                            flex-grow: 1;
+                                            margin-right: 5px;
+                                            padding: 10px;
+                                        }
+                                    
+                                        .btn-primary {
+                                            background-color: blue;
+                                            color: white;
+                                            border: none;
+                                            padding: 10px 15px;
+                                            cursor: pointer;
+                                            display: flex; 
+                                            align-items: center; 
+                                            justify-content: center; 
+                                            height: 100%; 
+                                        }
+                                    </style>
+                                </div>
+                             </form>
                         </div>
                         @php
                             use App\Models\Product;

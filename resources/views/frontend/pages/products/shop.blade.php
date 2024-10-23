@@ -389,6 +389,9 @@
 
 @section('scripts')
 
+
+{{-- Size select --}}
+
 <script>
     function setSizeAndSubmit(size) {
         document.getElementById('selectedSize').value = size;

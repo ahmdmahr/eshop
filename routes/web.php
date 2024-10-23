@@ -46,6 +46,11 @@ Route::get('/products/{product}', [FrontendHomeController::class, 'productDetail
 Route::get('shop',[FrontendHomeController::class,'shop'])->name('shop.index');
 Route::post('shop-filter',[FrontendHomeController::class,'shopFilter'])->name('shop.filter');
 
+// search products with autocomplete
+Route::get('auto-search',[FrontendHomeController::class,'autoSearch'])->name('products.autosearch');
+
+Route::get('search',[FrontendHomeController::class,'searchProducts'])->name('products.search');
+
 
 // End of Frontend section
 

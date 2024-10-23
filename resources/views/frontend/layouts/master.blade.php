@@ -64,6 +64,32 @@
         });
     </script>
 
+    {{-- Autocomplete --}}
+
+    <script>
+        $(document).ready(function() {
+            var path = "{{ route('products.autosearch') }}";
+            $('#search_text').autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: path,
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error:", status, error);
+                        }
+                    });
+                },
+                minLength: 1
+            });
+        });
+    </script>
+
+
 </body>
 
 </html>

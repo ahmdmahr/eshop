@@ -202,4 +202,29 @@ class HomeController extends Controller
 
         return redirect()->route('shop.index',$sortByUrl.$categoryUrl.$brandUrl.$priceRangeUrl.$sizeUrl);
     }
+
+    public function autoSearch(Request $request){
+        // '' for put it as default is not defined.
+        $query = $request->get('term','');
+        $products = Product::where('title','LIKE','%'.$query.'%')->get();
+        $data = [];
+        $i = 0;
+        foreach($products as $product){
+            $data[$i++] = ['id'=>$product->id,'value'=>$product->title];
+        }
+        if(count($data)>0){
+            return $data;
+        }
+        else{
+            return ['id'=>'','value'=>"No Result Found!"];
+        }
+    }
+
+    public function searchProducts(Request $request){
+        $query = $request->input('query');
+        $products = Product::where('title','LIKE','%'.$query.'%')->orderBy('id','DESC')->paginate(9);
+        $categories = Category::where(['status' => 'active','is_parent' => 1])->orderBy('title','ASC')->get();
+        $brands = Brand::where('status','active')->orderBy('title','ASC')->get();
+        return view('frontend.pages.products.shop',compact('products','categories','brands'));
+    }
 }
