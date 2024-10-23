@@ -97,7 +97,7 @@ class HomeController extends Controller
             // return $products;
         }
 
-        $sortBy = $_GET['sortBy'];
+        $sortBy = $_GET['sortBy'] ?? null;
 
         if(!empty($sortBy)){
             if($sortBy == 'priceAsc'){
@@ -122,6 +122,12 @@ class HomeController extends Controller
             elseif($sortBy == 'titleDesc'){
                 $products = $products->orderBy('title','DESC');
             }
+        }
+
+        if(!empty($_GET['price'])){
+            // price = [min,max]
+            $price = explode('-',$_GET['price']);
+            $products = $products->whereBetween('offer_price',$price);
         }
 
         $products = $products->paginate(9);
@@ -153,9 +159,19 @@ class HomeController extends Controller
         // Sort Filter 
         $sortByUrl = '';
         if(!empty($data['sortBy'])){
-            $sortByUrl .= '&sortBy=' . $data['sortBy'];
+           $sortByUrl .= '&sortBy=' . $data['sortBy'];
         }
 
-        return redirect()->route('shop.index',$sortByUrl.$categoryUrl);
+         // Price Filter 
+         $priceRangeUrl = '';
+         if(!empty($data['min_price']) && !empty($data['max_price'])){
+            $price_range = $data['min_price'].'-'.$data['max_price'];
+            $priceRangeUrl .= '&price=' . $price_range;
+            // dd($priceRangeUrl);
+         }
+
+        //  dd($priceRangeUrl);
+
+        return redirect()->route('shop.index',$sortByUrl.$categoryUrl.$priceRangeUrl);
     }
 }

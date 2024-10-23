@@ -118,21 +118,78 @@
                                     </div>
                                 </div>
                                 @endif
-            
+
+                                @php
+                                    use App\Utilities\Helper;
+                                @endphp
+
                                 <!-- Single Widget -->
                                 <div class="widget price mb-30">
                                     <h6 class="widget-title">Filter by Price</h6>
-                                    <div class="widget-desc">
-                                        <div class="slider-range">
-                                            <div data-min="0" data-max="1350" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="0" data-value-max="1350" data-label-result="Price:">
-                                                <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
-                                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                                <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                        <div class="widget-desc">
+                                            <div class="slider-range">
+                                                @php
+                                                    $price = !empty($_GET['price']) ? explode('-', $_GET['price']) : [Helper::minPrice(), Helper::maxPrice()];
+                                                    $minPrice = $price[0];
+                                                    $maxPrice = $price[1];
+                                                @endphp
+                                                <div id="slider-range" 
+                                                    data-min="{{ Helper::minPrice() }}" 
+                                                    data-max="{{ Helper::maxPrice() }}" 
+                                                    data-unit="$" 
+                                                    class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
+                                                </div>
+                                    
+                                                <div class="d-flex mt-2 align-items-center justify-content-between">
+                                                    <input type="hidden" id="minPrice" name="min_price" value="{{ $minPrice }}">
+                                                    <input type="hidden" id="maxPrice" name="max_price" value="{{ $maxPrice }}">
+                                                    <div class="range-price mx-2">
+                                                        Price: $<span id="priceMin">{{ $minPrice }}</span> - $<span id="priceMax">{{ $maxPrice }}</span>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                                                </div>
                                             </div>
-                                            <div class="range-price">Price: 0 - 1350</div>
                                         </div>
                                     </div>
-                                </div>
+                                    {{-- CSS --}}
+                                    <style>
+                                                .widget {
+                                                    background-color: #f8f9fa;
+                                                    padding: 15px;
+                                                    border-radius: 5px;
+                                                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                                                }
+                                                
+                                                .slider-range-price {
+                                                    margin-bottom: 20px;
+                                                }
+                                                
+                                                .ui-slider-range {
+                                                    background: #007bff; /* Bootstrap primary color */
+                                                }
+                                                
+                                                .ui-slider-handle {
+                                                    background: #ffffff;
+                                                    border: 2px solid #007bff; /* Bootstrap primary color */
+                                                    width: 20px;
+                                                    height: 20px;
+                                                    cursor: pointer;
+                                                }
+                                                
+                                                .range-price {
+                                                    font-weight: bold;
+                                                    font-size: 1.1em;
+                                                    margin-right: auto; /* Pushes the button to the right */
+                                                }
+                                                
+                                                .btn {
+                                                    height: 30px; /* Match button height to the slider */
+                                                }
+                                                </style>
+                                    {{-- End of CSS --}}
             
                                 <!-- Single Widget -->
                                 <div class="widget color mb-30">
@@ -243,8 +300,8 @@
                                     <a href="shop-list-left-sidebar.html" data-toggle="tooltip" data-placement="top" title="List View"><i class="icofont-listine-dots"></i></a>
                                 </div>
                             </div>
-                            <select id="sortBy" name="sortBy" onchange="this.form.submit();" class="small right">
-                                <option >Default</option>
+                            <select  name="sortBy" value="discAsc" onchange="this.form.submit();" class="small right">
+                                <option value="" disabled {{ empty($_GET['sortBy']) ? 'selected' : '' }}>Default</option>
                                 <option value="priceAsc" {{!empty($_GET['sortBy']) && $_GET['sortBy'] == 'priceAsc'?'selected':''}} >Price - Lower to Higher</option>
                                 <option value="priceDesc" {{!empty($_GET['sortBy']) && $_GET['sortBy'] == 'priceDesc'?'selected':''}} >Price - Higher to Lower</option>
                                 <option value="titleAsc" {{!empty($_GET['sortBy']) && $_GET['sortBy'] == 'titleAsc'?'selected':''}} >Alphabetical Ascending</option>
@@ -282,7 +339,7 @@
 
                                                     <!-- Wishlist -->
                                                     <div class="product_wishlist">
-                                                        <a href="wishlist.html"><i class="icofont-heart"></i></a>
+                                                        <a href="" class="add-to-wishlist" data-quantity="1" data-id="{{$item->id}}" id="add-to-wishlist-{{$item->id}}"><i class="icofont-heart"></i></a>
                                                     </div>
 
                                                     <!-- Compare -->
@@ -295,7 +352,7 @@
                                                 <div class="product_description">
                                                     <!-- Add to cart -->
                                                     <div class="product_add_to_cart">
-                                                        <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
+                                                        <a href="" data-quantity="1" data-product-id="{{$item->id}}" class="add-to-cart" id="add-to-cart{{$item->id}}"><i class="icofont-shopping-cart"></i> Add to Cart</a>
                                                     </div>
 
                                                     <!-- Quick View -->
@@ -329,5 +386,153 @@
 
     </div>
 </section>
+
+@endsection
+
+
+@section('scripts')
+
+{{-- Price Slider --}}
+
+<script>
+    $(document).ready(function() {
+        // Get the min and max values from the data attributes
+        var minPrice = parseInt($("#minPrice").val());
+        var maxPrice = parseInt($("#maxPrice").val());
+    
+        // Get the slider's min and max values
+        var sliderMin = parseInt($("#slider-range").data("min"));
+        var sliderMax = parseInt($("#slider-range").data("max"));
+    
+        // Initialize the slider
+        $("#slider-range").slider({
+            range: true,
+            min: sliderMin,
+            max: sliderMax,
+            values: [minPrice, maxPrice],
+            slide: function(event, ui) {
+                // Update the hidden inputs and displayed price range
+                $("#minPrice").val(ui.values[0]);
+                $("#maxPrice").val(ui.values[1]);
+                $("#priceMin").text(ui.values[0]);
+                $("#priceMax").text(ui.values[1]);
+            }
+        });
+    
+        // Set initial values for the displayed price range
+        $("#priceMin").text(minPrice);
+        $("#priceMax").text(maxPrice);
+    });
+    </script>
+
+{{-- Add To Cart --}}
+<script>
+    $(document).on('click','.add-to-cart',function(e){
+        e.preventDefault();
+        var product_id = $(this).data('product-id');
+        var product_qty = $(this).data('quantity');
+
+        // alert(product_qty);
+
+        var token = "{{csrf_token()}}";
+        var path = "{{route('user.cart.store')}}";
+
+        $.ajax({
+            url:path,
+            type:"POST",
+            data:{
+                '_token':token,
+                'product_id':product_id,
+                'product_qty':product_qty
+            },
+            beforeSend:function(){
+                $('#add-to-cart'+product_id).html('<i class="fa fa-spinner fa-spin"></i> loading...');
+            },
+            complete:function(){
+                $('#add-to-cart'+product_id).html('<i class="fa fa-cart-plus"></i> Add to cart');
+            },
+            success:function(data){
+                // console.log(data);
+                if(data['status']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #cart_counter').html(data['cart_count']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
+</script>
+
+{{-- Add To Wishlist --}}
+<script>
+    $(document).on('click','.add-to-wishlist',function(e){
+        e.preventDefault();
+        var product_id = $(this).data('id');
+        var product_qty = $(this).data('quantity');
+
+        // alert(product_qty);
+
+        var token = "{{csrf_token()}}";
+        var path = "{{route('user.wishlist.store')}}";
+
+        $.ajax({
+            url:path,
+            type:"POST",
+            data:{
+                '_token':token,
+                'product_id':product_id,
+                'product_qty':product_qty
+            },
+            beforeSend:function(){
+                $('#add-to-wishlist-'+product_id).html('<i class="fa fa-spinner fa-spin"></i>');
+            },
+            complete:function(){
+                $('#add-to-wishlist-'+product_id).html('<i class="fas fa-heart"></i> Add to cart');
+            },
+            success:function(data){
+                // console.log(data);
+                if(data['status']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #wishlist_counter').html(data['wishlist_count']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                }
+                else if(data['exists']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #wishlist_counter').html(data['wishlist_count']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                    });
+                }
+                else{
+                    swal({
+                    title: "Sorry!",
+                    text: "You can't add that product",
+                    icon: "error",
+                    button: "Ok!",
+                    });
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
+</script>
 
 @endsection

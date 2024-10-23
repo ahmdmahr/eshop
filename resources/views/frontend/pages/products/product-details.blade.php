@@ -424,8 +424,9 @@
 
                             <!-- Wishlist -->
                             <div class="product_wishlist">
-                                <a href="wishlist.html"><i class="icofont-heart"></i></a>
+                                <a href="" class="add-to-wishlist" data-quantity="1" data-id="{{$item->id}}" id="add-to-wishlist-{{$item->id}}"><i class="icofont-heart"></i></a>
                             </div>
+
 
                             <!-- Compare -->
                             <div class="product_compare">
@@ -437,7 +438,7 @@
                         <div class="product_description">
                             <!-- Add to cart -->
                             <div class="product_add_to_cart">
-                                <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
+                                <a href="" data-quantity="1" data-product-id="{{$item->id}}" class="add-to-cart" id="add-to-cart{{$item->id}}"><i class="icofont-shopping-cart"></i> Add to Cart</a>
                             </div>
 
                             <!-- Quick View -->
@@ -458,5 +459,122 @@
     </div>
 </section>
 <!-- Related Products Area -->
+
+@endsection
+
+
+@section('scripts')
+
+
+
+{{-- Add To Cart --}}
+<script>
+    $(document).on('click','.add-to-cart',function(e){
+        e.preventDefault();
+        var product_id = $(this).data('product-id');
+        var product_qty = $(this).data('quantity');
+
+        // alert(product_qty);
+
+        var token = "{{csrf_token()}}";
+        var path = "{{route('user.cart.store')}}";
+
+        $.ajax({
+            url:path,
+            type:"POST",
+            data:{
+                '_token':token,
+                'product_id':product_id,
+                'product_qty':product_qty
+            },
+            beforeSend:function(){
+                $('#add-to-cart'+product_id).html('<i class="fa fa-spinner fa-spin"></i> loading...');
+            },
+            complete:function(){
+                $('#add-to-cart'+product_id).html('<i class="fa fa-cart-plus"></i> Add to cart');
+            },
+            success:function(data){
+                // console.log(data);
+                if(data['status']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #cart_counter').html(data['cart_count']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
+</script>
+
+{{-- Add To Wishlist --}}
+<script>
+    $(document).on('click','.add-to-wishlist',function(e){
+        e.preventDefault();
+        var product_id = $(this).data('id');
+        var product_qty = $(this).data('quantity');
+
+        // alert(product_qty);
+
+        var token = "{{csrf_token()}}";
+        var path = "{{route('user.wishlist.store')}}";
+
+        $.ajax({
+            url:path,
+            type:"POST",
+            data:{
+                '_token':token,
+                'product_id':product_id,
+                'product_qty':product_qty
+            },
+            beforeSend:function(){
+                $('#add-to-wishlist-'+product_id).html('<i class="fa fa-spinner fa-spin"></i>');
+            },
+            complete:function(){
+                $('#add-to-wishlist-'+product_id).html('<i class="fas fa-heart"></i> Add to cart');
+            },
+            success:function(data){
+                // console.log(data);
+                if(data['status']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #wishlist_counter').html(data['wishlist_count']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "success",
+                    button: "Ok!",
+                    });
+                }
+                else if(data['exists']){
+                    $('body #header-ajax').html(data['header']);
+                    $('body #wishlist_counter').html(data['wishlist_count']);
+                    swal({
+                    title: "Good job!",
+                    text: data['message'],
+                    icon: "warning",
+                    button: "Ok!",
+                    });
+                }
+                else{
+                    swal({
+                    title: "Sorry!",
+                    text: "You can't add that product",
+                    icon: "error",
+                    button: "Ok!",
+                    });
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    });
+</script>
 
 @endsection
