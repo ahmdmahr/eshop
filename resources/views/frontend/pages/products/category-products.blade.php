@@ -105,7 +105,7 @@
                         </div>
                     </div>
                     <select id="sortBy" name="sortBy" class="small right">
-                        <option selected>Default</option>
+                        <option>Default</option>
                         <option value="priceAsc" {{old('sortBy') == "priceAsc"?'selected':''}}>Price - Lower to Higher</option>
                         <option value="priceDesc" {{ old('sortBy') == 'priceDesc' ? 'selected' : '' }}>Price - Higher to Lower</option>
                         <option value="titleAsc" {{ old('sortBy') == 'titleAsc' ? 'selected' : '' }}>Alphabetical Ascending</option>

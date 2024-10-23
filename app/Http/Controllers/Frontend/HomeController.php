@@ -65,7 +65,7 @@ class HomeController extends Controller
             }
         }
 
-        $products = $products->paginate(4);
+        $products = $products->paginate(8);
 
 
         if($request->ajax()){
@@ -89,16 +89,42 @@ class HomeController extends Controller
 
     public function shop(Request $request){
         $products = Product::query();
-
+        
         if(!empty($_GET['category'])){
             $slugs = explode(',',$_GET['category']);
             $categories_ids =  Category::select('id')->whereIn('slug',$slugs)->pluck('id')->toArray();
-            $products = $products->whereIn('category_id',$categories_ids)->paginate(9);
+            $products = $products->whereIn('category_id',$categories_ids);
             // return $products;
         }
-        else{
-           $products = Product::where('status','active')->paginate(9);
+
+        $sortBy = $_GET['sortBy'];
+
+        if(!empty($sortBy)){
+            if($sortBy == 'priceAsc'){
+                $products = $products->orderBy('offer_price','ASC');
+            }
+            elseif($sortBy == 'priceDesc'){
+                $products = $products->orderBy('offer_price','DESC');
+            }
+            elseif($sortBy == 'discAsc'){
+                $products = $products->select('products.*') // Add other columns you need
+                ->selectRaw('price - offer_price AS price_difference')
+                ->orderBy('price_difference', 'ASC');
+            }
+            elseif($sortBy == 'discDesc'){
+                $products = $products->select('products.*') 
+                ->selectRaw('price - offer_price AS price_difference')
+                ->orderBy('price_difference', 'DESC');
+            }
+            elseif($sortBy == 'titleAsc'){
+                $products = $products->orderBy('title','ASC');
+            }
+            elseif($sortBy == 'titleDesc'){
+                $products = $products->orderBy('title','DESC');
+            }
         }
+
+        $products = $products->paginate(9);
 
         $categories = Category::where(['status' => 'active','is_parent' => 1])->orderBy('title','ASC')->get();
         return view('frontend.pages.products.shop',compact('products','categories'));
@@ -110,6 +136,7 @@ class HomeController extends Controller
 
         $data = $request->all();
 
+        // Category Filter
         $categoryUrl = '';
 
         if(!empty($data['category'])){
@@ -122,6 +149,13 @@ class HomeController extends Controller
                 }
             }
         }   
-        return redirect()->route('shop.index',$categoryUrl);
+
+        // Sort Filter 
+        $sortByUrl = '';
+        if(!empty($data['sortBy'])){
+            $sortByUrl .= '&sortBy=' . $data['sortBy'];
+        }
+
+        return redirect()->route('shop.index',$sortByUrl.$categoryUrl);
     }
 }
