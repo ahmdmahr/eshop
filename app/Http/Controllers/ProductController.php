@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Product;
-use App\Models\ProductImage; 
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductImage; 
+use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\AddAttributesRequest;
 use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
@@ -92,7 +94,14 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        // 
+        $product = Product::find($id);
+        $productAttributes = ProductAttribute::where('product_id',$id)->orderBy('id','DESC')->get();
+        if($product){
+            return view('backend.products.product-attributes',compact('product','productAttributes'));
+        }
+        else{
+            return back()->with('error','Product not found');
+        }
     }
 
     /**
@@ -178,6 +187,41 @@ class ProductController extends Controller
             
             if($status){
                 return redirect()->route('admin.products.index')->with('success','Product deleted successfully');
+            }
+            else{
+                return back()->with('error','Something went wrong');
+            }
+        }
+        else{
+            return back()->with('error','Data not found');
+        }
+    }
+
+    //Enable AddAttributesRequest later
+    public function addAttributes(Request $request,$id){
+        // return $request->all();
+        $data = $request->all();
+        foreach($data['price'] as $key => $price){
+            $attributes = [];
+
+            $attributes['product_id'] = $id;
+            $attributes['size'] = $data['size'][$key];
+            $attributes['price'] = $price;
+            $attributes['offer_price'] = $data['offer_price'][$key];
+            $attributes['stock'] = $data['stock'][$key];
+
+            ProductAttribute::create($attributes);
+        }
+        return redirect()->back()->with('success','Products attributes added successfully!');
+    }
+
+    public function deleteAttribute($product_id,$attribute_id){
+        $productAttribute = ProductAttribute::find($attribute_id);
+        if($productAttribute){
+            $status = $productAttribute->delete();
+            
+            if($status){
+                return redirect()->route('admin.products.show',$product_id)->with('success','Product  attribute deleted successfully');
             }
             else{
                 return back()->with('error','Something went wrong');

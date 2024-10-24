@@ -70,9 +70,11 @@
                                             data-onstyle="success" data-offstyle="danger">
                                         </td>
                                         <td>
-                                            <a href="{{route('admin.products.edit',$item->id)}}" data-toggle="tooltip" class="btn btn-sm btn-outline-primary mr-2" title="view" data-placement="bottom"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('admin.products.show',$item->id)}}" data-toggle="tooltip" class="btn btn-sm btn-outline-secondary mr-2" title="add attribute" data-placement="bottom"><i class="fas fa-plus-circle"></i></a>
 
-                                            <a href="#" data-toggle="modal" data-target="#productID{{$item->id}}"  data-toggle="tooltip" class="btn btn-sm btn-outline-secondary mr-2" title="edit" data-placement="bottom"><i class="fas fa-eye"></i></a>
+                                            <a href="#" data-toggle="modal" data-target="#productID{{$item->id}}"  data-toggle="tooltip" class="btn btn-sm btn-outline-info mr-2" title="edit" data-placement="bottom"><i class="fas fa-eye"></i></a>
+
+                                            <a href="{{route('admin.products.edit',$item->id)}}" data-toggle="tooltip" class="btn btn-sm btn-outline-primary mr-2" title="view" data-placement="bottom"><i class="fas fa-edit"></i></a>
 
                                             <form  action="{{route('admin.products.destroy',$item->id)}}" method="POST" class="d-inline">
                                                 @csrf

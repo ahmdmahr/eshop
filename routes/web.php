@@ -80,6 +80,10 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
     Route::resource('products',ProductController::class);
     Route::post('productstatus',[ProductController::class,'changeStatus'])->name('products.status');
 
+    // Product attribute Section
+    Route::post('products/{product}/attributes',[ProductController::class,'addAttributes'])->name('products.attributes.add');
+    Route::delete('products/{product}/attributes/{attribute}', [ProductController::class, 'deleteAttribute'])->name('products.attributes.delete');
+
      // User Section
      Route::resource('users',UserController::class);
      Route::post('userstatus',[UserController::class,'changeStatus'])->name('users.status');

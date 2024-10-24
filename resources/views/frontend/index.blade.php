@@ -154,7 +154,6 @@
                 <div class="new_arrivals_slides owl-carousel">
                     <!-- Single Product -->
                     @foreach ($new_products as $item)
-                    
                     <div class="single-product-area">
                         <div class="product_image">
                             <!-- Product Image -->
