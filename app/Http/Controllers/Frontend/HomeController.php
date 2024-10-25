@@ -7,6 +7,7 @@ use App\Models\Banner;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Models\ProductAttribute;
 use App\Http\Controllers\Controller;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -78,10 +79,15 @@ class HomeController extends Controller
         return view('frontend.pages.products.category-products',compact(['category','products']));
     }
 
-    public function productDetails($slug){
+    public function productDetails(Request $request,$slug){
+        // return $request->all();
         $product = Product::with('related_products')->where('slug',$slug)->first();
+        $size = $request->input('size')??null;
+        $attribute = null;
+        if($size)
+          $attribute = ProductAttribute::where(['product_id'=>$product->id,'size'=>$size])->first();
         if($product){
-            return view('frontend.pages.products.product-details',compact(['product']));
+            return view('frontend.pages.products.product-details',compact(['product','size','attribute']));
         }
         else{
             return 'Product not found';

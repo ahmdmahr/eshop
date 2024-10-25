@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('summary');
-            $table->text('description');
+            $table->longText('description');
+            $table->longText('additional_info');
+            $table->longText('return_and_cancellation');
             $table->integer('stock')->default(0);
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('category_id');

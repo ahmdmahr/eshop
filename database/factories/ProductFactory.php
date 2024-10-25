@@ -25,7 +25,9 @@ class ProductFactory extends Factory
             'title'=>$this->faker->word(),
             'slug'=>$this->faker->unique()->slug(),
             'summary'=>$this->faker->text(),
-            'description'=>$this->faker->paragraph(),
+            'description'=>implode("\n\n", $this->faker->paragraphs(3)), // 3 paragraphs joined with double line breaks
+            'additional_info'=>implode("\n\n", $this->faker->paragraphs(5)),
+            'return_and_cancellation'=>implode("\n\n", $this->faker->paragraphs(5)),
             'stock'=>$this->faker->numberBetween(0,100),
             'brand_id'=>$this->faker->randomElement(Brand::pluck('id')->toArray()),
             'category_id'=>$this->faker->randomElement(Category::pluck('id')->toArray()),
@@ -45,7 +47,7 @@ class ProductFactory extends Factory
     {
         return $this->afterCreating(function (Product $product) {
             // Create associated ProductImages
-            ProductImage::factory()->count(4)->create([
+            ProductImage::factory()->count(5)->create([
                 'product_id' => $product->id,
             ]);
         });

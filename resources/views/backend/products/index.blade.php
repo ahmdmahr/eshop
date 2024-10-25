@@ -101,8 +101,11 @@
                                                 {{-- {{ }} syntax automatically escapes output to prevent XSS attacks, which means that HTML entities won't be decoded as you expect. To decode HTML entities while still outputting them safely, you should use the {!! !!} syntax. --}}
                                                 <p>{!!html_entity_decode($item->summary)!!}</p>
 
-                                                <strong>Description:</strong>
-                                                <p>{!!html_entity_decode($item->description)!!}</p>
+                                                <strong>Additional Info:</strong>
+                                                <p>{!!html_entity_decode($item->additional_info)!!}</p>
+
+                                                <strong>Return & Cancellation:</strong>
+                                                <p>{!!html_entity_decode($item->return_and_cancellation)!!}</p>
 
                                                 <div class="row">
                                                     <div class="col-md-4">

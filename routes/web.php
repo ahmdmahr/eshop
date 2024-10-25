@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
@@ -48,8 +49,10 @@ Route::post('shop-filter',[FrontendHomeController::class,'shopFilter'])->name('s
 
 // search products with autocomplete
 Route::get('auto-search',[FrontendHomeController::class,'autoSearch'])->name('products.autosearch');
-
 Route::get('search',[FrontendHomeController::class,'searchProducts'])->name('products.search');
+
+// Product review
+Route::post('products/{product}/review',[ReviewController::class,'store'])->name('products.review');
 
 
 // End of Frontend section

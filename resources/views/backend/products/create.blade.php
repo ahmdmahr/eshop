@@ -55,6 +55,18 @@
                             </div>
                             <div class="col-lg-12 col-md-12">
                                 <div class="form-group">
+                                    <lable for="">Additonal Info</lable>
+                                    <textarea id="additional_info" name="additional_info" class="form-control" placeholder="Write some text...">{{old('additional_info')}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group">
+                                    <lable for="">Retrun & Cancellation</lable>
+                                    <textarea id="return_and_cancellation" name="return_and_cancellation" class="form-control" placeholder="Write some text...">{{old('return_and_cancellation')}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <div class="form-group">
                                     <lable for=""> Stock <span class="text-danger">*</span></lable>
                                     <input type="number" class="form-control" placeholder="Stock" name="stock" value="{{old('stock')}}">
                                 </div>
@@ -163,6 +175,19 @@
       $('#summary').summernote();
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+      $('#additional_info').summernote();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+      $('#return_and_cancellation').summernote();
+    });
+</script>
+
 <script>
     $('#category_id').change(function(){
             var category_id=$(this).val();

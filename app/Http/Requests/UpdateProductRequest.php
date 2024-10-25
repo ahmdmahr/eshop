@@ -25,6 +25,8 @@ class UpdateProductRequest extends FormRequest
             'title'=>'required|string',
             'summary'=>'required|string',
             'description'=>'nullable|string',
+            'additional_info'=>'nullable|string',
+            'return_and_cancellation'=>'nullable|string',
             'stock'=>'required|integer',
             'price'=>'required|numeric',
             'discount'=>'nullable|numeric',

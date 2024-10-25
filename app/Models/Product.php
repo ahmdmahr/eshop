@@ -15,6 +15,8 @@ class Product extends Model
        'image',
        'summary',
        'description',
+       'additional_info',
+       'return_and_cancellation',
        'stock',
        'brand_id',
        'category_id',
@@ -40,6 +42,16 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
     public function related_products(){
