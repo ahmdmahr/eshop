@@ -12,6 +12,10 @@
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
                     <li>
+                        <a href="{{route('home')}}" target="_blank"
+                        class="icon-menu d-none d-sm-block"><i class="icon-home"></i></a>
+                    </li>
+                    <li>
                         <a href="app-chat.html" class="icon-menu d-none d-sm-block"><i class="icon-bubbles"></i></a>
                     </li>
                     <li>

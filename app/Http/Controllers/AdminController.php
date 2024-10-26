@@ -14,7 +14,7 @@ class AdminController extends Controller
         $categories = Category::where('status','active')->get();
         $products = Product::where('status','active')->get();
         $customers = User::where(['status'=>'active','role'=>'customer'])->get();
-        $orders = Order::get();
+        $orders = Order::orderBy('id','DESC')->get();
         return view('backend.index',compact('categories','products','customers','orders'));
     }
 }

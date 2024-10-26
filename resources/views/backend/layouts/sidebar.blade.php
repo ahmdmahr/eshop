@@ -55,7 +55,7 @@
                     </ul>
                 </li>
 
-                <li><a href="app-inbox.html"><i class="icon-layers"></i>Order Management</a></li>
+                <li><a href="{{route('admin.orders.index')}}"><i class="icon-layers"></i>Order Management</a></li>
 
 
                 <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-sitemap"></i><span>Post Category</span> </a>

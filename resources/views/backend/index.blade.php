@@ -76,34 +76,55 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th style="width:60px;">S.N</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Payment method</th>
-                                        <th>Order status</th>
-                                        <th>Total</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($orders as $item)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{item->user->full_name}}</td>
-                                        <td>{{$item->user->email}}</td>
-                                        <td>{{$item->payment_method}}</td>
-                                        <td>{{$item->payment_status}}</td>
-                                        <td>${{$item->total}}</td>
-                                        <td>###</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        @if(count($orders)>0)
+                            <div class="table-responsive">
+                                <table class="table  table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:60px;">S.N</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Payment method</th>
+                                            <th>payment status</th>
+                                            <th>Total</th>
+                                            <th>Condition</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($orders as $item)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$item->user->full_name}}</td>
+                                            <td>{{$item->user->email}}</td>
+                                            <td>{{$item->payment_method}}</td>
+                                            <td>{{ucfirst($item->payment_status)}}</td>
+                                            <td>${{$item->total}}</td>
+                                            @php
+                                                $badge = match($item->condition) {
+                                                  'pending' => 'badge-info',
+                                                  'processing' => 'badge-primary',
+                                                  'delivered' => 'badge-success',
+                                                   default => 'badge-danger',
+                                                 };
+                                            @endphp
+                                            <td><span class="badge {{$badge}}">{{$item->condition}}</span></td>
+                                            <td>
+                                                <a href="{{route('admin.orders.show',$item->id)}}" data-toggle="tooltip" class="btn btn-sm btn-outline-primary mr-2" title="view" data-placement="bottom"><i class="fas fa-eye"></i></a>
+                                                <form  action="{{route('admin.orders.destroy',$item->id)}}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <a href="" data-toggle="tooltip" class="  dltBtn btn btn-sm btn-outline-danger" title="delete" data-id="{{$item->id}}" data-placement="bottom"><i class="fas fa-trash-alt "></i></a>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                           <p>No orders found!</p>
+                        @endif
                     </div>
                 </div>
             </div>

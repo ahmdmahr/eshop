@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Shipping;
+use App\Models\OrderItem;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\OrderConfirmation;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +16,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Http\Requests\StoreCheckout1Request;
-use App\Mail\OrderConfirmation;
 
 class CheckoutController extends Controller
 {
@@ -107,6 +109,11 @@ class CheckoutController extends Controller
         $order = Order::create($order_data);
 
         Mail::to(Auth::user()->email)->cc('ahmadmaher@eshop.io')->send(new OrderConfirmation($order));
+
+        foreach(Cart::instance('shopping')->content() as $item){
+            $product = Product::find($item->id);
+            OrderItem::create(['order_id'=>$order->id,'product_id'=>$product->id,'price'=>$product->offer_price,'quantity'=>$item->qty]);
+        }
 
         if($order){
             // Remove Coupon
