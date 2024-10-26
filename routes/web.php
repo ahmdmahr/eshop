@@ -1,25 +1,15 @@
 <?php
 namespace App;
 
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
-use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\VendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,86 +23,25 @@ use App\Http\Controllers\VendorController;
 */
 
 
-
-// Main frontend Section
-
-Route::get('/',[FrontendHomeController::class,'home'])->name('home');
-
-
-Route::get('/categories/{category}/products', [FrontendHomeController::class, 'categoryProducts'])->name('category.products');
-
-Route::get('/products/{product}', [FrontendHomeController::class, 'productDetails'])->name('products.details');
-
-// Shop Section
-Route::get('shop',[FrontendHomeController::class,'shop'])->name('shop.index');
-Route::post('shop-filter',[FrontendHomeController::class,'shopFilter'])->name('shop.filter');
-
-// search products with autocomplete
-Route::get('auto-search',[FrontendHomeController::class,'autoSearch'])->name('products.autosearch');
-Route::get('search',[FrontendHomeController::class,'searchProducts'])->name('products.search');
-
-// Product review
-Route::post('products/{product}/review',[ReviewController::class,'store'])->name('products.review');
-
-
-// End of Frontend section
-
 Auth::routes();
 
-
-// Admin Section
-Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],function(){
-
-    Route::get('',[AdminController::class,'index'])->name('dashboard');
+// Home page Section
+Route::get('/',[HomeController::class,'home'])->name('home');
 
 
-    // Banner Section
-    Route::resource('banners',BannerController::class);
-    Route::post('bannerstatus',[BannerController::class,'changeStatus'])->name('banners.status');
+Route::get('/categories/{category}/products', [HomeController::class, 'categoryProducts'])->name('category.products');
 
-    // Category Section
-    Route::resource('categories',CategoryController::class);
-    Route::post('categorystatus',[CategoryController::class,'changeStatus'])->name('categories.status');
-    Route::get('categories/{id}/child',[CategoryController::class,'getChildByParentID'])->name('categories.getchild');
+Route::get('/products/{product}', [HomeController::class, 'productDetails'])->name('products.details');
 
-    // Brand Section
-    Route::resource('brands',BrandController::class);
-    Route::post('brandstatus',[BrandController::class,'changeStatus'])->name('brands.status');
+Route::get('shop',[HomeController::class,'shop'])->name('shop.index');
+Route::post('shop-filter',[HomeController::class,'shopFilter'])->name('shop.filter');
 
-    // Product Section
-    Route::resource('products',ProductController::class);
-    Route::post('productstatus',[ProductController::class,'changeStatus'])->name('products.status');
+Route::get('auto-search',[HomeController::class,'autoSearch'])->name('products.autosearch');
+Route::get('search',[HomeController::class,'searchProducts'])->name('products.search');
 
-    // Product attribute Section
-    Route::post('products/{product}/attributes',[ProductController::class,'addAttributes'])->name('products.attributes.add');
-    Route::delete('products/{product}/attributes/{attribute}', [ProductController::class, 'deleteAttribute'])->name('products.attributes.delete');
-
-     // User Section
-     Route::resource('users',UserController::class);
-     Route::post('userstatus',[UserController::class,'changeStatus'])->name('users.status');
-
-      // Coupon Section
-      Route::resource('coupons',CouponController::class);
-      Route::post('couponstatus',[CouponController::class,'changeStatus'])->name('coupons.status');
-
-      // Shipping Section
-      Route::resource('shippings',ShippingController::class);
-      Route::post('shippingstatus',[ShippingController::class,'changeStatus'])->name('shipping.status');
-});
-
-
-// Vendor Section
-Route::group(['prefix'=>'vendor','middleware'=>['auth','vendor'],'as'=>'vendor.'],function(){
-
-    Route::get('',[VendorController::class,'index'])->name('dashboard');
-
-});
-
-
-// User Section
 
 Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
-    // Main Info Section
+    // User Info Section
     Route::get('dashboard',[AccountController::class,'dashboard'])->name('dashboard');
 
     Route::get('orders',[AccountController::class,'ordersList'])->name('orders.show');
@@ -126,7 +55,6 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
     Route::put('account/{user}',[AccountController::class,'updateAccount'])->name('account.update');
 
     // Cart Section
-
     Route::resource('cart',CartController::class);
 
     // Coupon Section
@@ -150,5 +78,8 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
     Route::post('checkout',[CheckoutController::class,'checkoutStore'])->name('checkout.store');
 
     Route::get('complete-checkout/{order}',[CheckoutController::class,'complete'])->name('checkout.complete');
+
+    // Review Section
+    Route::post('products/{product}/review',[ReviewController::class,'store'])->name('products.review');
 
 });
