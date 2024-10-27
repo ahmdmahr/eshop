@@ -1,3 +1,7 @@
+@php
+    use App\Models\Settings;
+    $currrent_settings = Settings::first();
+@endphp
 <nav class="navbar navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-btn">
@@ -5,7 +9,7 @@
         </div>
 
         <div class="navbar-brand">
-            <a href="{{route('admin.dashboard')}}"><img src="{{asset('frontend/img/core-img/logo.png')}}" alt="Lucid Logo" class="img-responsive logo"></a>                
+            <a href="{{route('admin.dashboard')}}"><img src="{{$currrent_settings->logo}}" alt="{{$currrent_settings->title}} Logo" class="img-responsive logo"></a>                
         </div>
         
         <div class="navbar-right">

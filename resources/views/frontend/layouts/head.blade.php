@@ -1,14 +1,19 @@
+@php
+    use App\Models\Settings;
+    $currrent_settings = Settings::first();
+@endphp
 <meta charset="UTF-8">
-    <meta name="description" content="">
+    <meta name="description" content="{{$currrent_settings->meta_description}}">
+    <meta name="author" content="Ahmed Maher">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Eshop</title>
+    <title>{{$currrent_settings->title}}</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="{{asset('frontend/img/core-img/icon.jpg')}}" type="image/x-icon">
+    <link rel="icon" href="{{$currrent_settings->favicon}}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{asset('frontend/assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/assets/css/classy-nav.min.css')}}">

@@ -114,7 +114,7 @@
                     </ul>
                 </li>
 
-                <li><a href="app-inbox.html"><i class="icon-settings"></i>Setting</a></li>
+                <li><a href="{{route('admin.settings')}}"><i class="icon-settings"></i>Settings</a></li>
 
             </ul>
         </nav>

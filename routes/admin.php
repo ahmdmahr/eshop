@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
 
@@ -59,4 +60,10 @@ Route::delete('products/{product}/attributes/{attribute}', [ProductController::c
   // Order Section
   Route::resource('orders',OrderController::class);
   Route::post('ordercondition',[OrderController::class,'changeCondition'])->name('orders.condition');
+
+  // Settings Section
+  Route::get('settings',[SettingsController::class,'settings'])->name('settings');
+  Route::put('settings',[SettingsController::class,'update'])->name('settings.update');
+
+  
 });

@@ -4,10 +4,14 @@
             <div class="row h-100 align-items-center">
                 <div class="col-6">
                     <div class="welcome-note">
+                        @php
+                            use App\Models\Settings;
+                            $currrent_settings = Settings::first();
+                        @endphp
                         <span class="popover--text" data-toggle="popover"
                             data-content="Welcome to Bigshop ecommerce template."><i
                                 class="icofont-info-square"></i></span>
-                        <span class="text">Welcome to eshop.io</span>
+                        <span class="text">Welcome to {{$currrent_settings->title}}</span>
                     </div>
                 </div>
                 <div class="col-6">
@@ -63,7 +67,7 @@
                 <nav class="classy-navbar" id="bigshopNav">
 
                     <!-- Nav Brand -->
-                    <a href="{{url('/')}}" class="nav-brand"><img src="frontend/img/core-img/logo.png" style="max-height:100px;max-width:100px" alt="logo"></a>
+                    <a href="{{url('/')}}" class="nav-brand"><img src="{{$currrent_settings->logo}}" style="max-height:100px;max-width:100px" alt="logo"></a>
 
                     <!-- Toggler -->
                     <div class="classy-navbar-toggler">

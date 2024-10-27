@@ -1,11 +1,15 @@
-<title>Multivendor ecommerce</title>
+@php
+    use App\Models\Settings;
+    $currrent_settings = Settings::first();
+@endphp
+<title>{{$currrent_settings->title}}</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<meta name="description" content="Lucid Bootstrap 4.1.1 Admin Template">
-<meta name="author" content="WrapTheme, design by: ThemeMakker.com">
+<meta name="description" content="{{$currrent_settings->meta_description}}">
+<meta name="author" content="Ahmed Maher">
 
-<link rel="icon" href="{{asset('backend/assets/images/icon.jpg')}}" type="image/x-icon">
+<link rel="icon" href="{{$currrent_settings->favicon}}" type="image/x-icon">
 <!-- VENDOR CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
 <link rel="stylesheet" href="{{asset('backend/assets/vendor/bootstrap/css/bootstrap.min.css')}}">
