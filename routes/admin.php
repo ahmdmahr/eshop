@@ -8,6 +8,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\UserController;
@@ -50,6 +51,10 @@ Route::delete('products/{product}/attributes/{attribute}', [ProductController::c
   // Shipping Section
   Route::resource('shippings',ShippingController::class);
   Route::post('shippingstatus',[ShippingController::class,'changeStatus'])->name('shippings.status');
+
+  // Currency Section
+  Route::resource('currencies',CurrencyController::class);
+  Route::post('currenciestatus',[CurrencyController::class,'changeStatus'])->name('currencies.status');
 
   // Order Section
   Route::resource('orders',OrderController::class);

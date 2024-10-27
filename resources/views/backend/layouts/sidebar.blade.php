@@ -55,6 +55,13 @@
                     </ul>
                 </li>
 
+                <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-money-bill-alt"></i><span>Currencies Management</span> </a>
+                    <ul>
+                        <li><a href="{{route('admin.currencies.index')}}">All currencies</a></li>
+                        <li><a href="{{route('admin.currencies.create')}}">Add Currency</a></li>
+                    </ul>
+                </li>
+
                 <li><a href="{{route('admin.orders.index')}}"><i class="icon-layers"></i>Order Management</a></li>
 
 
