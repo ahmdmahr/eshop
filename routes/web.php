@@ -4,6 +4,7 @@ namespace App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
@@ -24,6 +25,8 @@ use App\Http\Controllers\ReviewController;
 
 
 Auth::routes();
+
+Route::post('currency_load',[CurrencyController::class,'currencyLoad'])->name('currencies.load');
 
 // Home page Section
 Route::get('/',[HomeController::class,'home'])->name('home');

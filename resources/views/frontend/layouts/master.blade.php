@@ -89,6 +89,27 @@
         });
     </script>
 
+    <script>
+        function change_currency(currency_code){
+            // alert(currency_code);
+            $.ajax({
+                type:'POST',
+                url: '{{route('currencies.load')}}',
+                data: {
+                    '_token':'{{csrf_token()}}',
+                    'currency_code':currency_code
+                },
+                success:function(response){
+                    if(response['status']){
+                        location.reload();
+                    }
+                    else{
+                        alert('server error');
+                    }
+                }
+            });
+        }
+    </script>
 
 </body>
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCurrencyRequest;
-use App\Http\Requests\UpdateCurrencyRequest;
 use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreCurrencyRequest;
+use App\Http\Requests\UpdateCurrencyRequest;
 
 class CurrencyController extends Controller
 {
@@ -119,5 +119,13 @@ class CurrencyController extends Controller
         else{
             return back()->with('error','Data not found');
         }
+    }
+
+    public function currencyLoad(Request $request){
+        $currency_code = $request->input('currency_code');
+        $currency = Currency::where('code',$currency_code)->first();
+        session()->put('currency_data',$currency);
+        $response['status'] = true;
+        return $response;
     }
 }

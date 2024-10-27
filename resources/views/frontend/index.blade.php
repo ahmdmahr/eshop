@@ -199,7 +199,12 @@
 
                             <p class="brand_name">{{$item->brand->title}}</p>
                             <a href="{{route('products.details',$item->slug)}}">{{$item->title}}</a>
-                            <h6 class="product-price">{{$item->offer_price}}$ <small><del class="text-danger">{{$item->price}}$</del></small></h6>
+                            @php
+                                $price = \App\Utilities\Helper::currency_conventer($item->price);
+                                $offer_price = \App\Utilities\Helper::currency_conventer($item->offer_price);
+                                $symbol = session('system_default_currency_info')->symbol;
+                            @endphp
+                            <h6 class="product-price">{{$offer_price}}{{$symbol}} <small><del class="text-danger">{{$price}}{{$symbol}}</del></small></h6>
                         </div>
                     </div>
 

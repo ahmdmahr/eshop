@@ -160,7 +160,12 @@
                     @if($size != null)
                        <h4 class="price mb-4">${{$attribute->offer_price}} <span>${{$attribute->price}}</span></h4>
                     @else
-                       <h4 class="price mb-4">${{$product->offer_price}} <span>${{$product->price}}</span></h4>
+                        @php
+                        $price = \App\Utilities\Helper::currency_conventer($product->price);
+                        $offer_price = \App\Utilities\Helper::currency_conventer($product->offer_price);
+                        $symbol = session('system_default_currency_info')->symbol;
+                        @endphp
+                        <h6 class="product-price">{{$offer_price}}{{$symbol}} <small><del class="text-danger">{{$price}}{{$symbol}}</del></small></h6>
                     @endif
 
                     <!-- Overview -->

@@ -25,15 +25,28 @@
                             </div>
                         </div>
 
+                        @php
+                            use App\Models\Currency;
+                            $currencies = Currency::where('status','active')->get();
+                            \App\Utilities\Helper::currency_load();
+                            $current_currency = session('currency_data');
+                            if(empty($current_currency)){
+                                $current_currency = session('system_default_currency_info');
+                            }
+                            // echo count($currencies);
+                        @endphp
                         <!-- Currency Dropdown -->
                         <div class="currency-dropdown">
                             <div class="dropdown">
                                 <a class="btn btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenu2"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    $ USD
+                                    {{$current_currency->symbol}} {{$current_currency->code}}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
-                                    <a class="dropdown-item" href="#">€ Euro</a>
+                                    
+                                    @foreach ($currencies as $item)
+                                    <a class="dropdown-item" href="javascript:;" onclick="change_currency('{{$item->code}}');">{{$item->symbol}} {{$item->code}}</a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
