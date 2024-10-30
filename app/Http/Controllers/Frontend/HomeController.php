@@ -16,9 +16,10 @@ class HomeController extends Controller
     public function home(){
         $banners = Banner::where(['status'=>'active','condition'=>'banner'])->orderBy('id','DESC')->limit(4)->get();
         $categories = Category::where(['status'=>'active','is_parent'=>1])->orderBy('id','DESC')->limit(3)->get();
-        $new_products = Product::where(['status'=>'active','condition'=>'new'])->orderBy('id','DESC')->limit(10)->get();
+        $new_products = Product::where(['status'=>'active','condition'=>'new'])->orderBy('id','DESC')->limit(12)->get();
+        $featured_products = Product::where(['status'=>'active','condition'=>'popular'])->orderBy('id','DESC')->limit(6)->get();
         // dd($new_products);
-        return view('frontend.index',compact(['banners','categories','new_products']));
+        return view('frontend.index',compact(['banners','categories','new_products','featured_products']));
     }
 
 

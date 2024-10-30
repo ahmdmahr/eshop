@@ -221,16 +221,19 @@
                     
 
                     <!-- Add to Cart Form -->
-                    <form class="cart clearfix my-5 d-flex flex-wrap align-items-center" method="post">
-                        <div class="quantity">
-                            <input type="number" class="qty-text form-control" id="qty2" step="1" min="1" max="12" name="quantity" value="1">
-                        </div>
-                        <button type="submit" name="addtocart" value="5" class="btn btn-primary mt-1 mt-md-0 ml-1 ml-md-3">Add to cart</button>
-                    </form>
+                        <div class="d-flex align-items-center">
+                            <div class="quantity me-2">
+                                <input type="number" class="qty-text form-control" id="qty2" step="1" min="1" max="12" name="quantity" value="1" style="width: 70px;">
+                            </div>
+                            <a href="#" data-quantity="1" data-product-id="{{$product->id}}" class="add-to-cart btn btn-primary">
+                                <i class="icofont-shopping-cart"></i> Add to Cart
+                            </a>
+                        </div>   
+                        <br>
 
                     <!-- Others Info -->
                     <div class="others_info_area mb-3 d-flex flex-wrap">
-                        <a class="add_to_wishlist" href="wishlist.html"><i class="fa fa-heart" aria-hidden="true"></i> WISHLIST</a>
+                        <a href="" class="add-to-wishlist" data-quantity="1" data-id="{{$product->id}}" id="add-to-wishlist-{{$product->id}}"><i class="icofont-heart"></i>Add to Wishlist</a>
                         <a class="add_to_compare" href="compare.html"><i class="fa fa-th" aria-hidden="true"></i> COMPARE</a>
                         <a class="share_with_friend" href="#"><i class="fa fa-share" aria-hidden="true"></i> SHARE WITH FRIEND</a>
                     </div>
@@ -279,7 +282,7 @@
                             <div class="submit_a_review_area mt-50">
                                 <h4>Submit A Review</h4>
                                 @auth
-                                <form action="{{route('products.review',$product->slug)}}" method="POST">
+                                <form action="{{route('user.products.review',$product->slug)}}" method="POST">
                                     @csrf
                                     <div class="form-group">
                                         <span>Your Ratings</span>

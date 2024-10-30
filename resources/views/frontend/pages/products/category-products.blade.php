@@ -117,7 +117,11 @@
 
                 <div class="shop_grid_product_area">
                     <div class="row justify-content-center" id="products-data">
-                        @include('frontend.pages.products.products-list')
+                        @foreach ($products as $item)
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                             @include('frontend.pages.products.products-list',['item'=>$item])
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 

@@ -61,82 +61,6 @@
 @endif
 <!-- Top Catagory Area -->
 
-<!-- Quick View Modal Area -->
-<div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="modal-body">
-                <div class="quickview_body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 col-lg-5">
-                                <div class="quickview_pro_img">
-                                    <img class="first_img" src="frontend/img/product-img/new-1-back.png" alt="">
-                                    <img class="hover_img" src="frontend/img/product-img/new-1.png" alt="">
-                                    <!-- Product Badge -->
-                                    <div class="product_badge">
-                                        <span class="badge-new">New</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-7">
-                                <div class="quickview_pro_des">
-                                    <h4 class="title">Boutique Silk Dress</h4>
-                                    <div class="top_seller_product_rating mb-15">
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                    </div>
-                                    <h5 class="price">$120.99 <span>$130</span></h5>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia expedita
-                                        quibusdam aspernatur, sapiente consectetur accusantium perspiciatis
-                                        praesentium eligendi, in fugiat?</p>
-                                    <a href="#">View Full Product Details</a>
-                                </div>
-                                <!-- Add to Cart Form -->
-                                <form class="cart" method="post">
-                                    <div class="quantity">
-                                        <input type="number" class="qty-text" id="qty" step="1" min="1" max="12"
-                                            name="quantity" value="1">
-                                    </div>
-                                    <button type="submit" name="addtocart" value="5" class="cart-submit">Add to
-                                        cart</button>
-                                    <!-- Wishlist -->
-                                    <div class="modal_pro_wishlist">
-                                        <a href="wishlist.html"><i class="icofont-heart"></i></a>
-                                    </div>
-                                    <!-- Compare -->
-                                    <div class="modal_pro_compare">
-                                        <a href="compare.html"><i class="icofont-exchange"></i></a>
-                                    </div>
-                                </form>
-                                <!-- Share -->
-                                <div class="share_wf mt-30">
-                                    <p>Share with friends</p>
-                                    <div class="_icon">
-                                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Quick View Modal Area -->
-
 <!-- New Arrivals Area -->
 @if(count($new_products)>0)
 <section class="new_arrivals_area section_padding_100 clearfix">
@@ -150,67 +74,11 @@
         </div>
 
         <div class="row">
-            <div class="col-12">
-                <div class="new_arrivals_slides owl-carousel">
-                    <!-- Single Product -->
-                    @foreach ($new_products as $item)
-                    <div class="single-product-area">
-                        <div class="product_image">
-                            <!-- Product Image -->
-                            @php
-                                $images = [];
-                                $i = 0;
-                                foreach($item->images as $image){
-                                    $images[$i++] = $image->url;
-                                }
-                            @endphp
-                           
-                            <img class="normal_img" src="{{$images[0]}}" alt="product image">
-                            <img class="hover_img"  src="{{$images[1]}}" alt="category photo">
-
-                            <!-- Product Badge -->
-                            <div class="product_badge">
-                                <span>{{$item->condition}}</span>
-                            </div>
-
-                            <!-- Wishlist -->
-                            <div class="product_wishlist">
-                                <a href="" class="add-to-wishlist" data-quantity="1" data-id="{{$item->id}}" id="add-to-wishlist-{{$item->id}}" ><i class="icofont-heart"></i></a>
-                            </div>
-
-                            <!-- Compare -->
-                            <div class="product_compare">
-                                <a href="compare.html"><i class="icofont-exchange"></i></a>
-                            </div>
-                        </div>
-
-                        <!-- Product Description -->
-                        <div class="product_description">
-                            <!-- Add to cart -->
-                            <div class="product_add_to_cart">
-                                <a href="" data-quantity="1" data-product-id="{{$item->id}}" class="add-to-cart" id="add-to-cart{{$item->id}}"><i class="icofont-shopping-cart"></i> Add to Cart</a>
-                            </div>
-
-                            <!-- Quick View -->
-                            <div class="product_quick_view">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i
-                                        class="icofont-eye-alt"></i> Quick View</a>
-                            </div>
-
-                            <p class="brand_name">{{$item->brand->title}}</p>
-                            <a href="{{route('products.details',$item->slug)}}">{{$item->title}}</a>
-                            @php
-                                $price = \App\Utilities\Helper::currency_conventer($item->price);
-                                $offer_price = \App\Utilities\Helper::currency_conventer($item->offer_price);
-                                $symbol = session('system_default_currency_info')->symbol;
-                            @endphp
-                            <h6 class="product-price">{{$offer_price}}{{$symbol}} <small><del class="text-danger">{{$price}}{{$symbol}}</del></small></h6>
-                        </div>
-                    </div>
-
-                    @endforeach
+            @foreach ($new_products as $item)
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                @include('frontend.pages.products.single-product',['item'=>$item])
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
@@ -218,6 +86,7 @@
 <!-- New Arrivals Area -->
 
 <!-- Featured Products Area -->
+@if(count($featured_products)>0)
 <section class="featured_product_area">
     <div class="container">
         <div class="row">
@@ -242,154 +111,15 @@
 
                 <!-- Featured Product Slides -->
                 <div class="featured_product_slides owl-carousel">
-                    <!-- Single Product -->
-                    <div class="single-product-area">
-                        <div class="product_image">
-                            <!-- Product Image -->
-                            <img class="normal_img" src="frontend/img/product-img/new-2.png" alt="">
-                            <img class="hover_img" src="frontend/img/product-img/new-2-back.png" alt="">
-
-                            <!-- Product Badge -->
-                            <div class="product_badge">
-                                <span>Sale</span>
-                            </div>
-
-                            <!-- Wishlist -->
-                            <div class="product_wishlist">
-                                <a href="wishlist.html"><i class="icofont-heart"></i></a>
-                            </div>
-
-                            <!-- Compare -->
-                            <div class="product_compare">
-                                <a href="compare.html"><i class="icofont-exchange"></i></a>
-                            </div>
-                        </div>
-
-                        <!-- Product Description -->
-                        <div class="product_description">
-                            <!-- Add to cart -->
-                            <div class="product_add_to_cart">
-                                <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
-                            </div>
-
-                            <!-- Quick View -->
-                            <div class="product_quick_view">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i
-                                        class="icofont-eye-alt"></i> Quick View</a>
-                            </div>
-
-                            <a href="#">Flower Textured Dress</a>
-                            <h6 class="product-price">$17 <span>$26</span></h6>
-                            <div class="product_rating">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Single Product -->
-                    <div class="single-product-area">
-                        <div class="product_image">
-                            <!-- Product Image -->
-                            <img class="normal_img" src="frontend/img/product-img/new-4.png" alt="">
-                            <img class="hover_img" src="frontend/img/product-img/new-4-back.png" alt="">
-
-                            <!-- Product Badge -->
-                            <div class="product_badge">
-                                <span>Sale</span>
-                            </div>
-
-                            <!-- Wishlist -->
-                            <div class="product_wishlist">
-                                <a href="wishlist.html"><i class="icofont-heart"></i></a>
-                            </div>
-
-                            <!-- Compare -->
-                            <div class="product_compare">
-                                <a href="compare.html"><i class="icofont-exchange"></i></a>
-                            </div>
-                        </div>
-
-                        <!-- Product Description -->
-                        <div class="product_description">
-                            <!-- Add to cart -->
-                            <div class="product_add_to_cart">
-                                <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
-                            </div>
-
-                            <!-- Quick View -->
-                            <div class="product_quick_view">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i
-                                        class="icofont-eye-alt"></i> Quick View</a>
-                            </div>
-
-                            <a href="#">Box Shape Dress</a>
-                            <h6 class="product-price">$21.25</h6>
-                            <div class="product_rating">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Single Product -->
-                    <div class="single-product-area">
-                        <div class="product_image">
-                            <!-- Product Image -->
-                            <img class="normal_img" src="frontend/img/product-img/new-7.png" alt="">
-                            <img class="hover_img" src="frontend/img/product-img/new-7-back.png" alt="">
-
-                            <!-- Product Badge -->
-                            <div class="product_badge">
-                                <span>Sale</span>
-                            </div>
-
-                            <!-- Wishlist -->
-                            <div class="product_wishlist">
-                                <a href="wishlist.html"><i class="icofont-heart"></i></a>
-                            </div>
-
-                            <!-- Compare -->
-                            <div class="product_compare">
-                                <a href="compare.html"><i class="icofont-exchange"></i></a>
-                            </div>
-                        </div>
-
-                        <!-- Product Description -->
-                        <div class="product_description">
-                            <!-- Add to cart -->
-                            <div class="product_add_to_cart">
-                                <a href="#"><i class="icofont-shopping-cart"></i> Add to Cart</a>
-                            </div>
-
-                            <!-- Quick View -->
-                            <div class="product_quick_view">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i
-                                        class="icofont-eye-alt"></i> Quick View</a>
-                            </div>
-
-                            <a href="#">Black Dress</a>
-                            <h6 class="product-price">$41 <span>$44</span></h6>
-                            <div class="product_rating">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
+                    @foreach($featured_products as $item)
+                        @include('frontend.pages.products.single-product',['item'=>$item])
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endif
 <!-- Featured Products Area -->
 
 <!-- Best Rated/Onsale/Top Sale Product Area -->
