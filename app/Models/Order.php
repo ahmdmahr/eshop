@@ -12,11 +12,9 @@ class Order extends Model
     protected $fillable = [
         'order_number',
         'user_id',
-        'product_id',
         'subtotal',
         'total',
         'coupon',
-        'quantity',
         'payment_method',
         'payment_status',
         'condition',

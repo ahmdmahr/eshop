@@ -41,12 +41,13 @@
                     </ul>
                 </li>
 
-                <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-drawer"></i><span>Products Management</span> </a>
+                <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-users"></i><span>Products Management</span> </a>
                     <ul>
                         <li><a href="{{route('admin.products.index')}}">All Products</a></li>
                         <li><a href="{{route('admin.products.create')}}">Add Product</a></li>
                     </ul>
                 </li>
+
 
                 <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-truck"></i><span>Shippings Management</span> </a>
                     <ul>

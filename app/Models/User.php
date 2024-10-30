@@ -36,7 +36,8 @@ class User extends Authenticatable
         'postcode',
         'shipping_postcode',
         'role',
-        'status'
+        'status',
+        'is_verified'
     ];
 
     /**

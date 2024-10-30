@@ -36,6 +36,7 @@
                                         <th>Full Name</th>
                                         <th>Email</th>
                                         <th>Role</th>
+                                        <th>Is Verified</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -52,6 +53,11 @@
                                         {{-- {{ $item->photo }}  --}}
                                         <td>{{$item->email}}</td>
                                         <td>{{$item->role}}</td>
+                                        <td>
+                                            <input type="checkbox"  name="verified" value="{{$item->id}}" data-toggle="switchbutton"  {{$item->is_verified == '1'?'checked':''}} data-onlabel="Yes" data-offlabel="No" 
+                                            data-size="sm"
+                                            data-onstyle="success" data-offstyle="danger">
+                                        </td>
                                         <td>
                                             <input type="checkbox"  name="toogle" value="{{$item->id}}" data-toggle="switchbutton"  {{$item->status == 'active'?'checked':''}} data-onlabel="Active" data-offlabel="Inactive" 
                                             data-size="sm"
@@ -99,20 +105,25 @@
                                                         </div>
                                         
                                                         <div class="row mb-3">
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-4">
                                                                 <strong>Address:</strong>
                                                                 <p class="mb-0">{{ $item->address }}</p>
                                                             </div>
-                                                            <div class="col-md-6">
+                                                            <div class="col-md-4">
                                                                 <strong>Role:</strong>
                                                                 <p class="mb-0">{{ $item->role }}</p>
                                                             </div>
                                                         </div>
-                                        
+                                
+
                                                         <div class="row mb-3">
                                                             <div class="col-md-6">
                                                                 <strong>Status:</strong>
                                                                 <p class="badge badge-warning">{{ $item->status }}</p>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <strong>Verified:</strong>
+                                                                <p class="badge badge-primary">{{ $item->is_verified?'Yes':'No' }}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -177,6 +188,30 @@
         // alert(mode);
         $.ajax({
             url:"{{ route('admin.users.status') }}",
+            type:"POST",
+            data:{
+                _token:'{{ csrf_token() }}',
+                'id':id
+            },
+            success:function(response){
+                if(response.status){
+                    alert(response.success)
+                }
+                else{
+                    alert('Please try again!')
+                }
+            }
+        })
+    });
+</script>
+
+<script>
+    $('input[name=verified]').change(function(){
+        var mode = $(this).prop('checked');
+        var id = $(this).val();
+        // alert(mode);
+        $.ajax({
+            url:"{{ route('admin.users.verification') }}",
             type:"POST",
             data:{
                 _token:'{{ csrf_token() }}',

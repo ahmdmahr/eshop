@@ -24,14 +24,26 @@ class UserController extends Controller
     
 
     public function changeStatus(Request $request){
-        $product = DB::table('users')->where('id',$request->input('id'))->first();
-        if($product->status == 'inactive'){
+        $user = DB::table('users')->where('id',$request->input('id'))->first();
+        if($user->status == 'inactive'){
             DB::table('users')->where('id', $request->input('id'))->update(['status' => 'active']);
         }
         else{
             DB::table('users')->where('id', $request->input('id'))->update(['status' => 'inactive']);
         }
         return response()->json(['success'=>'Status updated successfully','status'=>true]);
+    }
+
+    public function changeVerification(Request $request){
+        $user = DB::table('users')->where('id',$request->input('id'))->first();
+        if($user->is_verified == 1){
+            DB::table('users')->where('id', $request->input('id'))->update(['is_verified' => 0]);
+        }
+        else{
+            DB::table('users')->where('id', $request->input('id'))->update(['is_verified' => 1]);
+        }
+        
+        return response()->json(['success'=>"Verification updated successfully",'status'=>true]);
     }
 
     /**

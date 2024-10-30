@@ -44,6 +44,9 @@ Route::delete('products/{product}/attributes/{attribute}', [ProductController::c
  // User Section
  Route::resource('users',UserController::class);
  Route::post('userstatus',[UserController::class,'changeStatus'])->name('users.status');
+ Route::post('changeverification',[UserController::class,'changeVerification'])->name('users.verification');
+
+ 
 
   // Coupon Section
   Route::resource('coupons',CouponController::class);
@@ -64,6 +67,4 @@ Route::delete('products/{product}/attributes/{attribute}', [ProductController::c
   // Settings Section
   Route::get('settings',[SettingsController::class,'settings'])->name('settings');
   Route::put('settings',[SettingsController::class,'update'])->name('settings.update');
-
-  
 });

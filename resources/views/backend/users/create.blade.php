@@ -88,6 +88,14 @@
                                 </select>
                             </div> 
                             <div class="col-lg-12 col-sm-12">    
+                                <label for="is_verified">Is Verified</label>                            
+                                <select name="is_verified" class="form-control show-tick">
+                                    <option value="">--Is Verified--</option>
+                                    <option value="1" {{old('is_verified')=='1'?'selected':''}}>Verified</option>
+                                    <option value="0" {{old('is_verified')=='0'?'selected':''}}>Unverified</option>
+                                </select>
+                            </div> 
+                            <div class="col-lg-12 col-sm-12">    
                                 <label for="status">Status</label>                            
                                 <select name="status" class="form-control show-tick">
                                     <option value="">--Status--</option>

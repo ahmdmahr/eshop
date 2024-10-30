@@ -41,7 +41,8 @@ return new class extends Migration
             // enum is used to set a group of items to choose from
             $table->enum('role',['admin','vendor','customer'])->default('customer');
             $table->enum('status',['active','inactive'])->default('active');
-
+            
+            $table->boolean('is_verified')->default(0);
 
             $table->rememberToken();
             $table->timestamps();

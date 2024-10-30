@@ -27,7 +27,7 @@ class Product extends Model
        'discount',
        'size',
        'condition',
-       'status',
+       'status'
     ];
 
     public function brand(){
