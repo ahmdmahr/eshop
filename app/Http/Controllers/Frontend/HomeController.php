@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Brand;
 use App\Models\Banner;
+use App\Models\Review;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\ProductAttribute;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
@@ -15,11 +18,37 @@ class HomeController extends Controller
 {
     public function home(){
         $banners = Banner::where(['status'=>'active','condition'=>'banner'])->orderBy('id','DESC')->limit(4)->get();
+        $promo_banner = Banner::where(['status'=>'active','condition'=>'promotion'])->orderBy('id','DESC')->first();
         $categories = Category::where(['status'=>'active','is_parent'=>1])->orderBy('id','DESC')->limit(3)->get();
         $new_products = Product::where(['status'=>'active','condition'=>'new'])->orderBy('id','DESC')->limit(12)->get();
         $featured_products = Product::where(['status'=>'active','condition'=>'popular'])->orderBy('id','DESC')->limit(6)->get();
-        // dd($new_products);
-        return view('frontend.index',compact(['banners','categories','new_products','featured_products']));
+        $brands = Brand::where('status','active')->orderBy('id','DESC')->get();
+
+        // Best selling products
+
+        // this DB raw will take each product_id and find all occurence sum all quantities all in one.
+        $best_sellingIds = OrderItem::select('product_id', DB::raw('SUM(quantity) as total_count'))->groupBy('product_id')
+                      ->orderBy('total_count', 'desc')
+                      ->get();
+        // return $best_sellingIds;
+        $product_ids = [];
+        foreach($best_sellingIds as $item){
+           array_push($product_ids,$item['product_id']);
+        }
+        $best_sellings = Product::whereIn('id',$product_ids)->limit(6)->get();
+
+        //Best rated products
+        $best_ratedIds = Review::select('product_id', DB::raw('SUM(stars) as total_count'))->groupBy('product_id')
+        ->orderBy('total_count', 'desc')
+        ->get();
+        // return $best_ratedIds;
+        $product_ids = [];
+        foreach($best_ratedIds as $item){
+           array_push($product_ids,$item['product_id']);
+        }
+        $best_rated = Product::whereIn('id',$product_ids)->limit(6)->get();
+
+        return view('frontend.index',compact(['banners','categories','new_products','featured_products','promo_banner','brands','best_sellings','best_rated']));
     }
 
 

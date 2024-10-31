@@ -25,7 +25,7 @@ class StoreBannerRequest extends FormRequest
             'title'=>'string|required',
             'description'=>'nullable|string',
             'photo'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'condtion'=>'nullable|in:banner,promotion',
+            'condition'=>'nullable|in:banner,promotion',
             'status'=>'nullable|in:active,inactive'
         ];
     }
