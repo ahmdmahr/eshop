@@ -637,7 +637,7 @@
 
 <!-- Popular Brands Area -->
 @if(count($brands)>0)
-<section class="popular_brands_area section_padding_100">
+<section class="popular_brands_area section_padding_100 ">
     <div class="container">
         <div class="row">
             <div class="col-12">

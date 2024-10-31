@@ -31,6 +31,7 @@ Route::post('currency_load',[CurrencyController::class,'currencyLoad'])->name('c
 // Home page Section
 Route::get('/',[HomeController::class,'home'])->name('home');
 
+Route::get('about-us',[HomeController::class,'aboutUs'])->name('about.us');
 
 Route::get('/categories/{category}/products', [HomeController::class, 'categoryProducts'])->name('category.products');
 

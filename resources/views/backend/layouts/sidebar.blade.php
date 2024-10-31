@@ -13,12 +13,10 @@
         <nav class="sidebar-nav">
             <ul class="main-menu metismenu">
                 
-                <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-grid"></i><span>Dashboard</span> </a>
-                    <ul>
-                        <li><a href="departments.html">All Departments</a></li>
-                        <li><a href="add-departments.html">Add Department</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{route('admin.dashboard')}}"><i class="icon-grid"></i>Dashboard</a></li>
+
+                <li><a href="{{route('admin.about.us')}}"><i class="icon-info"></i>About Us</a></li>
+
 
                 <li><a href="javascript:void(0);" class="has-arrow"><i class="fas fa-images"></i><span>Banners Management</span> </a>
                     <ul>

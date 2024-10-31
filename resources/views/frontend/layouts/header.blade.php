@@ -88,10 +88,10 @@
                                 </li>
                                 <li><a href="{{route('shop.index')}}">Shop</a>
                                 </li>
+                                <li><a href="{{route('about.us')}}">About Us</a></li>
                                 <li><a href="#">Pages</a>
                                     <div class="megamenu">
                                         <ul class="single-mega cn-col-4">
-                                            <li><a href="about-us.html">- About Us</a></li>
                                             <li><a href="faq.html">- FAQ</a></li>
                                             <li><a href="contact.html">- Contact</a></li>
                                             <li><a href="login.html">- Login &amp; Register</a></li>

@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
         $this->call(SettingsTableSeeder::class);
+        $this->call(AboutUsTableSeeder::class);
+
 
         
         \App\Models\User::factory(50)->create();

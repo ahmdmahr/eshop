@@ -1,6 +1,7 @@
 <?php
 namespace App;
 
+use App\Http\Controllers\AboutUsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
@@ -19,6 +20,9 @@ Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],f
 // Admin dashboard Section
 Route::get('',[AdminController::class,'index'])->name('dashboard');
 
+// About us Section
+Route::get('about-us',[AboutUsController::class,'aboutUs'])->name('about.us');
+Route::put('about-us',[AboutUsController::class,'update'])->name('about.us.update');
 
 // Banner Section
 Route::resource('banners',BannerController::class);

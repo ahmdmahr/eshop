@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Brand;
 use App\Models\Banner;
 use App\Models\Review;
+use App\Models\AboutUs;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\OrderItem;
@@ -49,6 +50,12 @@ class HomeController extends Controller
         $best_rated = Product::whereIn('id',$product_ids)->limit(6)->get();
 
         return view('frontend.index',compact(['banners','categories','new_products','featured_products','promo_banner','brands','best_sellings','best_rated']));
+    }
+
+    public function aboutUs(){
+        $about_us = AboutUs::first();
+        $brands = Brand::where('status','active')->orderBy('id','DESC')->get();
+        return view('frontend.pages.about-us',compact('about_us','brands'));
     }
 
 
