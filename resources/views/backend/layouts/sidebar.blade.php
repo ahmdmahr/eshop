@@ -113,8 +113,12 @@
                     </ul>
                 </li>
 
-                <li><a href="{{route('admin.settings')}}"><i class="icon-settings"></i>Settings</a></li>
-
+                <li><a href="javascript:void(0);" class="has-arrow"><i class="icon-settings"></i><span>General Settings</span> </a>
+                    <ul>
+                        <li><a href="{{route('admin.settings')}}">Settings</a></li>
+                        <li><a href="{{route('admin.smtp')}}">SMTP Settings</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>

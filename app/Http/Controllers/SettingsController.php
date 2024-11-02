@@ -14,7 +14,7 @@ class SettingsController extends Controller
         return view('backend.settings.settings',compact('current_settings'));
     }
 
-    public function update(UpdateSettingsRequest $request){
+    public function updateSettings(UpdateSettingsRequest $request){
         $current_settings = Settings::first();
 
         $data = $request->validated();
@@ -46,5 +46,33 @@ class SettingsController extends Controller
             return back()->with('error','Something went wrong!');
         }
 
+    }
+
+    // Simple Mail Transfer Protocol -> SMTP
+    public function smtp(){
+        return view('backend.settings.smtp');
+    }
+
+    public function overWriteEnvFile($variable,$value){
+        $path = base_path('.env');
+        if(file_exists($path)){
+            $value = "\"".trim($value)."\"";
+            if(strpos(file_get_contents($path),$variable)>0){
+                file_put_contents($path,str_replace(
+                    $variable."=\"".env($variable)."\"",$variable."=".$value,file_get_contents($path)
+                ));
+            }
+            else{
+                file_put_contents($path,file_get_contents($path)."\r\n".$variable."=".$value);
+            }
+        }
+    }
+
+    public function updateSmtp(Request $request){
+        // return ($request->all());
+        foreach($request->env as $variable){
+            $this->overWriteEnvFile($variable,$request[$variable]);
+        }
+        return back()->with('success','SMTP configuration updated successfully!');
     }
 }

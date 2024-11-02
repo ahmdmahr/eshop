@@ -89,35 +89,6 @@
                                 <li><a href="{{route('shop.index')}}">Shop</a>
                                 </li>
                                 <li><a href="{{route('about.us')}}">About Us</a></li>
-                                <li><a href="#">Pages</a>
-                                    <div class="megamenu">
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="faq.html">- FAQ</a></li>
-                                            <li><a href="contact.html">- Contact</a></li>
-                                            <li><a href="login.html">- Login &amp; Register</a></li>
-                                            <li><a href="404.html">- 404</a></li>
-                                            <li><a href="500.html">- 500</a></li>
-                                        </ul>
-                                        <ul class="single-mega cn-col-4">
-                                            <li><a href="my-account.html">- Dashboard</a></li>
-                                            <li><a href="order-list.html">- Orders</a></li>
-                                            <li><a href="downloads.html">- Downloads</a></li>
-                                            <li><a href="addresses.html">- Addresses</a></li>
-                                            <li><a href="account-details.html">- Account Details</a></li>
-                                            <li><a href="coming-soon.html">- Coming Soon</a></li>
-                                        </ul>
-                                        <div class="single-mega cn-col-2">
-                                            <div class="megamenu-slides owl-carousel">
-                                                <a href="shop-grid-left-sidebar.html">
-                                                    <img src="frontend/img/bg-img/mega-slide-2.jpg" alt="">
-                                                </a>
-                                                <a href="shop-list-left-sidebar.html">
-                                                    <img src="frontend/img/bg-img/mega-slide-1.jpg" alt="">
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
                                 <li><a href="#">Blog</a>
                                     <ul class="dropdown">
                                         <li><a href="blog-with-left-sidebar.html">Blog Left Sidebar</a></li>
@@ -126,7 +97,7 @@
                                         <li><a href="single-blog.html">Single Blog</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{{route('contact.us')}}">Contact</a></li>
                             </ul>
                         </div>
                     </div>

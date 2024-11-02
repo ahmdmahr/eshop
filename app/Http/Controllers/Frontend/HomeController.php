@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Brand;
 use App\Models\Banner;
 use App\Models\Review;
+use App\Mail\ContactUs;
 use App\Models\AboutUs;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Settings;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Http\Requests\SubmitContactUsRequest;
 
 class HomeController extends Controller
 {
@@ -56,6 +60,24 @@ class HomeController extends Controller
         $about_us = AboutUs::first();
         $brands = Brand::where('status','active')->orderBy('id','DESC')->get();
         return view('frontend.pages.about-us',compact('about_us','brands'));
+    }
+
+    public function contactUs(){
+        $settings = Settings::first();
+        return view('frontend.pages.contact-us',compact('settings'));
+    }
+
+    public function contactUsSubmit(SubmitContactUsRequest $request){
+        $data = $request->validated();
+        // return $data;
+        $status = Mail::to('admin@gmail.com')->send(new ContactUs($data));
+
+        if($status){
+            return back()->with('Your enquiry mail sent successfully');
+        }
+        else{
+            return back()->with('error','Something went wrong,Try later');
+        }
     }
 
 

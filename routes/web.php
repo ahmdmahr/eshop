@@ -33,6 +33,9 @@ Route::get('/',[HomeController::class,'home'])->name('home');
 
 Route::get('about-us',[HomeController::class,'aboutUs'])->name('about.us');
 
+Route::get('contact-us',[HomeController::class,'contactUs'])->name('contact.us');
+Route::post('contact-submit',[HomeController::class,'contactUsSubmit'])->name('contact.us.submit');
+
 Route::get('/categories/{category}/products', [HomeController::class, 'categoryProducts'])->name('category.products');
 
 Route::get('/products/{product}', [HomeController::class, 'productDetails'])->name('products.details');

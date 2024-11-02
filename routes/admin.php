@@ -70,5 +70,9 @@ Route::delete('products/{product}/attributes/{attribute}', [ProductController::c
 
   // Settings Section
   Route::get('settings',[SettingsController::class,'settings'])->name('settings');
-  Route::put('settings',[SettingsController::class,'update'])->name('settings.update');
+  Route::put('settings',[SettingsController::class,'updateSettings'])->name('settings.update');
+
+   // SMTP Section
+   Route::get('smtp',[SettingsController::class,'smtp'])->name('smtp');
+   Route::put('smtp',[SettingsController::class,'updateSmtp'])->name('smtp.update');
 });
