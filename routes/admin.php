@@ -1,19 +1,19 @@
 <?php
 namespace App;
 
-use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\Admin\AboutUsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\BannerController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\CurrencyController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\ShippingController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\CurrencyController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\ShippingController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::group(['prefix'=>'admin','middleware'=>['auth','admin'],'as'=>'admin.'],function(){
 
@@ -75,4 +75,10 @@ Route::delete('products/{product}/attributes/{attribute}', [ProductController::c
    // SMTP Section
    Route::get('smtp',[SettingsController::class,'smtp'])->name('smtp');
    Route::put('smtp',[SettingsController::class,'updateSmtp'])->name('smtp.update');
+
+   // Payment Section
+   Route::get('payment',[SettingsController::class,'payment'])->name('payment');
+
+   // Paypal Section
+   Route::put('paypal-settings',[SettingsController::class,'updatePaypalSettings'])->name('paypal.settings.update');
 });

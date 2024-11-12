@@ -142,8 +142,16 @@
                                     <div class="panel-heading" role="tab" id="five">
                                         <h6 class="panel-title">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" required name="payment_method" value="COD" class="custom-control-input" id="customCheck2">
+                                                <input type="radio" required name="payment_method" value="COD" class="custom-control-input" id="customCheck2">
                                                 <label class="custom-control-label" for="customCheck2"><i class="icofont-cash-on-delivery-alt"></i> Cash on Delivery</label>
+                                            </div>
+                                            {{-- <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_five" aria-expanded="false" aria-controls="collapse_five"><i class="icofont-cash-on-delivery-alt"></i> Cash on Delivery --}}
+                                            </a>
+                                        </h6>
+                                        <h6 class="panel-title pt-4">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="radio" required name="payment_method" value="paypal" class="custom-control-input" id="customCheck3">
+                                                <label class="custom-control-label" for="customCheck3"><i class="icofont-cash-on-delivery-alt"></i> Pay with Paypal</label>
                                             </div>
                                             {{-- <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_five" aria-expanded="false" aria-controls="collapse_five"><i class="icofont-cash-on-delivery-alt"></i> Cash on Delivery --}}
                                             </a>

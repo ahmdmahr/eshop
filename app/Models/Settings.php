@@ -24,5 +24,6 @@ class Settings extends Model
         'twitter',
         'linkedin',
         'pinterest',
+        'paypal_sandbox'
     ];
 }

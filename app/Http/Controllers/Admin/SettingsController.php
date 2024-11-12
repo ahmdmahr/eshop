@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -74,5 +75,25 @@ class SettingsController extends Controller
             $this->overWriteEnvFile($variable,$request[$variable]);
         }
         return back()->with('success','SMTP configuration updated successfully!');
+    }
+
+    public function payment(){
+        return view('backend.settings.payment');
+    }
+
+    public function updatePaypalSettings(Request $request){
+        // return $request->all();
+        foreach($request->paypal as $variable){
+            $this->overWriteEnvFile($variable,$request[$variable]);
+        }
+        $settings = Settings::first();
+        if($request->has('paypal_sandbox')){
+            $settings->paypal_sandbox = 1;
+        }
+        else{
+            $settings->paypal_sandbox = 0;
+        }
+        $settings->save();
+        return back()->with('success','Paypal settings updated successfully');
     }
 }

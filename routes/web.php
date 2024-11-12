@@ -10,6 +10,7 @@ use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\WishlistController;
+use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ReviewController;
 
 /*
@@ -85,6 +86,10 @@ Route::group(['prefix'=>'user','middleware'=>'auth','as'=>'user.'],function(){
     Route::post('checkout',[CheckoutController::class,'checkoutStore'])->name('checkout.store');
 
     Route::get('complete-checkout/{order}',[CheckoutController::class,'complete'])->name('checkout.complete');
+
+    // Paypal payment Section
+    Route::get('paypal/success', [PaypalController::class, 'getSuccess'])->name('paypal.success');
+    Route::get('paypal/cancel', [PaypalController::class, 'getCancel'])->name('paypal.cancel');
 
     // Review Section
     Route::post('products/{product}/review',[ReviewController::class,'store'])->name('products.review');

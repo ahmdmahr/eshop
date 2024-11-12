@@ -19,7 +19,8 @@ class Order extends Model
         'payment_status',
         'condition',
         'delivery_charge',
-        'notes'
+        'notes',
+        'payment_details'
     ];
 
     public function user(){

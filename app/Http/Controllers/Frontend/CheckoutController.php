@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Mail\OrderConfirmation;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\PaypalController;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -79,8 +80,8 @@ class CheckoutController extends Controller
             'user_id' => $user_id,
             'order_number' => Str::upper('ord-'.Str::random(6)),
             'coupon' => $coupon,
-            'payment_method' => $checkout[1]['payment_method'],
-            'payment_status' => $checkout[1]['payment_status'],
+            'payment_method' => $checkout[4]['payment_method'],
+            'payment_status' => $checkout[4]['payment_status'],
             'condition' => 'pending',
             'delivery_charge' => $checkout[0]['delivery_charge'],
             'subtotal' => $checkout['subtotal'],
@@ -108,11 +109,25 @@ class CheckoutController extends Controller
 
         $order = Order::create($order_data);
 
+        if($order){
+            session()->put('order_id',$order->id);
+        }
+
+        if($order['payment_method'] == 'paypal'){
+            $paypal = new PaypalController;
+            return $paypal->getCheckout();
+        }
+
         Mail::to(Auth::user()->email)->cc('ahmadmaher@eshop.io')->send(new OrderConfirmation($order));
 
         foreach(Cart::instance('shopping')->content() as $item){
             $product = Product::find($item->id);
             OrderItem::create(['order_id'=>$order->id,'product_id'=>$product->id,'price'=>$product->offer_price,'quantity'=>$item->qty]);
+        }
+
+        if($order['payment_method'] == 'paypal'){
+            $paypal = new PaypalController;
+            return $paypal->getCheckout();
         }
 
         if($order){
@@ -130,6 +145,27 @@ class CheckoutController extends Controller
             return redirect()->route('user.checkout1')->with('error','Please try again');
         }
         
+    }
+
+    public function checkout_done($order_id,$payment_details){
+        $order = Order::findOrFail($order_id);
+        $order->payment_status = 'paid';
+        $order->payment_details = $payment_details;
+        $order->save();
+        Mail::to(Auth::user()->email)->cc('ahmadmaher@eshop.io')->send(new OrderConfirmation($order));
+        foreach(Cart::instance('shopping')->content() as $item){
+            $product = Product::find($item->id);
+            OrderItem::create(['order_id'=>$order->id,'product_id'=>$product->id,'price'=>$product->offer_price,'quantity'=>$item->qty]);
+        }
+
+        if($order){
+            Session::forget('coupon');
+            Session::forget('checkout');
+            Cart::instance('shopping')->destroy();
+
+            $order_id = $order->order_number;
+            return redirect()->route('user.checkout.complete',$order_id);
+        }
     }
 
     public function complete($order_id){

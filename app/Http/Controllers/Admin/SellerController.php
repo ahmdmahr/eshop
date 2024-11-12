@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Review;
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreReviewRequest;
 
-class ReviewController extends Controller
+class SellerController extends Controller
 {
-    
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $sellers = User::where()->orderBy('id','DESC')->get();
+        return view('backend.banners.index',compact('banners'));
     }
 
     /**
@@ -28,19 +28,10 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReviewRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        $data['stars'] = $data['star'];
-        $status = Review::create($data);
-        if($status){
-            return back()->with('success','Thanks for rating!');
-        }
-        else{
-            return back()->with('error','Please try again');
-        }
+        //
     }
-
 
     /**
      * Display the specified resource.

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->enum('condition',['pending','processing','delivered','cancelled'])->default('pending');
             $table->float('delivery_charge')->default(0)->nullable();
             $table->text('notes')->nullable();
+            $table->text('payment_details')->nullable();
             $table->timestamps();
         });
     }

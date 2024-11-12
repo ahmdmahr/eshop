@@ -117,6 +117,7 @@
                     <ul>
                         <li><a href="{{route('admin.settings')}}">Settings</a></li>
                         <li><a href="{{route('admin.smtp')}}">SMTP Settings</a></li>
+                        <li><a href="{{route('admin.payment')}}">Payment Settings</a></li>
                     </ul>
                 </li>
             </ul>
