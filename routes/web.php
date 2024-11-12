@@ -3,15 +3,15 @@ namespace App;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\CurrencyController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\AccountController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\WishlistController;
-use App\Http\Controllers\PaypalController;
-use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\Admin\PaypalController;
+use App\Http\Controllers\Admin\ReviewController;
 
 /*
 |--------------------------------------------------------------------------

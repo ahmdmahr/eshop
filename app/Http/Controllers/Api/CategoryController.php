@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -19,18 +18,18 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::orderBy('id','DESC')->get();
-        return view('backend.categories.index',compact('categories'));
-    }
-
-    public function changeStatus(Request $request){
-        $category = DB::table('categories')->where('id',$request->input('id'))->first();
-        if($category->status == 'inactive'){
-            DB::table('categories')->where('id', $request->input('id'))->update(['status' => 'active']);
+        if ($categories->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No categories found.'
+            ], 404); // Return 404 if no categories are found
         }
-        else{
-            DB::table('categories')->where('id', $request->input('id'))->update(['status' => 'inactive']);
-        }
-        return response()->json(['success'=>'Status updated successfully','status'=>true]);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'categories retrieved successfully.',
+            'data' => $categories
+        ], 200); // HTTP status 200 for success
     }
 
     /**
@@ -38,8 +37,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $parent_categories = Category::where('is_parent',1)->orderBy('title','ASC')->get();
-        return view('backend.categories.create',compact('parent_categories'));
+        //
     }
 
     /**
@@ -63,13 +61,19 @@ class CategoryController extends Controller
         
         $data['is_parent'] = $request->has('is_parent') ? 1 : 0;
 
-        $status = Category::create($data);
+        $category = Category::create($data);
 
-        if($status){
-            return redirect()->route('admin.categories.index')->with('success','Category created successfully.');
-        }
-        else{
-            return back()->with('error','Something went wrong!');
+        if ($category) {
+            return response()->json([
+                'success' => true,
+                'message' => 'category created successfully.',
+                'data' => $category,  // Returning the newly created category
+            ], 201);  // HTTP status code 201 indicates 'Created'
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while creating the category.',
+            ], 400);  // HTTP status code 400 for Bad Request
         }
     }
 
@@ -78,7 +82,19 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $category = Category::find($id);
+        if ($category) {
+
+            return response()->json([
+                'success' => true,
+                'category' => $category,
+            ], 200); // HTTP status code 200 (OK)
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found'
+            ], 404); // HTTP status code 404 (Not Found)
+        }
     }
 
     /**
@@ -86,14 +102,7 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::find($id);
-        $parent_categories = Category::where('is_parent',1)->orderBy('title','ASC')->get();
-        if($category){
-          return view('backend.categories.edit',compact('category','parent_categories'));
-        }
-        else{
-            return back()->with('error','Category not found!');
-        }
+        //
     }
 
     /**
@@ -101,8 +110,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, string $id)
     {
-        // return $request->all();
-
+        
         $category = Category::find($id);
         if($category){
             $data = $request->validated();
@@ -121,14 +129,24 @@ class CategoryController extends Controller
             $status = $category->update($data);
     
             if($status){
-                return redirect()->route('admin.categories.index')->with('success','Category updated successfully.');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category updated successfully.',
+                    'data' => $category,  // Returning the updated category
+                ], 200);  // HTTP status code 200 for success update operation
             }
             else{
-                return back()->with('error','Something went wrong!');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Something went wrong while updating the category.',
+                ], 400); // HTTP status code 400 for Bad Request
             }
         }
         else{
-            return back()->with('error','Category not found!');
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found'
+            ], 404); // HTTP status code 404 (Not Found)
         }
     }
 
@@ -148,34 +166,23 @@ class CategoryController extends Controller
                 if(count($child_category_id)){
                     Category::shiftChild($child_category_id);
                 }
-                return redirect()->route('admin.categories.index')->with('success','Categroy deleted successfully');
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Category and associated images deleted successfully.'
+                ], 200); // HTTP status 200 for successful deletion
             }
             else{
-                return back()->with('error','Something went wrong');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Something went wrong while deleting the product.'
+                ], 500); // HTTP status 500 for internal server error
             }
         }
         else{
-            return back()->with('error','Data not found');
-        }
-    }
-
-    public function getChildByParentID(Request $request,$id){
-        // dd($request->all());
-        // dd($id);
-
-        $category = Category::find($request->id);
-        if($category){
-            $child_id = Category::getChildByParentID($id);
-            // dd($child_id);
-            if(count($child_id)>0){
-                return response()->json(['status'=>true,'data'=>$child_id,'msg'=>'']);
-            }
-            else{
-                return response()->json(['status'=>false,'data'=>'null','msg'=>'']);
-            }
-        }
-        else{
-            return response()->json(['status'=>false,'data'=>'null','msg'=>'Category not found']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Category not found.'
+            ], 404); // HTTP status 404 for resource not found
         }
     }
 }

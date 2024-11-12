@@ -30,7 +30,7 @@ class StoreProductRequest extends FormRequest
             'stock'=>'required|integer',
             'price'=>'required|numeric',
             'discount'=>'nullable|numeric',
-            'images.*'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category_id'=>'required|exists:categories,id',
             'brand_id'=>'required|exists:brands,id',
             'vendor_id'=>'required|exists:users,id',
