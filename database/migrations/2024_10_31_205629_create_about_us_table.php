@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->text('heading');
             $table->longText('content')->nullable();
-            $table->string('image1');
-            $table->string('image2');
-            $table->string('image3');
-            $table->string('image4');
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('image4')->nullable();
             $table->integer('years_of_experience')->default(0);
             $table->integer('happy_customers')->default(300);
             $table->integer('parteners')->default(10);

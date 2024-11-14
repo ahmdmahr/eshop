@@ -51,7 +51,7 @@
                                    <br>
                                    <input type="file" name="images[]"/>
                                    <br><br>
-                                   <img src="{{asset($about_us->image1)}}" alt="about us photo" style="max-height:150px;
+                                   <img src="{{asset($about_us->image1)??null}}" alt="about us photo" style="max-height:150px;
                                    max-width:150px">
                                 </div>
                             </div>

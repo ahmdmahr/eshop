@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
@@ -85,7 +83,7 @@ class BannerController extends Controller
         if ($banner) {
             return response()->json([
                 'success' => true,
-                'brand' => $banner,
+                'banner' => $banner,
             ], 200); // HTTP status code 200 (OK)
         } else {
             return response()->json([
