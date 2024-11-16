@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -30,7 +31,7 @@ class OrderController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Orders retrieved successfully.',
-            'data' => $orders
+            'data' => OrderResource::collection($orders)
         ], 200); // HTTP status 200 for success
     }
 
@@ -50,7 +51,7 @@ class OrderController extends Controller
 
         $data = $request->validated();
 
-        // dd($data);
+        // dd($data);  
 
         $products = Product::whereIn('id',$data['product_ids'])->get();
 
@@ -92,7 +93,7 @@ class OrderController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'order created successfully.',
-                'data' => $order,  // Returning the newly created order
+                'data' => new OrderResource($order),  // Returning the newly created order
             ], 201);  // HTTP status code 201 indicates 'Created'
         } else {
             return response()->json([
@@ -111,7 +112,7 @@ class OrderController extends Controller
         if ($order) {
             return response()->json([
                 'success' => true,
-                'order' => $order,
+                'order' => new OrderResource($order),
             ], 200); // HTTP status code 200 (OK)
         } else {
             return response()->json([
@@ -134,11 +135,9 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, string $id)
     {
-        $order = Order::with('order_items')->find($id);
-
+        $order = Order::find($id);
         if($order){
            $data = $request->validated();
-
             // get unwanted order items and still needed ones
             $deleted = [];
             $deleted_quantities = [];
@@ -219,7 +218,7 @@ class OrderController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Order updated successfully.',
-                    'data' => $order,  // Returning the updated order
+                    'data' => new OrderResource($order),  // Returning the updated order
                 ], 200);  // HTTP status code 200 for success update operation
             }
             else{
@@ -262,7 +261,7 @@ class OrderController extends Controller
                     'message' => 'Something went wrong while deleting the order.'
                 ], 500); // HTTP status 500 for internal server error
             }
-        }
+        }   
         else {
             return response()->json([
                 'success' => false,

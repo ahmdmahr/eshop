@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBannerRequest;
 use App\Http\Requests\UpdateBannerRequest;
+use App\Http\Resources\BannerResource;
 
 class BannerController extends Controller
 {
@@ -27,7 +28,7 @@ class BannerController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'banners retrieved successfully.',
-            'data' => $banners
+            'data' => BannerResource::collection($banners)
         ], 200); // HTTP status 200 for success
     }
 
@@ -64,7 +65,7 @@ class BannerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'banner created successfully.',
-                'data' => $banner,  // Returning the newly created banner
+                'data' => new BannerResource($banner),  // Returning the newly created banner
             ], 201);  // HTTP status code 201 indicates 'Created'
         } else {
             return response()->json([
@@ -83,7 +84,7 @@ class BannerController extends Controller
         if ($banner) {
             return response()->json([
                 'success' => true,
-                'banner' => $banner,
+                'banner' =>  new BannerResource($banner),
             ], 200); // HTTP status code 200 (OK)
         } else {
             return response()->json([
@@ -125,7 +126,7 @@ class BannerController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Banner updated successfully.',
-                    'data' => $banner,  // Returning the updated category
+                    'data' =>  new BannerResource($banner),  // Returning the updated category
                 ], 200);  // HTTP status code 200 for success update operation
             }
             else{

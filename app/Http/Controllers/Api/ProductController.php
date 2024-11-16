@@ -11,6 +11,7 @@ use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -19,19 +20,21 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id','DESC')->get();
-        if ($products->isEmpty()) {
+        $products = Product::all();
+
+        if($products->isEmpty()) {
             return response()->json([
                 'success' => false,
-                'message' => 'No products found.'
-            ], 404); // Return 404 if no products are found
+                'message' => 'No products found.',
+            ], 404);  // HTTP status 404 for not found
         }
-    
+
+        // Return response with success and message along with the collection of products
         return response()->json([
             'success' => true,
             'message' => 'Products retrieved successfully.',
-            'data' => $products
-        ], 200); // HTTP status 200 for success
+            'data' => ProductResource::collection($products),
+        ], 200);  // HTTP status 200 for success
     }
 
     /**
@@ -77,7 +80,7 @@ class ProductController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Product created successfully.',
-                'data' => $product,  // Returning the newly created product
+                'data' =>  new ProductResource($product),  // Returning the newly created product
             ], 201);  // HTTP status code 201 indicates 'Created'
         } else {
             return response()->json([
@@ -93,19 +96,18 @@ class ProductController extends Controller
     public function show(string $id)
     {
         $product = Product::find($id);
-        if ($product) {
-            $productAttributes = ProductAttribute::where('product_id', $id)->orderBy('id', 'DESC')->get();
 
+        if ($product) {
             return response()->json([
                 'success' => true,
-                'product' => $product,
-                'product_attributes' => $productAttributes
-            ], 200); // HTTP status code 200 (OK)
+                'message' => 'Product retrieved successfully.',
+                'data' => new ProductResource($product),
+            ], 200);  // HTTP status 200 for success
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Product not found'
-            ], 404); // HTTP status code 404 (Not Found)
+                'message' => 'Product not found.',
+            ], 404);  // HTTP status 404 for not found
         }
     }
 
@@ -144,7 +146,7 @@ class ProductController extends Controller
                 }
             }
 
-            $offer_price = $data['price']-($data['price']*($data['discount']/100));
+            $offer_price = $data['price']??$product->price-($data['price']??$product->price*($data['discount']??$product->discount/100));
 
             $data['offer_price'] = $offer_price;
     
@@ -154,7 +156,7 @@ class ProductController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Product updated successfully.',
-                    'data' => $product,  // Returning the updated product
+                    'data' => new ProductResource($product),  // Returning the updated product
                 ], 200);  // HTTP status code 200 for success update operation
             }
             else{

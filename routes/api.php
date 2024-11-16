@@ -25,27 +25,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('products', ProductController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+Route::resource('products', ProductController::class)->except(['create','edit']);
 
 
-Route::resource('categories', CategoryController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+Route::resource('categories', CategoryController::class)->except(['create','edit']);
 
-Route::resource('brands', BrandController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+Route::resource('brands', BrandController::class)->except(['create','edit']);
 
-Route::resource('banners', BannerController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+Route::resource('banners', BannerController::class)->except(['create','edit']);
 
-Route::resource('about-us', AboutUsController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+Route::resource('about-us', AboutUsController::class)->except(['create','edit']);
 
-Route::resource('orders', OrderController::class)->only([
-    'index', 'store', 'show', 'update', 'destroy'
-]);
+Route::resource('orders', OrderController::class)->except(['create','edit']);

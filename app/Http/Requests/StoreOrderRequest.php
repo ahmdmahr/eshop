@@ -21,7 +21,6 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'user_id'=>'required|distinct|integer|exists:users,id',
             'product_ids'=>'required|array',

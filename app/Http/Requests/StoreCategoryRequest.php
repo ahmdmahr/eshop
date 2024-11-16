@@ -24,7 +24,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'title'=>'string|required',
             'summary'=>'string|nullable',
-            'photo'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_parent'=>'boolean',
             'parent_id'=>'nullable|exists:categories,id',
             'status'=>'nullable|in:active,inactive'

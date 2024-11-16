@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
@@ -28,7 +29,7 @@ class CategoryController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'categories retrieved successfully.',
-            'data' => $categories
+            'data' => CategoryResource::collection($categories)
         ], 200); // HTTP status 200 for success
     }
 
@@ -67,7 +68,7 @@ class CategoryController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'category created successfully.',
-                'data' => $category,  // Returning the newly created category
+                'data' => new CategoryResource($category),  // Returning the newly created category
             ], 201);  // HTTP status code 201 indicates 'Created'
         } else {
             return response()->json([
@@ -87,7 +88,7 @@ class CategoryController extends Controller
 
             return response()->json([
                 'success' => true,
-                'category' => $category,
+                'category' => new CategoryResource($category),
             ], 200); // HTTP status code 200 (OK)
         } else {
             return response()->json([
@@ -132,7 +133,7 @@ class CategoryController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Category updated successfully.',
-                    'data' => $category,  // Returning the updated category
+                    'data' => new CategoryResource($category),  // Returning the updated category
                 ], 200);  // HTTP status code 200 for success update operation
             }
             else{

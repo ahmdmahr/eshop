@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
+use App\Http\Resources\BrandResource;
 
 class BrandController extends Controller
 {
@@ -29,7 +30,7 @@ class BrandController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'brands retrieved successfully.',
-            'data' => $brands
+            'data' => BrandResource::collection($brands)
         ], 200); // HTTP status 200 for success
     }
 
@@ -66,7 +67,7 @@ class BrandController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'brand created successfully.',
-                'data' => $brand,  // Returning the newly created brand
+                'data' => new BrandResource($brand),  // Returning the newly created brand
             ], 201);  // HTTP status code 201 indicates 'Created'
         } else {
             return response()->json([
@@ -86,7 +87,7 @@ class BrandController extends Controller
 
             return response()->json([
                 'success' => true,
-                'brand' => $brand,
+                'brand' => new BrandResource($brand),
             ], 200); // HTTP status code 200 (OK)
         } else {
             return response()->json([
@@ -129,7 +130,7 @@ class BrandController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Brand updated successfully.',
-                    'data' => $brand,  // Returning the updated category
+                    'data' => new BrandResource($brand),  // Returning the updated category
                 ], 200);  // HTTP status code 200 for success update operation
             }
             else{

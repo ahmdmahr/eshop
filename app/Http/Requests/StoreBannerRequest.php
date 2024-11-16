@@ -24,7 +24,7 @@ class StoreBannerRequest extends FormRequest
         return [
             'title'=>'string|required',
             'description'=>'nullable|string',
-            'photo'=>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'condition'=>'nullable|in:banner,promotion',
             'status'=>'nullable|in:active,inactive'
         ];

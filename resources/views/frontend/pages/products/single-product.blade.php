@@ -8,8 +8,8 @@
                     $images[$i++] = $image->url;
                 }
             @endphp
-            <img class="normal_img" src="{{$images[0]}}" alt="product photo">
-            <img class="hover_img"  src="{{$images[1]}}" alt="category photo">
+            <img class="normal_img" src="{{$images[0]??null}}" alt="product photo">
+            <img class="hover_img"  src="{{$images[1]??null}}" alt="category photo">
 
             <!-- Product Badge -->
             <div class="product_badge">
@@ -63,8 +63,8 @@
               <div class="row">
                 <div class="col-12 col-lg-5">
                   <div class="quickview_pro_img">
-                    <img class="first_img" src="{{$images[1]}}" alt="product photo">
-                    <img class="hover_img" src="{{$images[0]}}" alt="product photo">
+                    <img class="first_img" src="{{$images[1]??null}}" alt="product photo">
+                    <img class="hover_img" src="{{$images[0]??null}}" alt="product photo">
                     <div class="product_badge">
                       <span>{{$item->condition}}</span>
                     </div>

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreAboutUsRequest;
 use App\Http\Requests\UpdateAboutUsRequest;
+use App\Http\Resources\AboutUsResource;
 
 class AboutUsController extends Controller
 {
@@ -27,7 +28,7 @@ class AboutUsController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'About Us records retrieved successfully.',
-            'data' => $all_about_us
+            'data' => AboutUsResource::collection($all_about_us)
         ], 200); // HTTP status 200 for success
     }
 
@@ -52,7 +53,7 @@ class AboutUsController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'aboutUs created successfully.',
-                'data' => $about_us,  // Returning the newly created about_us
+                'data' => new AboutUsResource($about_us),  // Returning the newly created about_us
             ], 201);  // HTTP status code 201 indicates 'Created'
         } else {
             return response()->json([
@@ -71,7 +72,7 @@ class AboutUsController extends Controller
         if ($about_us) {
             return response()->json([
                 'success' => true,
-                'about us' => $about_us,
+                'about us' => new AboutUsResource($about_us),
             ], 200); // HTTP status code 200 (OK)
         } else {
             return response()->json([
@@ -112,7 +113,7 @@ class AboutUsController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'about_us updated successfully.',
-                    'data' => $about_us,  // Returning the updated category
+                    'data' => new AboutUsResource($about_us),  // Returning the updated category
                 ], 200);  // HTTP status code 200 for success update operation
             }
             else{

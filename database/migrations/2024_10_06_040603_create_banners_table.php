@@ -20,7 +20,7 @@ return new class extends Migration
              - text up to 65,535 char
             */
             $table->text('description')->nullable();
-            $table->string('photo');
+            $table->string('photo')->nullable();
             // enum data type helps enforce data integrity by limiting the possible values for a column
             $table->enum('condition',['banner','promotion'])->default('banner');
             $table->enum('status',['active','inactive'])->default('active');
